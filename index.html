@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aura Vet</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#030A0E;--surf:#071520;--card:#0B1E2C;--pri:#0EA5E9;--acc:#14B8A6;--err:#EF4444;--warn:#F59E0B;--txt:#E2E8F0;--muted:#64748B;--brd:#1E3448}
+body{background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;font-size:14px;min-height:100vh;display:flex}
+a{color:var(--pri);text-decoration:none}
+/* Layout */
+#sb{width:220px;background:var(--surf);border-right:1px solid var(--brd);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:.3s}
+#sb .logo{display:flex;align-items:center;gap:10px;padding:18px 16px;border-bottom:1px solid var(--brd)}
+#sb .logo .icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--pri),var(--acc));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+#sb .logo span{font-weight:700;font-size:16px}
+#sb nav{flex:1;padding:12px 8px;overflow-y:auto}
+#sb nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:var(--muted);margin-bottom:2px;cursor:pointer;transition:.15s;white-space:nowrap}
+#sb nav a:hover,#sb nav a.act{background:rgba(14,165,233,.12);color:var(--pri)}
+#sb nav a span{font-size:16px}
+#main{margin-left:220px;flex:1;padding:20px;min-height:100vh}
+.topbar{display:none;background:var(--surf);border-bottom:1px solid var(--brd);padding:12px 16px;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+.topbar .logo-m{display:flex;align-items:center;gap:8px;font-weight:700}
+.topbar .logo-m .icon{width:30px;height:30px;border-radius:6px;background:linear-gradient(135deg,var(--pri),var(--acc));display:flex;align-items:center;justify-content:center;font-size:14px}
+#bnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surf);border-top:1px solid var(--brd);z-index:100;padding:6px 0}
+#bnav .bn{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;padding:4px;cursor:pointer;color:var(--muted);font-size:10px;transition:.15s}
+#bnav .bn:hover,#bnav .bn.act{color:var(--pri)}
+#bnav .bn span:first-child{font-size:18px}
+@media(max-width:768px){
+  #sb{display:none}#main{margin-left:0;padding:12px 12px 80px}
+  .topbar{display:flex}#bnav{display:flex}
+}
+/* Cards & KPIs */
+.pg{display:none}.pg.show{display:block}
+.row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:16px;flex:1;min-width:130px}
+.kpi .val{font-size:26px;font-weight:700;color:var(--pri)}
+.kpi .lbl{color:var(--muted);font-size:12px;margin-top:2px}
+.kpi.warn .val{color:var(--warn)} .kpi.acc .val{color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h3{font-size:14px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em}
+/* Table */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--brd);font-size:12px;text-transform:uppercase}
+td{padding:9px 10px;border-bottom:1px solid rgba(30,52,72,.5);vertical-align:middle}
+tr:hover td{background:rgba(14,165,233,.04)}
+tr:last-child td{border:0}
+/* Badges & Buttons */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.b-ok{background:rgba(20,184,166,.15);color:var(--acc)}
+.b-warn{background:rgba(245,158,11,.15);color:var(--warn)}
+.b-err{background:rgba(239,68,68,.15);color:var(--err)}
+.b-info{background:rgba(14,165,233,.15);color:var(--pri)}
+.b-gray{background:rgba(100,116,139,.15);color:var(--muted)}
+.btn{padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-pri{background:var(--pri);color:#fff} .btn-pri:hover{opacity:.85}
+.btn-acc{background:var(--acc);color:#fff} .btn-acc:hover{opacity:.85}
+.btn-ghost{background:rgba(14,165,233,.1);color:var(--pri);border:1px solid rgba(14,165,233,.2)} .btn-ghost:hover{background:rgba(14,165,233,.2)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-wa{background:#25D366;color:#fff} .btn-wa:hover{opacity:.85}
+.btn-err{background:rgba(239,68,68,.15);color:var(--err);border:1px solid rgba(239,68,68,.2)}
+/* Form */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.frow.full{grid-template-columns:1fr}
+@media(max-width:500px){.frow{grid-template-columns:1fr}}
+label{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+input,select,textarea{width:100%;background:var(--surf);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:7px;font-size:13px;outline:none;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--pri)}
+textarea{resize:vertical;min-height:60px}
+/* Modal */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--surf);border:1px solid var(--brd);border-radius:12px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:20px}
+.modal h2{font-size:16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--brd)}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)}
+/* Search */
+.search-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.search-bar input{max-width:260px}
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--brd);padding-bottom:0}
+.tab{padding:8px 16px;cursor:pointer;border-radius:8px 8px 0 0;color:var(--muted);font-size:13px;border-bottom:2px solid transparent;transition:.15s}
+.tab.act{color:var(--pri);border-bottom-color:var(--pri)}
+/* Alerts */
+.alert{padding:10px 14px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
+.alert-warn{background:rgba(245,158,11,.1);border-left:3px solid var(--warn)}
+.alert-err{background:rgba(239,68,68,.1);border-left:3px solid var(--err);color:#fca5a5}
+/* Print */
+@media print{
+  #sb,#bnav,.topbar,.btn,.no-print{display:none!important}
+  #main{margin:0;padding:0}
+  .modal,.overlay{position:static;display:block!important;background:white;color:black;max-height:none}
+  body{background:white;color:black}
+}
+/* Misc */
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.sec-head h2{font-size:18px}
+.empty{text-align:center;padding:32px;color:var(--muted)}
+.chip{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;background:rgba(14,165,233,.1);color:var(--pri)}
+.err-note{color:var(--err);font-size:12px;font-weight:600;background:rgba(239,68,68,.08);padding:6px 10px;border-radius:6px;margin-bottom:8px}
+hr{border:0;border-top:1px solid var(--brd);margin:12px 0}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside id="sb">
+  <div class="logo"><div class="icon">🐾</div><span>Aura Vet</span></div>
+  <nav id="snav"></nav>
+</aside>
+
+<!-- Mobile topbar -->
+<div class="topbar">
+  <div class="logo-m"><div class="icon">🐾</div><span>Aura Vet</span></div>
+</div>
+
+<main id="main">
+  <div id="pg-dash" class="pg"></div>
+  <div id="pg-pac" class="pg"></div>
+  <div id="pg-cons" class="pg"></div>
+  <div id="pg-vac" class="pg"></div>
+  <div id="pg-turn" class="pg"></div>
+  <div id="pg-farm" class="pg"></div>
+</main>
+
+<!-- Mobile bottom nav -->
+<nav id="bnav"></nav>
+
+<!-- Modal -->
+<div class="overlay" id="ov"><div class="modal" id="modal-body"></div></div>
+
+<script>
+// ─── DATA SEED ───────────────────────────────────────────────────────────────
+const KEY='avet-v1';
+const today=()=>new Date().toISOString().slice(0,10);
+const addDays=(d,n)=>{let x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+const fmtDate=s=>{if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`};
+const age=dob=>{if(!dob)return'?';let y=Math.floor((Date.now()-new Date(dob))/(365.25*864e5));return y===1?'1 año':`${y} años`};
+const uid=()=>Math.random().toString(36).slice(2,9);
+
+function seed(){
+  const vets=[{id:'v1',name:'Dra. Laura Sánchez'},{id:'v2',name:'Dr. Marcos Pérez'}];
+  const owners=[
+    {id:'o1',name:'Carlos Rodríguez',tel:'5491123456789',email:'carlos@mail.com'},
+    {id:'o2',name:'María López',tel:'5491187654321',email:'maria@mail.com'},
+    {id:'o3',name:'Ana Torres',tel:'5491134567890',email:'ana@mail.com'},
+    {id:'o4',name:'Juan Gómez',tel:'5491156789012',email:'juan@mail.com'}
+  ];
+  const t=today();
+  const pets=[
+    {id:'p1',name:'Rocky',sp:'dog',breed:'Labrador',sex:'M',color:'Dorado',dob:'2019-03-15',weight:28,neut:true,chip:'123456789',ownId:'o1',lastVisit:addDays(t,-15),allergies:'Ninguna'},
+    {id:'p2',name:'Nala',sp:'cat',breed:'Siamés',sex:'F',color:'Crema',dob:'2021-06-20',weight:4.2,neut:true,chip:'987654321',ownId:'o1',lastVisit:addDays(t,-30),allergies:''},
+    {id:'p3',name:'Max',sp:'dog',breed:'Golden Retriever',sex:'M',color:'Dorado',dob:'2018-11-05',weight:32,neut:false,chip:'111222333',ownId:'o2',lastVisit:addDays(t,-5),allergies:'Amoxicilina'},
+    {id:'p4',name:'Luna',sp:'dog',breed:'Beagle',sex:'F',color:'Tricolor',dob:'2020-08-10',weight:12,neut:true,chip:'444555666',ownId:'o2',lastVisit:addDays(t,-10),allergies:''},
+    {id:'p5',name:'Mia',sp:'cat',breed:'Persa',sex:'F',color:'Blanca',dob:'2022-01-14',weight:3.8,neut:true,chip:'777888999',ownId:'o3',lastVisit:addDays(t,-20),allergies:''},
+    {id:'p6',name:'Thor',sp:'dog',breed:'Husky',sex:'M',color:'Gris y blanco',dob:'2020-05-22',weight:25,neut:false,chip:'101112131',ownId:'o3',lastVisit:addDays(t,-2),allergies:''},
+    {id:'p7',name:'Bella',sp:'dog',breed:'Caniche',sex:'F',color:'Blanca',dob:'2021-09-30',weight:8,neut:true,chip:'141516171',ownId:'o4',lastVisit:addDays(t,-45),allergies:'Penicilina'},
+    {id:'p8',name:'Simba',sp:'cat',breed:'Común Europeo',sex:'M',color:'Atigrado',dob:'2019-12-01',weight:5.1,neut:true,chip:'181920212',ownId:'o4',lastVisit:addDays(t,-7),allergies:''},
+    {id:'p9',name:'Rex',sp:'dog',breed:'Pastor Alemán',sex:'M',color:'Negro y fuego',dob:'2017-07-18',weight:34,neut:false,chip:'222324252',ownId:'o1',lastVisit:addDays(t,-60),allergies:''},
+    {id:'p10',name:'Coco',sp:'dog',breed:'Chihuahua',sex:'M',color:'Café',dob:'2023-03-03',weight:2.8,neut:false,chip:'262728293',ownId:'o2',lastVisit:addDays(t,-3),allergies:''}
+  ];
+  const vacs=[
+    {id:'vc1',petId:'p1',name:'Séxtuple',applied:addDays(t,-365),next:addDays(t,3),lab:'Zoetis'},
+    {id:'vc2',petId:'p1',name:'Rabia',applied:addDays(t,-365),next:addDays(t,5),lab:'MSD'},
+    {id:'vc3',petId:'p3',name:'Séxtuple',applied:addDays(t,-370),next:addDays(t,1),lab:'Zoetis'},
+    {id:'vc4',petId:'p4',name:'Rabia',applied:addDays(t,-360),next:addDays(t,2),lab:'MSD'},
+    {id:'vc5',petId:'p5',name:'Triple Felina',applied:addDays(t,-360),next:addDays(t,4),lab:'Boehringer'},
+    {id:'vc6',petId:'p6',name:'Séxtuple',applied:addDays(t,-355),next:addDays(t,6),lab:'Zoetis'},
+    {id:'vc7',petId:'p2',name:'Triple Felina',applied:addDays(t,-300),next:addDays(t,45),lab:'Boehringer'},
+    {id:'vc8',petId:'p7',name:'Bordetelosis',applied:addDays(t,-200),next:addDays(t,80),lab:'Zoetis'},
+    {id:'vc9',petId:'p9',name:'Rabia',applied:addDays(t,-400),next:addDays(t,-10),lab:'MSD'},
+    {id:'vc10',petId:'p8',name:'Triple Felina',applied:addDays(t,-420),next:addDays(t,-5),lab:'Boehringer'}
+  ];
+  const appts=[
+    {id:'a1',petId:'p1',vetId:'v1',time:'09:00',date:t,motivo:'Control anual',status:'atendido'},
+    {id:'a2',petId:'p3',vetId:'v1',time:'10:00',date:t,motivo:'Vacuna séxtuple',status:'en sala'},
+    {id:'a3',petId:'p6',vetId:'v2',time:'11:00',date:t,motivo:'Revisión cutánea',status:'confirmado'},
+    {id:'a4',petId:'p8',vetId:'v2',time:'14:00',date:t,motivo:'Castración post-op',status:'pendiente'},
+    {id:'a5',petId:'p10',vetId:'v1',time:'16:00',date:t,motivo:'Primera consulta',status:'pendiente'}
+  ];
+  const cons=[
+    {id:'c1',petId:'p1',vetId:'v1',date:addDays(t,-15),motivo:'Control',temp:'38.5',fc:'80',weight:28,diag:'Sin hallazgos',trat:'',services:[{name:'Consulta',price:3500}],total:3500,notes:''},
+    {id:'c2',petId:'p3',vetId:'v1',date:addDays(t,-5),motivo:'Otitis',temp:'39.1',fc:'90',weight:32,diag:'Otitis externa bilateral',trat:'Otosporin 5 gotas c/12hs 7 días',services:[{name:'Consulta',price:3500},{name:'Medicamento',price:1800}],total:5300,notes:'Revisar en 10 días'},
+    {id:'c3',petId:'p6',vetId:'v2',date:addDays(t,-2),motivo:'Dermatitis',temp:'38.8',fc:'85',weight:25,diag:'Dermatitis alérgica',trat:'Apoquel 16mg 1 comp/día 30 días',services:[{name:'Consulta',price:3500},{name:'Apoquel x30',price:8500}],total:12000,notes:''}
+  ];
+  const meds=[
+    {id:'m1',name:'Amoxicilina 500mg',stock:24,unit:'comp',price:250,exp:addDays(t,90),minStock:10},
+    {id:'m2',name:'Otosporin gotas',stock:8,unit:'frasco',price:1800,exp:addDays(t,180),minStock:5},
+    {id:'m3',name:'Apoquel 16mg',stock:3,unit:'comp',price:285,exp:addDays(t,25),minStock:10},
+    {id:'m4',name:'Dexametasona 5ml',stock:12,unit:'amp',price:650,exp:addDays(t,15),minStock:5},
+    {id:'m5',name:'Meloxicam 1.5mg/ml',stock:6,unit:'frasco',price:2200,exp:addDays(t,12),minStock:4},
+    {id:'m6',name:'Vacuna Séxtuple',stock:15,unit:'dosis',price:3200,exp:addDays(t,120),minStock:5},
+    {id:'m7',name:'Vacuna Rabia',stock:18,unit:'dosis',price:1800,exp:addDays(t,200),minStock:5},
+    {id:'m8',name:'Vacuna Triple Felina',stock:10,unit:'dosis',price:2800,exp:addDays(t,150),minStock:4},
+    {id:'m9',name:'Enrofloxacina 50mg',stock:30,unit:'comp',price:180,exp:addDays(t,300),minStock:10},
+    {id:'m10',name:'Metronidazol 250mg',stock:40,unit:'comp',price:95,exp:addDays(t,365),minStock:15},
+    {id:'m11',name:'Frontline Spray',stock:2,unit:'frasco',price:4500,exp:addDays(t,400),minStock:3},
+    {id:'m12',name:'Suero fisiológico',stock:20,unit:'frasco',price:350,exp:addDays(t,500),minStock:8},
+    {id:'m13',name:'Tramadol 50mg',stock:15,unit:'comp',price:320,exp:addDays(t,60),minStock:5},
+    {id:'m14',name:'Furosemida 40mg',stock:25,unit:'comp',price:140,exp:addDays(t,180),minStock:8},
+    {id:'m15',name:'Prednisona 5mg',stock:0,unit:'comp',price:110,exp:addDays(t,240),minStock:10}
+  ];
+  const cash=[
+    {id:'ca1',date:t,type:'Consulta',desc:'Rocky - Control',amount:3500,vetId:'v1',cat:'income'},
+    {id:'ca2',date:t,type:'Vacuna',desc:'Max - Séxtuple',amount:3200,vetId:'v1',cat:'income'},
+    {id:'ca3',date:t,type:'Consulta',desc:'Thor - Dermatitis',amount:12000,vetId:'v2',cat:'income'},
+    {id:'ca4',date:t,type:'Gasto',desc:'Insumos quirúrgicos',amount:5000,vetId:'',cat:'expense'}
+  ];
+  return {vets,owners,pets,vacs,appts,cons,meds,cash,nextId:1000};
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||seed();
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+
+const spIcon=s=>({dog:'🐕',cat:'🐈',bird:'🐦',rabbit:'🐇'}[s]||'🐾');
+const ownerOf=p=>S.owners.find(o=>o.id===p.ownId)||{};
+const petOf=id=>S.pets.find(p=>p.id===id)||{name:'—',sp:'dog'};
+const vetOf=id=>S.vets.find(v=>v.id===id)||{name:'—'};
+const statusColor=s=>({pendiente:'b-warn',confirmado:'b-info','en sala':'b-acc',atendido:'b-ok',cancelado:'b-err'}[s]||'b-gray');
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+const PAGES=[
+  {id:'dash',icon:'📊',label:'Dashboard'},
+  {id:'pac',icon:'🐾',label:'Pacientes'},
+  {id:'cons',icon:'🩺',label:'Consultas'},
+  {id:'vac',icon:'💉',label:'Vacunas'},
+  {id:'turn',icon:'📅',label:'Turnos'},
+  {id:'farm',icon:'💊',label:'Farmacia'}
+];
+let curPg='dash';
+function buildNav(){
+  document.getElementById('snav').innerHTML=PAGES.map(p=>`<a onclick="nav('${p.id}')" id="sn-${p.id}"><span>${p.icon}</span>${p.label}</a>`).join('');
+  document.getElementById('bnav').innerHTML=PAGES.map(p=>`<div class="bn" onclick="nav('${p.id}')" id="bn-${p.id}"><span>${p.icon}</span><span>${p.label}</span></div>`).join('');
+}
+function nav(pg){
+  curPg=pg;
+  document.querySelectorAll('#snav a,#bnav .bn').forEach(el=>el.classList.remove('act'));
+  document.querySelector(`#sn-${pg}`)?.classList.add('act');
+  document.querySelector(`#bn-${pg}`)?.classList.add('act');
+  document.querySelectorAll('.pg').forEach(el=>el.classList.remove('show'));
+  document.getElementById(`pg-${pg}`).classList.add('show');
+  renders[pg]();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+const ov=document.getElementById('ov');
+const mb=document.getElementById('modal-body');
+function openModal(html,onOpen){mb.innerHTML=html;ov.classList.add('open');if(onOpen)onOpen();}
+function closeModal(){ov.classList.remove('open');}
+ov.addEventListener('click',e=>{if(e.target===ov)closeModal();});
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function renderDash(){
+  const t=today();
+  const todayAppts=S.appts.filter(a=>a.date===t);
+  const attended=todayAppts.filter(a=>a.status==='atendido').length;
+  const vacSoon=S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,7)).length;
+  const income=S.cash.filter(c=>c.date===t&&c.cat==='income').reduce((s,c)=>s+c.amount,0);
+  const now=t;
+  const expired=S.vacs.filter(v=>v.next<now);
+  const expMeds=S.meds.filter(m=>m.exp<=addDays(t,30)&&m.stock>0);
+  const pg=document.getElementById('pg-dash');
+  pg.innerHTML=`
+  <div class="sec-head"><h2>Dashboard</h2><span class="chip">${fmtDate(t)}</span></div>
+  <div class="row">
+    <div class="kpi"><div class="val">${todayAppts.length}</div><div class="lbl">Turnos hoy</div></div>
+    <div class="kpi acc"><div class="val">${attended}</div><div class="lbl">Atendidos</div></div>
+    <div class="kpi warn"><div class="val">${vacSoon}</div><div class="lbl">Vacunas 7 días</div></div>
+    <div class="kpi acc"><div class="val">$${income.toLocaleString()}</div><div class="lbl">Ingresos del día</div></div>
+  </div>
+  <div class="row">
+    <div class="card" style="flex:2;min-width:280px">
+      <h3>Agenda del día</h3>
+      ${todayAppts.length?`<table><thead><tr><th>Hora</th><th>Mascota</th><th>Motivo</th><th>Estado</th></tr></thead><tbody>
+      ${todayAppts.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);return`<tr><td>${a.time}</td><td>${spIcon(p.sp)} ${p.name}<br><small style="color:var(--muted)">${o.name||''}</small></td><td>${a.motivo}</td><td><span class="badge ${statusColor(a.status)}">${a.status}</span></td></tr>`}).join('')}
+      </tbody></table>`:'<div class="empty">Sin turnos hoy</div>'}
+    </div>
+    <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <h3>Alertas Vacunas</h3>
+        ${expired.length===0&&vacSoon===0?'<div class="empty" style="padding:12px">Todo al día ✓</div>':''}
+        ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<div class="alert alert-err">⚠️ <div><b>${p.name}</b> — ${v.name} vencida<br><small>${o.name} · ${o.tel}</small></div><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, la vacuna ${v.name} de ${p.name} está vencida. Por favor comuníquese con la clínica.`)}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto">WA</a></div>`}).join('')}
+        ${S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,7)).map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<div class="alert alert-warn">💉 <div><b>${p.name}</b> — ${v.name}<br><small>${fmtDate(v.next)} · ${o.name}</small></div><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, le recordamos que ${p.name} tiene la vacuna ${v.name} el ${fmtDate(v.next)}.`)}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto">WA</a></div>`}).join('')}
+      </div>
+      <div class="card">
+        <h3>Medicamentos por vencer</h3>
+        ${expMeds.length===0?'<div class="empty" style="padding:12px">Sin alertas</div>':''}
+        ${expMeds.slice(0,5).map(m=>`<div class="alert alert-warn">💊 <b>${m.name}</b><br><small>Vence: ${fmtDate(m.exp)} · Stock: ${m.stock}</small></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── PACIENTES ────────────────────────────────────────────────────────────────
+function renderPac(){
+  const pg=document.getElementById('pg-pac');
+  const q=(pg._q||'').toLowerCase();
+  const list=S.pets.filter(p=>p.name.toLowerCase().includes(q)||ownerOf(p).name?.toLowerCase().includes(q));
+  pg.innerHTML=`
+  <div class="sec-head"><h2>Pacientes</h2><button class="btn btn-pri btn-sm" onclick="addPetModal()">+ Nueva mascota</button></div>
+  <div class="search-bar"><input placeholder="Buscar mascota o dueño..." value="${pg._q||''}" oninput="document.getElementById('pg-pac')._q=this.value;renderPac()" style="max-width:300px"><span style="color:var(--muted);align-self:center">${list.length} resultados</span></div>
+  <div class="card" style="padding:0;overflow:hidden">
+  <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Última visita</th><th>Próx. vacuna</th><th></th></tr></thead><tbody>
+  ${list.map(p=>{
+    const o=ownerOf(p);
+    const nextVac=S.vacs.filter(v=>v.petId===p.id&&v.next>=today()).sort((a,b)=>a.next>b.next?1:-1)[0];
+    const daysToVac=nextVac?Math.ceil((new Date(nextVac.next)-new Date())/864e5):null;
+    return`<tr><td>${spIcon(p.sp)} <b>${p.name}</b><br><small style="color:var(--muted)">${p.breed} · ${age(p.dob)}</small></td>
+    <td>${o.name||'—'}<br><small style="color:var(--muted)">${o.tel||''}</small></td>
+    <td>${fmtDate(p.lastVisit)}</td>
+    <td>${nextVac?`<span class="badge ${daysToVac<0?'b-err':daysToVac<=7?'b-warn':'b-ok'}">${nextVac.name} ${daysToVac<0?'vencida':daysToVac===0?'hoy':fmtDate(nextVac.next)}</span>`:'<span class="badge b-gray">—</span>'}</td>
+    <td><button class="btn btn-ghost btn-sm" onclick="petModal('${p.id}')">Ver ficha</button></td></tr>`;
+  }).join('')}
+  </tbody></table></div>`;
+}
+
+function petModal(pid){
+  const p=S.pets.find(x=>x.id===pid);if(!p)return;
+  const o=ownerOf(p);
+  const pvacs=S.vacs.filter(v=>v.petId===pid).sort((a,b)=>a.next>b.next?1:-1);
+  const pcons=S.cons.filter(c=>c.petId===pid).sort((a,b)=>a.date<b.date?1:-1);
+  openModal(`<h2>${spIcon(p.sp)} ${p.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <div class="tabs"><div class="tab act" onclick="switchTab(this,'t-data')">Datos</div><div class="tab" onclick="switchTab(this,'t-vac')">Vacunas</div><div class="tab" onclick="switchTab(this,'t-hist')">Historial</div></div>
+  <div id="t-data">
+  ${p.allergies?`<div class="err-note">⚠️ ALERGIAS/NOTAS: ${p.allergies}</div>`:''}
+  <div class="frow">
+    <div><label>Nombre</label><div style="font-weight:600">${p.name}</div></div>
+    <div><label>Especie/Raza</label><div>${spIcon(p.sp)} ${p.breed}</div></div>
+    <div><label>Sexo</label><div>${p.sex==='M'?'Macho':'Hembra'}</div></div>
+    <div><label>Color</label><div>${p.color}</div></div>
+    <div><label>Fecha nac.</label><div>${fmtDate(p.dob)} (${age(p.dob)})</div></div>
+    <div><label>Peso</label><div>${p.weight} kg</div></div>
+    <div><label>Esterilizado</label><div>${p.neut?'Sí':'No'}</div></div>
+    <div><label>Microchip</label><div>${p.chip||'—'}</div></div>
+  </div>
+  <hr><h3 style="margin-bottom:8px;font-size:13px;color:var(--muted)">DUEÑO</h3>
+  <div class="frow">
+    <div><label>Nombre</label><div>${o.name}</div></div>
+    <div><label>Teléfono</label><div>${o.tel}</div></div>
+    <div><label>Email</label><div>${o.email}</div></div>
+  </div>
+  </div>
+  <div id="t-vac" style="display:none">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="btn btn-acc btn-sm" onclick="addVacModal('${pid}')">+ Vacuna</button></div>
+  <table><thead><tr><th>Vacuna</th><th>Aplicada</th><th>Próxima</th><th>Lab</th><th></th></tr></thead><tbody>
+  ${pvacs.map(v=>`<tr><td>${v.name}</td><td>${fmtDate(v.applied)}</td><td><span class="badge ${v.next<today()?'b-err':v.next<=addDays(today(),7)?'b-warn':'b-ok'}">${fmtDate(v.next)}</span></td><td>${v.lab}</td><td><button class="btn btn-ghost btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`).join('')}
+  </tbody></table>
+  </div>
+  <div id="t-hist" style="display:none">
+  ${pcons.length===0?'<div class="empty">Sin consultas registradas</div>':''}
+  ${pcons.map(c=>`<div class="card" style="margin-bottom:8px;padding:12px">
+    <div style="display:flex;justify-content:space-between"><b>${c.motivo}</b><span class="chip">${fmtDate(c.date)}</span></div>
+    <div style="color:var(--muted);font-size:12px;margin:4px 0">${vetOf(c.vetId).name}</div>
+    <div>Temp: ${c.temp}°C · FC: ${c.fc} bpm · Peso: ${c.weight}kg</div>
+    <div style="margin-top:6px"><b>Dx:</b> ${c.diag}</div>
+    ${c.trat?`<div><b>Trat:</b> ${c.trat}</div>`:''}
+    <div style="margin-top:4px;color:var(--acc)">Total: $${c.total.toLocaleString()}</div>
+  </div>`).join('')}
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="printCarnet('${pid}')">🖨 Carnet</button>
+    <button class="btn btn-ghost btn-err" onclick="deletePet('${pid}')">Eliminar</button>
+    <button class="btn btn-pri" onclick="editPetModal('${pid}')">Editar</button>
+    <button class="btn btn-ghost" onclick="closeModal()">Cerrar</button>
+  </div>`);
+}
+
+function switchTab(el,show){
+  el.parentNode.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
+  el.classList.add('act');
+  ['t-data','t-vac','t-hist'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  document.getElementById(show).style.display='';
+}
+
+function addPetModal(pid){
+  const p=pid?S.pets.find(x=>x.id===pid):{};
+  const editing=!!pid;
+  openModal(`<h2>${editing?'Editar':'Nueva'} Mascota <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="savePet(event,'${pid||''}')">
+  <div class="frow"><div><label>Nombre*</label><input name="name" required value="${p.name||''}"></div><div><label>Especie</label><select name="sp"><option value="dog" ${p.sp==='dog'?'selected':''}>Perro</option><option value="cat" ${p.sp==='cat'?'selected':''}>Gato</option><option value="bird" ${p.sp==='bird'?'selected':''}>Ave</option><option value="rabbit" ${p.sp==='rabbit'?'selected':''}>Conejo</option></select></div></div>
+  <div class="frow"><div><label>Raza</label><input name="breed" value="${p.breed||''}"></div><div><label>Sexo</label><select name="sex"><option value="M" ${p.sex==='M'?'selected':''}>Macho</option><option value="F" ${p.sex==='F'?'selected':''}>Hembra</option></select></div></div>
+  <div class="frow"><div><label>Color</label><input name="color" value="${p.color||''}"></div><div><label>F. Nacimiento</label><input type="date" name="dob" value="${p.dob||''}"></div></div>
+  <div class="frow"><div><label>Peso (kg)</label><input type="number" step=".1" name="weight" value="${p.weight||''}"></div><div><label>Microchip</label><input name="chip" value="${p.chip||''}"></div></div>
+  <div class="frow"><div><label>Esterilizado</label><select name="neut"><option value="0" ${!p.neut?'selected':''}>No</option><option value="1" ${p.neut?'selected':''}>Sí</option></select></div><div><label>Dueño</label><select name="ownId">${S.owners.map(o=>`<option value="${o.id}" ${p.ownId===o.id?'selected':''}>${o.name}</option>`).join('')}</select></div></div>
+  <div class="frow full"><label>Alergias/Notas importantes</label><textarea name="allergies">${p.allergies||''}</textarea></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">${editing?'Guardar':'Agregar'}</button></div>
+  </form>`);
+}
+function editPetModal(pid){closeModal();setTimeout(()=>addPetModal(pid),50);}
+function savePet(e,pid){
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const d={name:f.get('name'),sp:f.get('sp'),breed:f.get('breed'),sex:f.get('sex'),color:f.get('color'),dob:f.get('dob'),weight:parseFloat(f.get('weight'))||0,chip:f.get('chip'),neut:f.get('neut')==='1',ownId:f.get('ownId'),allergies:f.get('allergies')};
+  if(pid){Object.assign(S.pets.find(p=>p.id===pid),d);}
+  else{S.pets.push({id:'p'+uid(),lastVisit:'',nextVisit:'',...d});}
+  save();closeModal();renderPac();
+}
+function deletePet(pid){if(!confirm('¿Eliminar esta mascota?'))return;S.pets=S.pets.filter(p=>p.id!==pid);save();closeModal();renderPac();}
+
+function addVacModal(pid){
+  const p=petOf(pid);
+  const plans={dog:['Séxtuple','Rabia','Bordetelosis','Quíntuple'],cat:['Triple Felina','Rabia']};
+  const opts=(plans[p.sp]||['Séxtuple','Rabia']).map(v=>`<option>${v}</option>`).join('');
+  openModal(`<h2>Nueva Vacuna — ${p.name} <button onclick="petModal('${pid}')" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">←</button></h2>
+  <form onsubmit="saveVac(event,'${pid}')">
+  <div class="frow"><div><label>Vacuna</label><select name="name">${opts}<option>Otra</option></select></div><div><label>Laboratorio</label><input name="lab" placeholder="Ej: Zoetis"></div></div>
+  <div class="frow"><div><label>Fecha aplicada</label><input type="date" name="applied" value="${today()}"></div><div><label>Próxima dosis</label><input type="date" name="next" value="${addDays(today(),365)}"></div></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="petModal('${pid}')">Cancelar</button><button type="submit" class="btn btn-acc">Guardar</button></div>
+  </form>`);
+}
+function saveVac(e,pid){
+  e.preventDefault();const f=new FormData(e.target);
+  S.vacs.push({id:'vc'+uid(),petId:pid,name:f.get('name'),applied:f.get('applied'),next:f.get('next'),lab:f.get('lab')});
+  save();petModal(pid);
+}
+function applyVac(vid){
+  const v=S.vacs.find(x=>x.id===vid);if(!v)return;
+  const newNext=addDays(today(),365);
+  if(!confirm(`Marcar ${v.name} como aplicada hoy? Próxima: ${fmtDate(newNext)}`))return;
+  v.applied=today();v.next=newNext;save();petModal(v.petId);
+}
+function printCarnet(pid){
+  const p=petOf(pid);const o=ownerOf(p);
+  const pvacs=S.vacs.filter(v=>v.petId===pid);
+  const win=window.open('','_blank');
+  win.document.write(`<html><head><title>Carnet ${p.name}</title><style>body{font-family:sans-serif;padding:20px;color:#000}h1{font-size:18px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px;font-size:12px}</style></head><body>
+  <h1>🐾 Carnet Sanitario — ${p.name}</h1><p><b>Especie:</b> ${p.sp} | <b>Raza:</b> ${p.breed} | <b>Sexo:</b> ${p.sex} | <b>Nac:</b> ${fmtDate(p.dob)}</p>
+  <p><b>Dueño:</b> ${o.name} | <b>Tel:</b> ${o.tel}</p>
+  ${p.allergies?`<p style="color:red"><b>ALERGIAS:</b> ${p.allergies}</p>`:''}
+  <h2>Vacunas</h2><table><tr><th>Vacuna</th><th>Aplicada</th><th>Próxima</th><th>Lab</th></tr>
+  ${pvacs.map(v=>`<tr><td>${v.name}</td><td>${fmtDate(v.applied)}</td><td>${fmtDate(v.next)}</td><td>${v.lab}</td></tr>`).join('')}
+  </table></body></html>`);win.print();
+}
+
+// ─── CONSULTAS ────────────────────────────────────────────────────────────────
+function renderCons(){
+  const pg=document.getElementById('pg-cons');
+  const fv=pg._fvet||'';const fd=pg._fdate||'';
+  let list=S.cons.sort((a,b)=>a.date<b.date?1:-1);
+  if(fv)list=list.filter(c=>c.vetId===fv);
+  if(fd)list=list.filter(c=>c.date===fd);
+  pg.innerHTML=`<div class="sec-head"><h2>Consultas</h2><button class="btn btn-pri btn-sm" onclick="newConsModal()">+ Nueva consulta</button></div>
+  <div class="search-bar">
+    <select onchange="document.getElementById('pg-cons')._fvet=this.value;renderCons()"><option value="">Todos los vets</option>${S.vets.map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
+    <input type="date" value="${fd}" onchange="document.getElementById('pg-cons')._fdate=this.value;renderCons()">
+  </div>
+  <div class="card" style="padding:0"><table><thead><tr><th>Fecha</th><th>Paciente</th><th>Veterinario</th><th>Motivo</th><th>Dx</th><th>Total</th><th></th></tr></thead><tbody>
+  ${list.map(c=>{const p=petOf(c.petId);return`<tr><td>${fmtDate(c.date)}</td><td>${spIcon(p.sp)} ${p.name}</td><td>${vetOf(c.vetId).name}</td><td>${c.motivo}</td><td>${c.diag}</td><td style="color:var(--acc)">$${c.total.toLocaleString()}</td><td><button class="btn btn-ghost btn-sm" onclick="viewCons('${c.id}')">Ver</button></td></tr>`}).join('')}
+  </tbody></table></div>`;
+}
+
+function newConsModal(prefill){
+  const p=prefill||{};
+  openModal(`<h2>Nueva Consulta <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="saveCons(event)">
+  <div class="frow">
+    <div><label>Paciente</label><select name="petId">${S.pets.map(pt=>`<option value="${pt.id}" ${p.petId===pt.id?'selected':''}>${spIcon(pt.sp)} ${pt.name}</option>`).join('')}</select></div>
+    <div><label>Veterinario</label><select name="vetId">${S.vets.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div>
+  </div>
+  <div class="frow"><div><label>Fecha</label><input type="date" name="date" value="${today()}"></div><div><label>Motivo</label><input name="motivo" value="${p.motivo||''}" required></div></div>
+  <div class="frow"><div><label>Temp (°C)</label><input name="temp" placeholder="38.5"></div><div><label>FC (bpm)</label><input name="fc" placeholder="80"></div><div><label>Peso (kg)</label><input name="weight" type="number" step=".1" placeholder="0"></div></div>
+  <div class="frow full"><label>Diagnóstico</label><textarea name="diag" required></textarea></div>
+  <div class="frow full"><label>Tratamiento (medicamento, dosis, frecuencia)</label><textarea name="trat"></textarea></div>
+  <hr><h3 style="margin:8px 0;font-size:13px">Servicios</h3>
+  <div id="svc-list"></div>
+  <button type="button" class="btn btn-ghost btn-sm" onclick="addSvc()">+ Servicio</button>
+  <div style="margin-top:8px;color:var(--acc);font-weight:700">Total: $<span id="svc-total">0</span></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">Guardar</button></div>
+  </form>`);
+  addSvc();
+}
+function addSvc(){
+  const c=document.getElementById('svc-list');
+  const row=document.createElement('div');row.className='frow';row.style.marginBottom='6px';
+  row.innerHTML=`<input placeholder="Servicio" name="svc_name"><input type="number" placeholder="Precio" name="svc_price" oninput="calcTotal()" style="max-width:120px"><button type="button" onclick="this.parentNode.remove();calcTotal()" class="btn btn-err btn-sm" style="max-width:40px">✕</button>`;
+  c.appendChild(row);
+}
+function calcTotal(){
+  const prices=[...document.querySelectorAll('[name=svc_price]')].map(i=>parseFloat(i.value)||0);
+  document.getElementById('svc-total').textContent=prices.reduce((a,b)=>a+b,0).toLocaleString();
+}
+function saveCons(e){
+  e.preventDefault();const f=new FormData(e.target);
+  const names=[...document.querySelectorAll('[name=svc_name]')].map(i=>i.value).filter(Boolean);
+  const prices=[...document.querySelectorAll('[name=svc_price]')].map(i=>parseFloat(i.value)||0);
+  const services=names.map((n,i)=>({name:n,price:prices[i]}));
+  const total=prices.reduce((a,b)=>a+b,0);
+  const pid=f.get('petId');const vid=f.get('vetId');
+  const c={id:'c'+uid(),petId:pid,vetId:vid,date:f.get('date'),motivo:f.get('motivo'),temp:f.get('temp'),fc:f.get('fc'),weight:parseFloat(f.get('weight'))||0,diag:f.get('diag'),trat:f.get('trat'),services,total,notes:''};
+  S.cons.push(c);
+  const pt=S.pets.find(p=>p.id===pid);if(pt)pt.lastVisit=c.date;
+  if(total>0)S.cash.push({id:'ca'+uid(),date:c.date,type:'Consulta',desc:`${petOf(pid).name} - ${c.motivo}`,amount:total,vetId:vid,cat:'income'});
+  save();closeModal();renderCons();
+}
+function viewCons(cid){
+  const c=S.cons.find(x=>x.id===cid);if(!c)return;const p=petOf(c.petId);
+  openModal(`<h2>Consulta — ${p.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <div class="frow"><div><label>Fecha</label><div>${fmtDate(c.date)}</div></div><div><label>Vet</label><div>${vetOf(c.vetId).name}</div></div></div>
+  <div class="frow"><div><label>Temp</label><div>${c.temp}°C</div></div><div><label>FC</label><div>${c.fc} bpm</div></div><div><label>Peso</label><div>${c.weight}kg</div></div></div>
+  <div style="margin-bottom:8px"><label>Diagnóstico</label><div style="background:var(--bg);padding:8px;border-radius:6px">${c.diag}</div></div>
+  ${c.trat?`<div style="margin-bottom:8px"><label>Tratamiento</label><div style="background:var(--bg);padding:8px;border-radius:6px">${c.trat}</div></div>`:''}
+  <h3 style="font-size:13px;margin-bottom:6px">Servicios</h3>
+  <table><thead><tr><th>Servicio</th><th>Precio</th></tr></thead><tbody>
+  ${c.services.map(s=>`<tr><td>${s.name}</td><td>$${s.price.toLocaleString()}</td></tr>`).join('')}
+  <tr><td style="font-weight:700">TOTAL</td><td style="color:var(--acc);font-weight:700">$${c.total.toLocaleString()}</td></tr>
+  </tbody></table>
+  <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">Cerrar</button></div>`);
+}
+
+// ─── VACUNAS & ALERTAS ────────────────────────────────────────────────────────
+function renderVac(){
+  const pg=document.getElementById('pg-vac');
+  const range=pg._range||7;
+  const t=today();
+  const expired=S.vacs.filter(v=>v.next<t).sort((a,b)=>a.next>b.next?1:-1);
+  const upcoming=S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,range)).sort((a,b)=>a.next>b.next?1:-1);
+  pg.innerHTML=`<div class="sec-head"><h2>Vacunas & Alertas</h2>
+  <div style="display:flex;gap:6px">
+    ${[7,15,30].map(n=>`<button class="btn ${range===n?'btn-pri':'btn-ghost'} btn-sm" onclick="document.getElementById('pg-vac')._range=${n};renderVac()">${n} días</button>`).join('')}
+  </div></div>
+  ${expired.length?`<div class="card"><h3>VENCIDAS (${expired.length})</h3>
+  <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Vacuna</th><th>Vencimiento</th><th>Acciones</th></tr></thead><tbody>
+  ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<tr><td>${spIcon(p.sp)} ${p.name}</td><td>${o.name}<br><small>${o.tel}</small></td><td>${v.name}</td><td><span class="badge b-err">${fmtDate(v.next)}</span></td>
+  <td style="display:flex;gap:4px;flex-wrap:wrap"><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, la vacuna ${v.name} de ${p.name} está vencida. Comuníquese con la clínica.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a><button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
+  </tbody></table></div>`:''}
+  <div class="card"><h3>PRÓXIMAS ${range} DÍAS (${upcoming.length})</h3>
+  ${upcoming.length===0?'<div class="empty">Sin vacunas en este período</div>':''}
+  <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Tel</th><th>Vacuna</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>
+  ${upcoming.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const d=Math.ceil((new Date(v.next)-new Date())/864e5);return`<tr><td>${spIcon(p.sp)} ${p.name}</td><td>${o.name}</td><td>${o.tel}</td><td>${v.name}</td>
+  <td><span class="badge ${d<=3?'b-warn':'b-ok'}">${fmtDate(v.next)} (${d}d)</span></td>
+  <td style="display:flex;gap:4px;flex-wrap:wrap"><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}! Le recordamos que ${p.name} tiene su vacuna ${v.name} programada para el ${fmtDate(v.next)}. Confirme su turno.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a><button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
+  </tbody></table></div>`;
+}
+
+// ─── TURNOS ───────────────────────────────────────────────────────────────────
+function renderTurn(){
+  const pg=document.getElementById('pg-turn');
+  const fd=pg._fdate||today();const fv=pg._fvet||'';
+  let list=S.appts.filter(a=>a.date===fd);
+  if(fv)list=list.filter(a=>a.vetId===fv);
+  list.sort((a,b)=>a.time>b.time?1:-1);
+  pg.innerHTML=`<div class="sec-head"><h2>Turnos & Agenda</h2><button class="btn btn-pri btn-sm" onclick="newTurnoModal()">+ Nuevo turno</button></div>
+  <div class="search-bar">
+    <input type="date" value="${fd}" onchange="document.getElementById('pg-turn')._fdate=this.value;renderTurn()">
+    <select onchange="document.getElementById('pg-turn')._fvet=this.value;renderTurn()"><option value="">Todos los vets</option>${S.vets.map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
+  </div>
+  <div class="card" style="padding:0"><table><thead><tr><th>Hora</th><th>Paciente</th><th>Veterinario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+  ${list.length===0?'<tr><td colspan="6" class="empty">Sin turnos para esta fecha</td></tr>':''}
+  ${list.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);return`<tr>
+    <td style="font-weight:700">${a.time}</td>
+    <td>${spIcon(p.sp)} <b>${p.name}</b><br><small style="color:var(--muted)">${o.name}</small></td>
+    <td>${vetOf(a.vetId).name}</td><td>${a.motivo}</td>
+    <td><span class="badge ${statusColor(a.status)}">${a.status}</span></td>
+    <td>
+      <select class="btn btn-ghost btn-sm" style="padding:4px 6px" onchange="changeStatus('${a.id}',this.value)">
+        ${['pendiente','confirmado','en sala','atendido','cancelado'].map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+      <a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}! Le recordamos el turno de ${p.name} el ${fmtDate(a.date)} a las ${a.time}.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a>
+      ${a.status==='en sala'||a.status==='atendido'?`<button class="btn btn-acc btn-sm" onclick="turnoToCons('${a.id}')">Consulta</button>`:''}
+    </td></tr>`}).join('')}
+  </tbody></table></div>`;
+}
+function changeStatus(aid,st){const a=S.appts.find(x=>x.id===aid);if(a){a.status=st;save();renderTurn();}}
+function turnoToCons(aid){const a=S.appts.find(x=>x.id===aid);if(!a)return;nav('cons');setTimeout(()=>newConsModal({petId:a.petId,motivo:a.motivo}),100);}
+function newTurnoModal(){
+  const slots=[];for(let h=8;h<20;h++){slots.push(`${String(h).padStart(2,'0')}:00`);slots.push(`${String(h).padStart(2,'0')}:30`);}
+  openModal(`<h2>Nuevo Turno <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="saveTurno(event)">
+  <div class="frow"><div><label>Fecha</label><input type="date" name="date" value="${today()}"></div><div><label>Hora</label><select name="time">${slots.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
+  <div class="frow"><div><label>Paciente</label><select name="petId">${S.pets.map(p=>`<option value="${p.id}">${spIcon(p.sp)} ${p.name}</option>`).join('')}</select></div><div><label>Veterinario</label><select name="vetId">${S.vets.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
+  <div class="frow full"><label>Motivo</label><input name="motivo" required></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">Guardar</button></div>
+  </form>`);
+}
+function saveTurno(e){
+  e.preventDefault();const f=new FormData(e.target);
+  S.appts.push({id:'a'+uid(),petId:f.get('petId'),vetId:f.get('vetId'),date:f.get('date'),time:f.get('time'),motivo:f.get('motivo'),status:'pendiente'});
+  save();closeModal();renderTurn();
+}
+
+// ─── FARMACIA & CAJA ──────────────────────────────────────────────────────────
+function renderFarm(){
+  const pg=document.getElementById('pg-farm');
+  const tab=pg._tab||'farm';
+  const t=today();
+  pg.innerHTML=`<div class="sec-head"><h2>Farmacia & Caja</h2></div>
+  <div class="tabs"><div class="tab ${tab==='farm'?'act':''}" onclick="setFarmTab('farm')">Farmacia</div><div class="tab ${tab==='caja'?'act':''}" onclick="setFarmTab('caja')">Caja del día</div></div>
+  <div id="farm-content"></div>`;
+  renderFarmContent(tab);
+}
+function setFarmTab(t){document.getElementById('pg-farm')._tab=t;renderFarmContent(t);}
+function renderFarmContent(tab){
+  const t=today();
+  const c=document.getElementById('farm-content');
+  if(tab==='farm'){
+    const critical=S.meds.filter(m=>m.stock<=m.minStock||m.exp<=addDays(t,30));
+    c.innerHTML=`<div class="sec-head" style="margin-bottom:8px"><span>${S.meds.length} productos</span><button class="btn btn-pri btn-sm" onclick="addMedModal()">+ Medicamento</button></div>
+    ${critical.length?`<div class="card" style="margin-bottom:12px"><h3>Alertas Críticas</h3>${critical.map(m=>`<div class="alert ${m.stock===0?'alert-err':'alert-warn'}">${m.stock===0?'⛔':'⚠️'} <b>${m.name}</b> — Stock: ${m.stock} ${m.unit} · Vence: ${fmtDate(m.exp)}</div>`).join('')}</div>`:''}
+    <div class="card" style="padding:0"><table><thead><tr><th>Medicamento</th><th>Stock</th><th>Vencimiento</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>
+    ${S.meds.map(m=>`<tr><td><b>${m.name}</b></td>
+    <td><span class="badge ${m.stock===0?'b-err':m.stock<=m.minStock?'b-warn':'b-ok'}">${m.stock} ${m.unit}</span></td>
+    <td><span class="badge ${m.exp<=t?'b-err':m.exp<=addDays(t,30)?'b-warn':'b-gray'}">${fmtDate(m.exp)}</span></td>
+    <td>$${m.price.toLocaleString()}</td>
+    <td style="display:flex;gap:4px">
+      <button class="btn btn-ghost btn-sm" onclick="stockEntryModal('${m.id}')">+ Stock</button>
+      <button class="btn btn-ghost btn-sm" onclick="editMedModal('${m.id}')">Editar</button>
+    </td></tr>`).join('')}
+    </tbody></table></div>`;
+  } else {
+    const income=S.cash.filter(c=>c.date===t&&c.cat==='income');
+    const expenses=S.cash.filter(c=>c.date===t&&c.cat==='expense');
+    const totalIn=income.reduce((s,c)=>s+c.amount,0);
+    const totalEx=expenses.reduce((s,c)=>s+c.amount,0);
+    const byType={};income.forEach(c=>{byType[c.type]=(byType[c.type]||0)+c.amount;});
+    const byVet={};income.forEach(c=>{if(c.vetId){const v=vetOf(c.vetId).name;byVet[v]=(byVet[v]||0)+c.amount;}});
+    c.innerHTML=`<div class="row">
+    <div class="kpi acc"><div class="val">$${totalIn.toLocaleString()}</div><div class="lbl">Ingresos</div></div>
+    <div class="kpi warn"><div class="val">$${totalEx.toLocaleString()}</div><div class="lbl">Gastos</div></div>
+    <div class="kpi"><div class="val" style="color:${totalIn-totalEx>=0?'var(--acc)':'var(--err)'}">$${(totalIn-totalEx).toLocaleString()}</div><div class="lbl">Neto</div></div>
+    </div>
+    <div class="row">
+      <div class="card" style="flex:1;min-width:200px"><h3>Por tipo</h3>
+        ${Object.entries(byType).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">$${v.toLocaleString()}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+      </div>
+      <div class="card" style="flex:1;min-width:200px"><h3>Por veterinario</h3>
+        ${Object.entries(byVet).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">$${v.toLocaleString()}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+      </div>
+    </div>
+    <div class="sec-head"><h3>Movimientos</h3><button class="btn btn-pri btn-sm" onclick="addCashModal()">+ Movimiento</button></div>
+    <div class="card" style="padding:0"><table><thead><tr><th>Tipo</th><th>Descripción</th><th>Monto</th><th>Cat.</th></tr></thead><tbody>
+    ${[...income,...expenses].map(c=>`<tr><td>${c.type}</td><td>${c.desc}</td><td class="${c.cat==='income'?'':''}"><span style="color:${c.cat==='income'?'var(--acc)':'var(--err)'}">${c.cat==='income'?'+':'-'}$${c.amount.toLocaleString()}</span></td><td><span class="badge ${c.cat==='income'?'b-ok':'b-err'}">${c.cat}</span></td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+}
+function addMedModal(mid){
+  const m=mid?S.meds.find(x=>x.id===mid):{};const editing=!!mid;
+  openModal(`<h2>${editing?'Editar':'Nuevo'} Medicamento <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="saveMed(event,'${mid||''}')">
+  <div class="frow full"><label>Nombre</label><input name="name" required value="${m.name||''}"></div>
+  <div class="frow"><div><label>Stock</label><input type="number" name="stock" value="${m.stock||0}"></div><div><label>Unidad</label><input name="unit" value="${m.unit||'comp'}"></div></div>
+  <div class="frow"><div><label>Precio</label><input type="number" name="price" value="${m.price||0}"></div><div><label>Stock mínimo</label><input type="number" name="minStock" value="${m.minStock||5}"></div></div>
+  <div class="frow full"><label>Vencimiento</label><input type="date" name="exp" value="${m.exp||addDays(today(),365)}"></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">${editing?'Guardar':'Agregar'}</button></div>
+  </form>`);
+}
+function editMedModal(mid){addMedModal(mid);}
+function saveMed(e,mid){
+  e.preventDefault();const f=new FormData(e.target);
+  const d={name:f.get('name'),stock:parseInt(f.get('stock'))||0,unit:f.get('unit'),price:parseFloat(f.get('price'))||0,minStock:parseInt(f.get('minStock'))||5,exp:f.get('exp')};
+  if(mid){Object.assign(S.meds.find(m=>m.id===mid),d);}else{S.meds.push({id:'m'+uid(),...d});}
+  save();closeModal();renderFarm();
+}
+function stockEntryModal(mid){
+  const m=S.meds.find(x=>x.id===mid);
+  openModal(`<h2>Entrada de Stock — ${m.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <p style="color:var(--muted);margin-bottom:12px">Stock actual: <b style="color:var(--txt)">${m.stock} ${m.unit}</b></p>
+  <div class="frow full"><label>Cantidad a agregar</label><input type="number" id="stock-add" value="10" min="1"></div>
+  <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-pri" onclick="confirmStockEntry('${mid}')">Confirmar</button></div>`);
+}
+function confirmStockEntry(mid){
+  const q=parseInt(document.getElementById('stock-add').value)||0;
+  const m=S.meds.find(x=>x.id===mid);if(m&&q>0){m.stock+=q;save();closeModal();renderFarm();}
+}
+function addCashModal(){
+  openModal(`<h2>Nuevo Movimiento <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="saveCash(event)">
+  <div class="frow"><div><label>Categoría</label><select name="cat"><option value="income">Ingreso</option><option value="expense">Gasto</option></select></div><div><label>Tipo</label><select name="type"><option>Consulta</option><option>Vacuna</option><option>Cirugía</option><option>Baño</option><option>Producto</option><option>Gasto</option></select></div></div>
+  <div class="frow full"><label>Descripción</label><input name="desc" required></div>
+  <div class="frow"><div><label>Monto</label><input type="number" name="amount" required></div><div><label>Veterinario</label><select name="vetId"><option value="">N/A</option>${S.vets.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">Guardar</button></div>
+  </form>`);
+}
+function saveCash(e){
+  e.preventDefault();const f=new FormData(e.target);
+  S.cash.push({id:'ca'+uid(),date:today(),type:f.get('type'),desc:f.get('desc'),amount:parseFloat(f.get('amount'))||0,vetId:f.get('vetId'),cat:f.get('cat')});
+  save();closeModal();renderFarm();
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+const renders={dash:renderDash,pac:renderPac,cons:renderCons,vac:renderVac,turn:renderTurn,farm:renderFarm};
+buildNav();nav('dash');
+</script>
+</body>
+</html>
