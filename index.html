@@ -11,7 +11,6 @@
 :root{--bg:#FFF8F0;--surf:#FFFFFF;--card:#FFFFFF;--sidebar:#1E3A5F;--pri:#3B82F6;--acc:#F97316;--err:#EF4444;--warn:#F59E0B;--ok:#10B981;--txt:#1A2F4A;--muted:#64748B;--brd:#E2EBF5;--card-hover:#F0F7FF}
 body{background:var(--bg);color:var(--txt);font-family:'Nunito',system-ui,sans-serif;font-size:14px;min-height:100vh;display:flex;font-weight:400}
 a{color:var(--pri);text-decoration:none}
-/* Layout */
 #sb{width:220px;background:var(--sidebar);border-right:none;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:.3s;overflow:hidden}
 #sb .logo{display:flex;align-items:center;gap:10px;padding:20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
 #sb .logo .icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
@@ -34,7 +33,6 @@ a{color:var(--pri);text-decoration:none}
   #sb{display:none}#main{margin-left:0;padding:12px 12px 80px}
   .topbar{display:flex}#bnav{display:flex}
 }
-/* Cards & KPIs */
 .pg{display:none}.pg.show{display:block}
 .row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
 .kpi{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:18px;flex:1;min-width:130px;box-shadow:0 2px 8px rgba(59,130,246,0.07)}
@@ -43,13 +41,11 @@ a{color:var(--pri);text-decoration:none}
 .kpi.warn .val{color:var(--acc)} .kpi.acc .val{color:var(--ok)}
 .card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(59,130,246,0.05)}
 .card h3{font-size:12px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
-/* Table */
 table{width:100%;border-collapse:collapse}
 th{text-align:left;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:2px solid var(--brd);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;background:#F8FBFF}
 td{padding:10px 12px;border-bottom:1px solid var(--brd);vertical-align:middle;color:var(--txt)}
 tr:hover td{background:var(--card-hover)}
 tr:last-child td{border:0}
-/* Badges & Buttons */
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .b-ok{background:rgba(16,185,129,0.1);color:var(--ok)}
 .b-warn{background:rgba(249,115,22,0.12);color:var(--acc)}
@@ -63,7 +59,6 @@ tr:last-child td{border:0}
 .btn-sm{padding:5px 12px;font-size:12px;border-radius:8px}
 .btn-wa{background:#25D366;color:#fff} .btn-wa:hover{opacity:.9}
 .btn-err{background:rgba(239,68,68,0.08);color:var(--err);border:1px solid rgba(239,68,68,0.2)}
-/* Form */
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .frow.full{grid-template-columns:1fr}
 @media(max-width:500px){.frow{grid-template-columns:1fr}}
@@ -71,33 +66,26 @@ label{display:block;color:var(--muted);font-size:12px;margin-bottom:4px;font-wei
 input,select,textarea{width:100%;background:#fff;border:1.5px solid var(--brd);color:var(--txt);padding:9px 12px;border-radius:10px;font-size:13px;outline:none;transition:.15s;font-family:'Nunito',sans-serif}
 input:focus,select:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
 textarea{resize:vertical;min-height:60px}
-/* Modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(30,58,95,.4);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
 .modal{background:#fff;border:none;border-radius:20px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(30,58,95,0.2)}
 .modal h2{font-size:18px;font-weight:800;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--brd);color:var(--txt)}
 .modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)}
-/* Search */
 .search-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .search-bar input{max-width:260px}
-/* Tabs */
 .tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid var(--brd)}
 .tab{padding:8px 16px;cursor:pointer;border-radius:8px 8px 0 0;color:var(--muted);font-size:13px;border-bottom:2px solid transparent;transition:.15s;font-weight:600;background:none}
 .tab.act{color:var(--pri);border-bottom-color:var(--pri)}
-/* Alerts */
 .alert{padding:10px 14px;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
 .alert-warn{background:rgba(249,115,22,0.08);border-left:3px solid var(--acc)}
 .alert-err{background:rgba(239,68,68,0.08);border-left:3px solid var(--err);color:#dc2626}
-/* Print */
 @media print{
   #sb,#bnav,.topbar,.btn,.no-print{display:none!important}
   #main{margin:0;padding:0}
   .modal,.overlay{position:static;display:block!important;background:white;color:black;max-height:none}
   body{background:white;color:black}
 }
-/* Notification badge */
 .notif-badge{background:#ef4444;color:#fff;font-size:10px;border-radius:999px;padding:2px 6px;margin-left:auto;font-weight:700}
-/* Misc */
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .sec-head h2{font-size:18px;font-weight:800;color:var(--txt)}
 .empty{text-align:center;padding:32px;color:var(--muted)}
@@ -132,6 +120,8 @@ hr{border:0;border-top:2px solid var(--brd);margin:12px 0}
   <div id="pg-vac" class="pg"></div>
   <div id="pg-turn" class="pg"></div>
   <div id="pg-farm" class="pg"></div>
+  <div id="pg-duenos" class="pg"></div>
+  <div id="pg-caja" class="pg"></div>
 </main>
 
 <!-- Mobile bottom nav -->
@@ -142,80 +132,87 @@ hr{border:0;border-top:2px solid var(--brd);margin:12px 0}
 
 <script>
 // ─── DATA SEED ───────────────────────────────────────────────────────────────
-const KEY='avet-v1';
+const KEY='avet-v2';
 const today=()=>new Date().toISOString().slice(0,10);
-const addDays=(d,n)=>{let x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
-const fmtDate=s=>{if(!s)return'—';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`};
-const age=dob=>{if(!dob)return'?';let y=Math.floor((Date.now()-new Date(dob))/(365.25*864e5));return y===1?'1 año':`${y} años`};
+const addDays=(d,n)=>{if(!d)return today();let x=new Date(d);x.setDate(x.getDate()+(parseInt(n)||0));return x.toISOString().slice(0,10)};
+const fmtDate=s=>{if(!s)return'—';const parts=s.split('-');if(parts.length!==3)return s;const[y,m,d]=parts;return`${d}/${m}/${y}`};
+const age=dob=>{if(!dob)return'?';let y=Math.floor((Date.now()-new Date(dob))/(365.25*864e5));if(isNaN(y)||y<0)return'?';return y===1?'1 año':`${y} años`};
 const uid=()=>Math.random().toString(36).slice(2,9);
+const fmtARS=n=>{const num=parseFloat(n)||0;return'$'+num.toLocaleString('es-AR')};
 
 function seed(){
-  const vets=[{id:'v1',name:'Dra. Laura Sánchez'},{id:'v2',name:'Dr. Marcos Pérez'}];
+  const vets=[
+    {id:'v1',name:'Dra. Laura Sánchez'},
+    {id:'v2',name:'Dr. Marcos Pérez'}
+  ];
   const owners=[
-    {id:'o1',name:'Carlos Rodríguez',tel:'5491123456789',email:'carlos@mail.com'},
-    {id:'o2',name:'María López',tel:'5491187654321',email:'maria@mail.com'},
-    {id:'o3',name:'Ana Torres',tel:'5491134567890',email:'ana@mail.com'},
-    {id:'o4',name:'Juan Gómez',tel:'5491156789012',email:'juan@mail.com'}
+    {id:'o1',name:'Carlos Rodríguez',tel:'5491123456789',email:'carlos.rodriguez@mail.com'},
+    {id:'o2',name:'María López',tel:'5491187654321',email:'maria.lopez@mail.com'},
+    {id:'o3',name:'Ana Torres',tel:'5491134567890',email:'ana.torres@mail.com'},
+    {id:'o4',name:'Juan Gómez',tel:'5491156789012',email:'juan.gomez@mail.com'},
+    {id:'o5',name:'Luciana Fernández',tel:'5491165432198',email:'luci.fernandez@mail.com'}
   ];
   const t=today();
   const pets=[
-    {id:'p1',name:'Rocky',sp:'dog',breed:'Labrador',sex:'M',color:'Dorado',dob:'2019-03-15',weight:28,neut:true,chip:'123456789',ownId:'o1',lastVisit:addDays(t,-15),allergies:'Ninguna'},
-    {id:'p2',name:'Nala',sp:'cat',breed:'Siamés',sex:'F',color:'Crema',dob:'2021-06-20',weight:4.2,neut:true,chip:'987654321',ownId:'o1',lastVisit:addDays(t,-30),allergies:''},
-    {id:'p3',name:'Max',sp:'dog',breed:'Golden Retriever',sex:'M',color:'Dorado',dob:'2018-11-05',weight:32,neut:false,chip:'111222333',ownId:'o2',lastVisit:addDays(t,-5),allergies:'Amoxicilina'},
-    {id:'p4',name:'Luna',sp:'dog',breed:'Beagle',sex:'F',color:'Tricolor',dob:'2020-08-10',weight:12,neut:true,chip:'444555666',ownId:'o2',lastVisit:addDays(t,-10),allergies:''},
-    {id:'p5',name:'Mia',sp:'cat',breed:'Persa',sex:'F',color:'Blanca',dob:'2022-01-14',weight:3.8,neut:true,chip:'777888999',ownId:'o3',lastVisit:addDays(t,-20),allergies:''},
-    {id:'p6',name:'Thor',sp:'dog',breed:'Husky',sex:'M',color:'Gris y blanco',dob:'2020-05-22',weight:25,neut:false,chip:'101112131',ownId:'o3',lastVisit:addDays(t,-2),allergies:''},
-    {id:'p7',name:'Bella',sp:'dog',breed:'Caniche',sex:'F',color:'Blanca',dob:'2021-09-30',weight:8,neut:true,chip:'141516171',ownId:'o4',lastVisit:addDays(t,-45),allergies:'Penicilina'},
-    {id:'p8',name:'Simba',sp:'cat',breed:'Común Europeo',sex:'M',color:'Atigrado',dob:'2019-12-01',weight:5.1,neut:true,chip:'181920212',ownId:'o4',lastVisit:addDays(t,-7),allergies:''},
-    {id:'p9',name:'Rex',sp:'dog',breed:'Pastor Alemán',sex:'M',color:'Negro y fuego',dob:'2017-07-18',weight:34,neut:false,chip:'222324252',ownId:'o1',lastVisit:addDays(t,-60),allergies:''},
-    {id:'p10',name:'Coco',sp:'dog',breed:'Chihuahua',sex:'M',color:'Café',dob:'2023-03-03',weight:2.8,neut:false,chip:'262728293',ownId:'o2',lastVisit:addDays(t,-3),allergies:''}
+    {id:'p1',name:'Firulais',sp:'dog',breed:'Labrador Retriever',sex:'M',color:'Dorado',dob:'2019-03-15',weight:28,neut:true,chip:'123456789',ownId:'o1',lastVisit:addDays(t,-15),allergies:'Ninguna'},
+    {id:'p2',name:'Mochi',sp:'cat',breed:'Siamés',sex:'F',color:'Crema',dob:'2021-06-20',weight:4.2,neut:true,chip:'987654321',ownId:'o1',lastVisit:addDays(t,-30),allergies:''},
+    {id:'p3',name:'Luna',sp:'dog',breed:'Golden Retriever',sex:'F',color:'Dorado',dob:'2018-11-05',weight:30,neut:false,chip:'111222333',ownId:'o2',lastVisit:addDays(t,-5),allergies:'Amoxicilina'},
+    {id:'p4',name:'Thor',sp:'dog',breed:'Husky Siberiano',sex:'M',color:'Gris y blanco',dob:'2020-08-10',weight:25,neut:false,chip:'444555666',ownId:'o2',lastVisit:addDays(t,-10),allergies:''},
+    {id:'p5',name:'Simba',sp:'cat',breed:'Común Europeo',sex:'M',color:'Atigrado',dob:'2019-12-01',weight:5.1,neut:true,chip:'777888999',ownId:'o3',lastVisit:addDays(t,-20),allergies:''},
+    {id:'p6',name:'Bella',sp:'dog',breed:'Caniche Toy',sex:'F',color:'Blanca',dob:'2021-09-30',weight:8,neut:true,chip:'101112131',ownId:'o3',lastVisit:addDays(t,-2),allergies:'Penicilina'},
+    {id:'p7',name:'Toby',sp:'dog',breed:'Beagle',sex:'M',color:'Tricolor',dob:'2020-05-22',weight:12,neut:false,chip:'141516171',ownId:'o4',lastVisit:addDays(t,-45),allergies:''},
+    {id:'p8',name:'Nube',sp:'cat',breed:'Persa',sex:'F',color:'Blanca',dob:'2022-01-14',weight:3.8,neut:true,chip:'181920212',ownId:'o4',lastVisit:addDays(t,-7),allergies:''},
+    {id:'p9',name:'Rex',sp:'dog',breed:'Pastor Alemán',sex:'M',color:'Negro y fuego',dob:'2017-07-18',weight:34,neut:false,chip:'222324252',ownId:'o5',lastVisit:addDays(t,-60),allergies:''},
+    {id:'p10',name:'Coco',sp:'dog',breed:'Chihuahua',sex:'M',color:'Café',dob:'2023-03-03',weight:2.8,neut:false,chip:'262728293',ownId:'o5',lastVisit:addDays(t,-3),allergies:''}
   ];
   const vacs=[
-    {id:'vc1',petId:'p1',name:'Séxtuple',applied:addDays(t,-365),next:addDays(t,3),lab:'Zoetis'},
-    {id:'vc2',petId:'p1',name:'Rabia',applied:addDays(t,-365),next:addDays(t,5),lab:'MSD'},
-    {id:'vc3',petId:'p3',name:'Séxtuple',applied:addDays(t,-370),next:addDays(t,1),lab:'Zoetis'},
-    {id:'vc4',petId:'p4',name:'Rabia',applied:addDays(t,-360),next:addDays(t,2),lab:'MSD'},
-    {id:'vc5',petId:'p5',name:'Triple Felina',applied:addDays(t,-360),next:addDays(t,4),lab:'Boehringer'},
-    {id:'vc6',petId:'p6',name:'Séxtuple',applied:addDays(t,-355),next:addDays(t,6),lab:'Zoetis'},
-    {id:'vc7',petId:'p2',name:'Triple Felina',applied:addDays(t,-300),next:addDays(t,45),lab:'Boehringer'},
-    {id:'vc8',petId:'p7',name:'Bordetelosis',applied:addDays(t,-200),next:addDays(t,80),lab:'Zoetis'},
-    {id:'vc9',petId:'p9',name:'Rabia',applied:addDays(t,-400),next:addDays(t,-10),lab:'MSD'},
-    {id:'vc10',petId:'p8',name:'Triple Felina',applied:addDays(t,-420),next:addDays(t,-5),lab:'Boehringer'}
+    {id:'vc1',petId:'p1',name:'Séxtuple',applied:addDays(t,-365),next:addDays(t,3),lab:'Zoetis',intervalo_dias:365},
+    {id:'vc2',petId:'p1',name:'Rabia',applied:addDays(t,-365),next:addDays(t,5),lab:'MSD',intervalo_dias:365},
+    {id:'vc3',petId:'p3',name:'Séxtuple',applied:addDays(t,-370),next:addDays(t,1),lab:'Zoetis',intervalo_dias:365},
+    {id:'vc4',petId:'p4',name:'Rabia',applied:addDays(t,-360),next:addDays(t,2),lab:'MSD',intervalo_dias:365},
+    {id:'vc5',petId:'p5',name:'Triple Felina',applied:addDays(t,-360),next:addDays(t,4),lab:'Boehringer',intervalo_dias:365},
+    {id:'vc6',petId:'p6',name:'Séxtuple',applied:addDays(t,-355),next:addDays(t,6),lab:'Zoetis',intervalo_dias:365},
+    {id:'vc7',petId:'p2',name:'Triple Felina',applied:addDays(t,-300),next:addDays(t,45),lab:'Boehringer',intervalo_dias:365},
+    {id:'vc8',petId:'p7',name:'Bordetelosis',applied:addDays(t,-200),next:addDays(t,80),lab:'Zoetis',intervalo_dias:180},
+    {id:'vc9',petId:'p9',name:'Rabia',applied:addDays(t,-400),next:addDays(t,-10),lab:'MSD',intervalo_dias:365},
+    {id:'vc10',petId:'p8',name:'Triple Felina',applied:addDays(t,-420),next:addDays(t,-5),lab:'Boehringer',intervalo_dias:365}
   ];
   const appts=[
     {id:'a1',petId:'p1',vetId:'v1',time:'09:00',date:t,motivo:'Control anual',status:'atendido'},
     {id:'a2',petId:'p3',vetId:'v1',time:'10:00',date:t,motivo:'Vacuna séxtuple',status:'en sala'},
-    {id:'a3',petId:'p6',vetId:'v2',time:'11:00',date:t,motivo:'Revisión cutánea',status:'confirmado'},
-    {id:'a4',petId:'p8',vetId:'v2',time:'14:00',date:t,motivo:'Castración post-op',status:'pendiente'},
+    {id:'a3',petId:'p4',vetId:'v2',time:'11:00',date:t,motivo:'Revisión cutánea',status:'confirmado'},
+    {id:'a4',petId:'p5',vetId:'v2',time:'14:00',date:t,motivo:'Castración post-op',status:'pendiente'},
     {id:'a5',petId:'p10',vetId:'v1',time:'16:00',date:t,motivo:'Primera consulta',status:'pendiente'}
   ];
   const cons=[
-    {id:'c1',petId:'p1',vetId:'v1',date:addDays(t,-15),motivo:'Control',temp:'38.5',fc:'80',weight:28,diag:'Sin hallazgos',trat:'',services:[{name:'Consulta',price:3500}],total:3500,notes:''},
-    {id:'c2',petId:'p3',vetId:'v1',date:addDays(t,-5),motivo:'Otitis',temp:'39.1',fc:'90',weight:32,diag:'Otitis externa bilateral',trat:'Otosporin 5 gotas c/12hs 7 días',services:[{name:'Consulta',price:3500},{name:'Medicamento',price:1800}],total:5300,notes:'Revisar en 10 días'},
-    {id:'c3',petId:'p6',vetId:'v2',date:addDays(t,-2),motivo:'Dermatitis',temp:'38.8',fc:'85',weight:25,diag:'Dermatitis alérgica',trat:'Apoquel 16mg 1 comp/día 30 días',services:[{name:'Consulta',price:3500},{name:'Apoquel x30',price:8500}],total:12000,notes:''}
+    {id:'c1',petId:'p1',vetId:'v1',date:addDays(t,-15),motivo:'Control anual',temp:'38.5',fc:'80',weight:28,diag:'Sin hallazgos patológicos',trat:'',services:[{name:'Consulta general',price:8500}],total:8500,notes:''},
+    {id:'c2',petId:'p3',vetId:'v1',date:addDays(t,-5),motivo:'Otitis crónica',temp:'39.1',fc:'90',weight:30,diag:'Otitis externa bilateral',trat:'Otosporin 5 gotas c/12hs por 7 días',services:[{name:'Consulta general',price:8500},{name:'Otosporin gotas',price:6200}],total:14700,notes:'Revisar en 10 días'},
+    {id:'c3',petId:'p4',vetId:'v2',date:addDays(t,-2),motivo:'Dermatitis',temp:'38.8',fc:'85',weight:25,diag:'Dermatitis alérgica estacional',trat:'Apoquel 16mg 1 comp/día por 30 días',services:[{name:'Consulta general',price:8500},{name:'Apoquel 16mg x30',price:28500}],total:37000,notes:''}
   ];
   const meds=[
-    {id:'m1',name:'Amoxicilina 500mg',stock:24,unit:'comp',price:250,exp:addDays(t,90),minStock:10},
-    {id:'m2',name:'Otosporin gotas',stock:8,unit:'frasco',price:1800,exp:addDays(t,180),minStock:5},
-    {id:'m3',name:'Apoquel 16mg',stock:3,unit:'comp',price:285,exp:addDays(t,25),minStock:10},
-    {id:'m4',name:'Dexametasona 5ml',stock:12,unit:'amp',price:650,exp:addDays(t,15),minStock:5},
-    {id:'m5',name:'Meloxicam 1.5mg/ml',stock:6,unit:'frasco',price:2200,exp:addDays(t,12),minStock:4},
-    {id:'m6',name:'Vacuna Séxtuple',stock:15,unit:'dosis',price:3200,exp:addDays(t,120),minStock:5},
-    {id:'m7',name:'Vacuna Rabia',stock:18,unit:'dosis',price:1800,exp:addDays(t,200),minStock:5},
-    {id:'m8',name:'Vacuna Triple Felina',stock:10,unit:'dosis',price:2800,exp:addDays(t,150),minStock:4},
-    {id:'m9',name:'Enrofloxacina 50mg',stock:30,unit:'comp',price:180,exp:addDays(t,300),minStock:10},
-    {id:'m10',name:'Metronidazol 250mg',stock:40,unit:'comp',price:95,exp:addDays(t,365),minStock:15},
-    {id:'m11',name:'Frontline Spray',stock:2,unit:'frasco',price:4500,exp:addDays(t,400),minStock:3},
-    {id:'m12',name:'Suero fisiológico',stock:20,unit:'frasco',price:350,exp:addDays(t,500),minStock:8},
-    {id:'m13',name:'Tramadol 50mg',stock:15,unit:'comp',price:320,exp:addDays(t,60),minStock:5},
-    {id:'m14',name:'Furosemida 40mg',stock:25,unit:'comp',price:140,exp:addDays(t,180),minStock:8},
-    {id:'m15',name:'Prednisona 5mg',stock:0,unit:'comp',price:110,exp:addDays(t,240),minStock:10}
+    {id:'m1',name:'Amoxicilina 500mg',stock:24,unit:'comp',price:890,exp:addDays(t,90),minStock:10},
+    {id:'m2',name:'Otosporin gotas',stock:8,unit:'frasco',price:6200,exp:addDays(t,180),minStock:5},
+    {id:'m3',name:'Apoquel 16mg',stock:3,unit:'comp',price:1420,exp:addDays(t,25),minStock:10},
+    {id:'m4',name:'Dexametasona 5ml',stock:12,unit:'amp',price:2800,exp:addDays(t,15),minStock:5},
+    {id:'m5',name:'Meloxicam 1.5mg/ml',stock:6,unit:'frasco',price:7400,exp:addDays(t,12),minStock:4},
+    {id:'m6',name:'Vacuna Séxtuple',stock:15,unit:'dosis',price:6200,exp:addDays(t,120),minStock:5},
+    {id:'m7',name:'Vacuna Rabia',stock:18,unit:'dosis',price:4500,exp:addDays(t,200),minStock:5},
+    {id:'m8',name:'Vacuna Triple Felina',stock:10,unit:'dosis',price:5800,exp:addDays(t,150),minStock:4},
+    {id:'m9',name:'Enrofloxacina 50mg',stock:30,unit:'comp',price:640,exp:addDays(t,300),minStock:10},
+    {id:'m10',name:'Metronidazol 250mg',stock:40,unit:'comp',price:380,exp:addDays(t,365),minStock:15},
+    {id:'m11',name:'Frontline Spray',stock:2,unit:'frasco',price:18900,exp:addDays(t,400),minStock:3},
+    {id:'m12',name:'Suero fisiológico 500ml',stock:20,unit:'frasco',price:1200,exp:addDays(t,500),minStock:8},
+    {id:'m13',name:'Tramadol 50mg',stock:15,unit:'comp',price:980,exp:addDays(t,60),minStock:5},
+    {id:'m14',name:'Furosemida 40mg',stock:25,unit:'comp',price:540,exp:addDays(t,180),minStock:8},
+    {id:'m15',name:'Prednisona 5mg',stock:0,unit:'comp',price:430,exp:addDays(t,240),minStock:10}
   ];
   const cash=[
-    {id:'ca1',date:t,type:'Consulta',desc:'Rocky - Control',amount:3500,vetId:'v1',cat:'income'},
-    {id:'ca2',date:t,type:'Vacuna',desc:'Max - Séxtuple',amount:3200,vetId:'v1',cat:'income'},
-    {id:'ca3',date:t,type:'Consulta',desc:'Thor - Dermatitis',amount:12000,vetId:'v2',cat:'income'},
-    {id:'ca4',date:t,type:'Gasto',desc:'Insumos quirúrgicos',amount:5000,vetId:'',cat:'expense'}
+    {id:'ca1',date:t,type:'Consulta',desc:'Firulais - Control anual',amount:8500,vetId:'v1',cat:'income'},
+    {id:'ca2',date:t,type:'Vacuna',desc:'Luna - Séxtuple',amount:6200,vetId:'v1',cat:'income'},
+    {id:'ca3',date:t,type:'Consulta',desc:'Thor - Dermatitis',amount:37000,vetId:'v2',cat:'income'},
+    {id:'ca4',date:t,type:'Castración',desc:'Castración - Simba',amount:45000,vetId:'v2',cat:'income'},
+    {id:'ca5',date:t,type:'Baño',desc:'Baño y peluquería - Bella',amount:9800,vetId:'v1',cat:'income'},
+    {id:'ca6',date:t,type:'Gasto',desc:'Insumos quirúrgicos',amount:12000,vetId:'',cat:'expense'}
   ];
   return {vets,owners,pets,vacs,appts,cons,meds,cash,nextId:1000};
 }
@@ -225,9 +222,9 @@ let S=JSON.parse(localStorage.getItem(KEY)||'null')||seed();
 const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 
 const spIcon=s=>({dog:'🐕',cat:'🐈',bird:'🐦',rabbit:'🐇'}[s]||'🐾');
-const ownerOf=p=>S.owners.find(o=>o.id===p.ownId)||{};
-const petOf=id=>S.pets.find(p=>p.id===id)||{name:'—',sp:'dog'};
-const vetOf=id=>S.vets.find(v=>v.id===id)||{name:'—'};
+const ownerOf=p=>{if(!p||!p.ownId)return{name:'—',tel:'',email:''};return S.owners.find(o=>o.id===p.ownId)||{name:'—',tel:'',email:''};};
+const petOf=id=>{if(!id)return{name:'—',sp:'dog',breed:'—',ownId:''};return S.pets.find(p=>p.id===id)||{name:'—',sp:'dog',breed:'—',ownId:''};};
+const vetOf=id=>{if(!id)return{name:'—'};return S.vets.find(v=>v.id===id)||{name:'—'};};
 const statusColor=s=>({pendiente:'b-warn',confirmado:'b-info','en sala':'b-acc',atendido:'b-ok',cancelado:'b-err'}[s]||'b-gray');
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
@@ -241,38 +238,47 @@ const PAGES=[
 ];
 let curPg='dash';
 function buildNav(){
-  document.getElementById('snav').innerHTML=PAGES.map(p=>`<a onclick="nav('${p.id}')" id="sn-${p.id}"><span>${p.icon}</span>${p.label}</a>`).join('');
-  document.getElementById('bnav').innerHTML=PAGES.map(p=>`<div class="bn" onclick="nav('${p.id}')" id="bn-${p.id}"><span>${p.icon}</span><span>${p.label}</span></div>`).join('');
+  const snav=document.getElementById('snav');
+  const bnavEl=document.getElementById('bnav');
+  if(snav)snav.innerHTML=PAGES.map(p=>`<a onclick="nav('${p.id}')" id="sn-${p.id}"><span>${p.icon}</span>${p.label}</a>`).join('');
+  if(bnavEl)bnavEl.innerHTML=PAGES.map(p=>`<div class="bn" onclick="nav('${p.id}')" id="bn-${p.id}"><span>${p.icon}</span><span>${p.label}</span></div>`).join('');
   renderNotifBadge();
 }
 function nav(pg){
   curPg=pg;
   document.querySelectorAll('#snav a,#bnav .bn').forEach(el=>el.classList.remove('act'));
-  document.querySelector(`#sn-${pg}`)?.classList.add('act');
-  document.querySelector(`#bn-${pg}`)?.classList.add('act');
+  const snEl=document.querySelector(`#sn-${pg}`);if(snEl)snEl.classList.add('act');
+  const bnEl=document.querySelector(`#bn-${pg}`);if(bnEl)bnEl.classList.add('act');
   document.querySelectorAll('.pg').forEach(el=>el.classList.remove('show'));
-  document.getElementById(`pg-${pg}`).classList.add('show');
-  renders[pg]();
+  const pgEl=document.getElementById(`pg-${pg}`);if(pgEl)pgEl.classList.add('show');
+  if(renders[pg])renders[pg]();
 }
 
 // ─── MODAL ────────────────────────────────────────────────────────────────────
 const ov=document.getElementById('ov');
 const mb=document.getElementById('modal-body');
-function openModal(html,onOpen){mb.innerHTML=html;ov.classList.add('open');if(onOpen)onOpen();}
-function closeModal(){ov.classList.remove('open');}
-ov.addEventListener('click',e=>{if(e.target===ov)closeModal();});
+function openModal(html,onOpen){
+  if(!mb||!ov)return;
+  mb.innerHTML=html;
+  ov.classList.add('open');
+  if(onOpen)onOpen();
+}
+function closeModal(){
+  if(ov)ov.classList.remove('open');
+}
+if(ov)ov.addEventListener('click',e=>{if(e.target===ov)closeModal();});
 
 // ─── DASHBOARD ────────────────────────────────────────────────────────────────
 function renderDash(){
   const t=today();
-  const todayAppts=S.appts.filter(a=>a.date===t);
+  const todayAppts=(S.appts||[]).filter(a=>a&&a.date===t);
   const attended=todayAppts.filter(a=>a.status==='atendido').length;
-  const vacSoon=S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,7)).length;
-  const income=S.cash.filter(c=>c.date===t&&c.cat==='income').reduce((s,c)=>s+c.amount,0);
-  const now=t;
-  const expired=S.vacs.filter(v=>v.next<now);
-  const expMeds=S.meds.filter(m=>m.exp<=addDays(t,30)&&m.stock>0);
+  const vacSoon=(S.vacs||[]).filter(v=>v&&v.next>=t&&v.next<=addDays(t,7)).length;
+  const income=(S.cash||[]).filter(c=>c&&c.date===t&&c.cat==='income').reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+  const expired=(S.vacs||[]).filter(v=>v&&v.next&&v.next<t);
+  const expMeds=(S.meds||[]).filter(m=>m&&m.exp&&m.exp<=addDays(t,30)&&m.stock>0);
   const pg=document.getElementById('pg-dash');
+  if(!pg)return;
   pg.innerHTML=`
   <div class="sec-head"><h2>Dashboard</h2><span class="chip">${fmtDate(t)}</span></div>
   <div id="alertas-panel" style="margin-bottom:16px"></div>
@@ -284,26 +290,26 @@ function renderDash(){
     <div class="kpi"><div class="val">${todayAppts.length}</div><div class="lbl">Turnos hoy</div></div>
     <div class="kpi acc"><div class="val">${attended}</div><div class="lbl">Atendidos</div></div>
     <div class="kpi warn"><div class="val">${vacSoon}</div><div class="lbl">Vacunas 7 días</div></div>
-    <div class="kpi acc"><div class="val">$${income.toLocaleString()}</div><div class="lbl">Ingresos del día</div></div>
+    <div class="kpi acc"><div class="val">${fmtARS(income)}</div><div class="lbl">Ingresos del día</div></div>
   </div>
   <div class="row">
     <div class="card" style="flex:2;min-width:280px">
       <h3>Agenda del día</h3>
       ${todayAppts.length?`<table><thead><tr><th>Hora</th><th>Mascota</th><th>Motivo</th><th>Estado</th></tr></thead><tbody>
-      ${todayAppts.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);return`<tr><td>${a.time}</td><td>${spIcon(p.sp)} ${p.name}<br><small style="color:var(--muted)">${o.name||''}</small></td><td>${a.motivo}</td><td><span class="badge ${statusColor(a.status)}">${a.status}</span></td></tr>`}).join('')}
+      ${todayAppts.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);return`<tr><td>${a.time||'—'}</td><td>${spIcon(p.sp)} ${p.name}<br><small style="color:var(--muted)">${o.name||''}</small></td><td>${a.motivo||'—'}</td><td><span class="badge ${statusColor(a.status)}">${a.status||'pendiente'}</span></td></tr>`}).join('')}
       </tbody></table>`:'<div class="empty">Sin turnos hoy</div>'}
     </div>
     <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px">
       <div class="card">
         <h3>Alertas Vacunas</h3>
         ${expired.length===0&&vacSoon===0?'<div class="empty" style="padding:12px">Todo al día ✓</div>':''}
-        ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<div class="alert alert-err">⚠️ <div><b>${p.name}</b> — ${v.name} vencida<br><small>${o.name} · ${o.tel}</small></div><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, la vacuna ${v.name} de ${p.name} está vencida. Por favor comuníquese con la clínica.`)}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto">WA</a></div>`}).join('')}
-        ${S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,7)).map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<div class="alert alert-warn">💉 <div><b>${p.name}</b> — ${v.name}<br><small>${fmtDate(v.next)} · ${o.name}</small></div><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, le recordamos que ${p.name} tiene la vacuna ${v.name} el ${fmtDate(v.next)}.`)}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto">WA</a></div>`}).join('')}
+        ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-err">⚠️ <div><b>${p.name}</b> — ${v.name} vencida<br><small>${o.name||'—'} · ${tel}</small></div>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Por favor comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
+        ${(S.vacs||[]).filter(v=>v&&v.next>=t&&v.next<=addDays(t,7)).map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-warn">💉 <div><b>${p.name}</b> — ${v.name}<br><small>${fmtDate(v.next)} · ${o.name||'—'}</small></div>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene la vacuna '+v.name+' el '+fmtDate(v.next)+'.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
       </div>
       <div class="card">
         <h3>Medicamentos por vencer</h3>
         ${expMeds.length===0?'<div class="empty" style="padding:12px">Sin alertas</div>':''}
-        ${expMeds.slice(0,5).map(m=>`<div class="alert alert-warn">💊 <b>${m.name}</b><br><small>Vence: ${fmtDate(m.exp)} · Stock: ${m.stock}</small></div>`).join('')}
+        ${expMeds.slice(0,5).map(m=>`<div class="alert alert-warn">💊 <b>${m.name}</b><br><small>Vence: ${fmtDate(m.exp)} · Stock: ${m.stock||0}</small></div>`).join('')}
       </div>
     </div>
   </div>`;
@@ -313,18 +319,26 @@ function renderDash(){
 // ─── PACIENTES ────────────────────────────────────────────────────────────────
 function renderPac(){
   const pg=document.getElementById('pg-pac');
-  const q=(pg._q||'').toLowerCase();
-  const list=S.pets.filter(p=>p.name.toLowerCase().includes(q)||ownerOf(p).name?.toLowerCase().includes(q));
+  if(!pg)return;
+  const q=((pg._q||'').toLowerCase());
+  const allPets=S.pets||[];
+  const list=allPets.filter(p=>{
+    if(!p)return false;
+    const o=ownerOf(p);
+    return(p.name||'').toLowerCase().includes(q)||((o.name||'').toLowerCase().includes(q));
+  });
   pg.innerHTML=`
   <div class="sec-head"><h2>Pacientes</h2><button class="btn btn-pri btn-sm" onclick="addPetModal()">+ Nueva mascota</button></div>
   <div class="search-bar"><input placeholder="Buscar mascota o dueño..." value="${pg._q||''}" oninput="document.getElementById('pg-pac')._q=this.value;renderPac()" style="max-width:300px"><span style="color:var(--muted);align-self:center">${list.length} resultados</span></div>
   <div class="card" style="padding:0;overflow:hidden">
   <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Última visita</th><th>Próx. vacuna</th><th></th></tr></thead><tbody>
+  ${list.length===0?`<tr><td colspan="5" class="empty">No se encontraron resultados</td></tr>`:''}
   ${list.map(p=>{
     const o=ownerOf(p);
-    const nextVac=S.vacs.filter(v=>v.petId===p.id&&v.next>=today()).sort((a,b)=>a.next>b.next?1:-1)[0];
+    const td=today();
+    const nextVac=(S.vacs||[]).filter(v=>v&&v.petId===p.id&&v.next&&v.next>=td).sort((a,b)=>a.next>b.next?1:-1)[0];
     const daysToVac=nextVac?Math.ceil((new Date(nextVac.next)-new Date())/864e5):null;
-    return`<tr><td>${spIcon(p.sp)} <b>${p.name}</b><br><small style="color:var(--muted)">${p.breed} · ${age(p.dob)}</small></td>
+    return`<tr><td>${spIcon(p.sp)} <b>${p.name||'—'}</b><br><small style="color:var(--muted)">${p.breed||'—'} · ${age(p.dob)}</small></td>
     <td>${o.name||'—'}<br><small style="color:var(--muted)">${o.tel||''}</small></td>
     <td>${fmtDate(p.lastVisit)}</td>
     <td>${nextVac?`<span class="badge ${daysToVac<0?'b-err':daysToVac<=7?'b-warn':'b-ok'}">${nextVac.name} ${daysToVac<0?'vencida':daysToVac===0?'hoy':fmtDate(nextVac.next)}</span>`:'<span class="badge b-gray">—</span>'}</td>
@@ -336,44 +350,45 @@ function renderPac(){
 function petModal(pid){
   const p=S.pets.find(x=>x.id===pid);if(!p)return;
   const o=ownerOf(p);
-  const pvacs=S.vacs.filter(v=>v.petId===pid).sort((a,b)=>a.next>b.next?1:-1);
-  const pcons=S.cons.filter(c=>c.petId===pid).sort((a,b)=>a.date<b.date?1:-1);
+  const pvacs=(S.vacs||[]).filter(v=>v&&v.petId===pid).sort((a,b)=>a.next>b.next?1:-1);
+  const pcons=(S.cons||[]).filter(c=>c&&c.petId===pid).sort((a,b)=>a.date<b.date?1:-1);
   openModal(`<h2>${spIcon(p.sp)} ${p.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <div class="tabs"><div class="tab act" onclick="switchTab(this,'t-data')">Datos</div><div class="tab" onclick="switchTab(this,'t-vac')">Vacunas</div><div class="tab" onclick="switchTab(this,'t-hist')">Historial</div></div>
   <div id="t-data">
   ${p.allergies?`<div class="err-note">⚠️ ALERGIAS/NOTAS: ${p.allergies}</div>`:''}
   <div class="frow">
-    <div><label>Nombre</label><div style="font-weight:600">${p.name}</div></div>
-    <div><label>Especie/Raza</label><div>${spIcon(p.sp)} ${p.breed}</div></div>
+    <div><label>Nombre</label><div style="font-weight:600">${p.name||'—'}</div></div>
+    <div><label>Especie/Raza</label><div>${spIcon(p.sp)} ${p.breed||'—'}</div></div>
     <div><label>Sexo</label><div>${p.sex==='M'?'Macho':'Hembra'}</div></div>
-    <div><label>Color</label><div>${p.color}</div></div>
+    <div><label>Color</label><div>${p.color||'—'}</div></div>
     <div><label>Fecha nac.</label><div>${fmtDate(p.dob)} (${age(p.dob)})</div></div>
-    <div><label>Peso</label><div>${p.weight} kg</div></div>
+    <div><label>Peso</label><div>${p.weight||0} kg</div></div>
     <div><label>Esterilizado</label><div>${p.neut?'Sí':'No'}</div></div>
     <div><label>Microchip</label><div>${p.chip||'—'}</div></div>
   </div>
   <hr><h3 style="margin-bottom:8px;font-size:13px;color:var(--muted)">DUEÑO</h3>
   <div class="frow">
-    <div><label>Nombre</label><div>${o.name}</div></div>
-    <div><label>Teléfono</label><div>${o.tel}</div></div>
-    <div><label>Email</label><div>${o.email}</div></div>
+    <div><label>Nombre</label><div>${o.name||'—'}</div></div>
+    <div><label>Teléfono</label><div>${o.tel||'—'}</div></div>
+    <div><label>Email</label><div>${o.email||'—'}</div></div>
   </div>
   </div>
   <div id="t-vac" style="display:none">
   <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="btn btn-acc btn-sm" onclick="addVacModal('${pid}')">+ Vacuna</button></div>
+  ${pvacs.length===0?'<div class="empty">Sin vacunas registradas</div>':''}
   <table><thead><tr><th>Vacuna</th><th>Aplicada</th><th>Próxima</th><th>Lab</th><th></th></tr></thead><tbody>
-  ${pvacs.map(v=>`<tr><td>${v.name}</td><td>${fmtDate(v.applied)}</td><td><span class="badge ${v.next<today()?'b-err':v.next<=addDays(today(),7)?'b-warn':'b-ok'}">${fmtDate(v.next)}</span></td><td>${v.lab}</td><td style="display:flex;gap:4px"><button class="btn btn-ghost btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜</button></td></tr>`).join('')}
+  ${pvacs.map(v=>`<tr><td>${v.name||'—'}</td><td>${fmtDate(v.applied)}</td><td><span class="badge ${v.next<today()?'b-err':v.next<=addDays(today(),7)?'b-warn':'b-ok'}">${fmtDate(v.next)}</span></td><td>${v.lab||'—'}</td><td style="display:flex;gap:4px"><button class="btn btn-ghost btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜</button></td></tr>`).join('')}
   </tbody></table>
   </div>
   <div id="t-hist" style="display:none">
   ${pcons.length===0?'<div class="empty">Sin consultas registradas</div>':''}
   ${pcons.map(c=>`<div class="card" style="margin-bottom:8px;padding:12px">
-    <div style="display:flex;justify-content:space-between"><b>${c.motivo}</b><span class="chip">${fmtDate(c.date)}</span></div>
+    <div style="display:flex;justify-content:space-between"><b>${c.motivo||'—'}</b><span class="chip">${fmtDate(c.date)}</span></div>
     <div style="color:var(--muted);font-size:12px;margin:4px 0">${vetOf(c.vetId).name}</div>
-    <div>Temp: ${c.temp}°C · FC: ${c.fc} bpm · Peso: ${c.weight}kg</div>
-    <div style="margin-top:6px"><b>Dx:</b> ${c.diag}</div>
+    <div>Temp: ${c.temp||'—'}°C · FC: ${c.fc||'—'} bpm · Peso: ${c.weight||0}kg</div>
+    <div style="margin-top:6px"><b>Dx:</b> ${c.diag||'—'}</div>
     ${c.trat?`<div><b>Trat:</b> ${c.trat}</div>`:''}
-    <div style="margin-top:4px;color:var(--acc)">Total: $${c.total.toLocaleString()}</div>
+    <div style="margin-top:4px;color:var(--acc)">Total: ${fmtARS(c.total)}</div>
   </div>`).join('')}
   </div>
   <div class="modal-foot">
@@ -386,22 +401,24 @@ function petModal(pid){
 }
 
 function switchTab(el,show){
+  if(!el||!el.parentNode)return;
   el.parentNode.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
   el.classList.add('act');
-  ['t-data','t-vac','t-hist'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  document.getElementById(show).style.display='';
+  ['t-data','t-vac','t-hist'].forEach(id=>{const tabEl=document.getElementById(id);if(tabEl)tabEl.style.display='none';});
+  const showEl=document.getElementById(show);if(showEl)showEl.style.display='';
 }
 
 function addPetModal(pid){
   const p=pid?S.pets.find(x=>x.id===pid):{};
+  if(!p&&pid)return;
   const editing=!!pid;
   openModal(`<h2>${editing?'Editar':'Nueva'} Mascota <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <form onsubmit="savePet(event,'${pid||''}')">
-  <div class="frow"><div><label>Nombre*</label><input name="name" required value="${p.name||''}"></div><div><label>Especie</label><select name="sp"><option value="dog" ${p.sp==='dog'?'selected':''}>Perro</option><option value="cat" ${p.sp==='cat'?'selected':''}>Gato</option><option value="bird" ${p.sp==='bird'?'selected':''}>Ave</option><option value="rabbit" ${p.sp==='rabbit'?'selected':''}>Conejo</option></select></div></div>
-  <div class="frow"><div><label>Raza</label><input name="breed" value="${p.breed||''}"></div><div><label>Sexo</label><select name="sex"><option value="M" ${p.sex==='M'?'selected':''}>Macho</option><option value="F" ${p.sex==='F'?'selected':''}>Hembra</option></select></div></div>
+  <div class="frow"><div><label>Nombre*</label><input name="name" required value="${p.name||''}"></div><div><label>Especie</label><select name="sp"><option value="dog" ${(p.sp||'dog')==='dog'?'selected':''}>Perro</option><option value="cat" ${p.sp==='cat'?'selected':''}>Gato</option><option value="bird" ${p.sp==='bird'?'selected':''}>Ave</option><option value="rabbit" ${p.sp==='rabbit'?'selected':''}>Conejo</option></select></div></div>
+  <div class="frow"><div><label>Raza</label><input name="breed" value="${p.breed||''}"></div><div><label>Sexo</label><select name="sex"><option value="M" ${(p.sex||'M')==='M'?'selected':''}>Macho</option><option value="F" ${p.sex==='F'?'selected':''}>Hembra</option></select></div></div>
   <div class="frow"><div><label>Color</label><input name="color" value="${p.color||''}"></div><div><label>F. Nacimiento</label><input type="date" name="dob" value="${p.dob||''}"></div></div>
   <div class="frow"><div><label>Peso (kg)</label><input type="number" step=".1" name="weight" value="${p.weight||''}"></div><div><label>Microchip</label><input name="chip" value="${p.chip||''}"></div></div>
-  <div class="frow"><div><label>Esterilizado</label><select name="neut"><option value="0" ${!p.neut?'selected':''}>No</option><option value="1" ${p.neut?'selected':''}>Sí</option></select></div><div><label>Dueño</label><select name="ownId">${S.owners.map(o=>`<option value="${o.id}" ${p.ownId===o.id?'selected':''}>${o.name}</option>`).join('')}</select></div></div>
+  <div class="frow"><div><label>Esterilizado</label><select name="neut"><option value="0" ${!p.neut?'selected':''}>No</option><option value="1" ${p.neut?'selected':''}>Sí</option></select></div><div><label>Dueño</label><select name="ownId">${(S.owners||[]).map(o=>`<option value="${o.id}" ${p.ownId===o.id?'selected':''}>${o.name}</option>`).join('')}</select></div></div>
   <div class="frow full"><label>Alergias/Notas importantes</label><textarea name="allergies">${p.allergies||''}</textarea></div>
   <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">${editing?'Guardar':'Agregar'}</button></div>
   </form>`);
@@ -411,13 +428,13 @@ function savePet(e,pid){
   e.preventDefault();
   const f=new FormData(e.target);
   const d={name:f.get('name'),sp:f.get('sp'),breed:f.get('breed'),sex:f.get('sex'),color:f.get('color'),dob:f.get('dob'),weight:parseFloat(f.get('weight'))||0,chip:f.get('chip'),neut:f.get('neut')==='1',ownId:f.get('ownId'),allergies:f.get('allergies')};
-  if(pid){Object.assign(S.pets.find(p=>p.id===pid),d);}
+  if(pid){const idx=S.pets.findIndex(p=>p.id===pid);if(idx>=0)Object.assign(S.pets[idx],d);}
   else{S.pets.push({id:'p'+uid(),lastVisit:'',nextVisit:'',...d});}
   save();closeModal();renderPac();
 }
 function deletePet(pid){
-  const vacCount=S.vacs.filter(v=>v.petId===pid).length;
-  const consCount=S.cons.filter(c=>c.petId===pid).length;
+  const vacCount=(S.vacs||[]).filter(v=>v&&v.petId===pid).length;
+  const consCount=(S.cons||[]).filter(c=>c&&c.petId===pid).length;
   if(vacCount>0||consCount>0){
     toast(`No se puede eliminar: tiene ${vacCount} vacuna${vacCount!==1?'s':''} y ${consCount} consulta${consCount!==1?'s':''} registradas.`,'warn');
     return;
@@ -427,28 +444,25 @@ function deletePet(pid){
 }
 
 // Intervalos estándar por vacuna (días)
-const VAC_INTERVALOS={
-  'Séxtuple':365,'Quíntuple':365,'Rabia':365,
-  'Bordetelosis':180,'Triple Felina':365,'Otra':365
-};
-function vacIntervalo(name){
-  return VAC_INTERVALOS[name]||365;
-}
+const VAC_INTERVALOS={'Séxtuple':365,'Quíntuple':365,'Rabia':365,'Bordetelosis':180,'Triple Felina':365,'Otra':365};
+function vacIntervalo(name){return VAC_INTERVALOS[name]||365;}
 function onVacNameChange(sel){
-  const form=sel.closest('form');
+  if(!sel)return;
+  const form=sel.closest('form');if(!form)return;
   const appliedInput=form.querySelector('[name=applied]');
   const nextInput=form.querySelector('[name=next]');
   const intervalInput=form.querySelector('[name=intervalo_dias]');
   const dias=VAC_INTERVALOS[sel.value]||365;
-  if(intervalInput) intervalInput.value=dias;
-  if(appliedInput&&nextInput) nextInput.value=addDays(appliedInput.value||today(),dias);
+  if(intervalInput)intervalInput.value=dias;
+  if(appliedInput&&nextInput)nextInput.value=addDays(appliedInput.value||today(),dias);
 }
 function onAppliedDateChange(inp){
-  const form=inp.closest('form');
+  if(!inp)return;
+  const form=inp.closest('form');if(!form)return;
   const nextInput=form.querySelector('[name=next]');
   const intervalInput=form.querySelector('[name=intervalo_dias]');
-  const dias=parseInt(intervalInput?.value)||365;
-  if(nextInput) nextInput.value=addDays(inp.value||today(),dias);
+  const dias=parseInt(intervalInput&&intervalInput.value)||365;
+  if(nextInput)nextInput.value=addDays(inp.value||today(),dias);
 }
 function addVacModal(pid){
   const p=petOf(pid);
@@ -470,7 +484,7 @@ function saveVac(e,pid){
   const applied=f.get('applied')||today();
   const intervalo=parseInt(f.get('intervalo_dias'))||365;
   const next=f.get('next')||addDays(applied,intervalo);
-  S.vacs.push({id:'vc'+uid(),petId:pid,name:f.get('name'),applied,next,lab:f.get('lab'),intervalo_dias:intervalo});
+  S.vacs.push({id:'vc'+uid(),petId:pid,name:f.get('name'),applied,next,lab:f.get('lab')||'',intervalo_dias:intervalo});
   save();petModal(pid);
 }
 function applyVac(vid){
@@ -482,31 +496,39 @@ function applyVac(vid){
 }
 function printCarnet(pid){
   const p=petOf(pid);const o=ownerOf(p);
-  const pvacs=S.vacs.filter(v=>v.petId===pid);
+  const pvacs=(S.vacs||[]).filter(v=>v&&v.petId===pid);
   const win=window.open('','_blank');
+  if(!win)return;
   win.document.write(`<html><head><title>Carnet ${p.name}</title><style>body{font-family:sans-serif;padding:20px;color:#000}h1{font-size:18px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px;font-size:12px}</style></head><body>
-  <h1>🐾 Carnet Sanitario — ${p.name}</h1><p><b>Especie:</b> ${p.sp} | <b>Raza:</b> ${p.breed} | <b>Sexo:</b> ${p.sex} | <b>Nac:</b> ${fmtDate(p.dob)}</p>
-  <p><b>Dueño:</b> ${o.name} | <b>Tel:</b> ${o.tel}</p>
+  <h1>🐾 Carnet Sanitario — ${p.name}</h1><p><b>Especie:</b> ${p.sp} | <b>Raza:</b> ${p.breed||'—'} | <b>Sexo:</b> ${p.sex} | <b>Nac:</b> ${fmtDate(p.dob)}</p>
+  <p><b>Dueño:</b> ${o.name||'—'} | <b>Tel:</b> ${o.tel||'—'}</p>
   ${p.allergies?`<p style="color:red"><b>ALERGIAS:</b> ${p.allergies}</p>`:''}
   <h2>Vacunas</h2><table><tr><th>Vacuna</th><th>Aplicada</th><th>Próxima</th><th>Lab</th></tr>
-  ${pvacs.map(v=>`<tr><td>${v.name}</td><td>${fmtDate(v.applied)}</td><td>${fmtDate(v.next)}</td><td>${v.lab}</td></tr>`).join('')}
+  ${pvacs.map(v=>`<tr><td>${v.name||'—'}</td><td>${fmtDate(v.applied)}</td><td>${fmtDate(v.next)}</td><td>${v.lab||'—'}</td></tr>`).join('')}
   </table></body></html>`);win.print();
 }
 
 // ─── CONSULTAS ────────────────────────────────────────────────────────────────
 function renderCons(){
   const pg=document.getElementById('pg-cons');
+  if(!pg)return;
   const fv=pg._fvet||'';const fd=pg._fdate||'';
-  let list=S.cons.sort((a,b)=>a.date<b.date?1:-1);
+  let list=(S.cons||[]).filter(c=>c).sort((a,b)=>a.date<b.date?1:-1);
   if(fv)list=list.filter(c=>c.vetId===fv);
   if(fd)list=list.filter(c=>c.date===fd);
   pg.innerHTML=`<div class="sec-head"><h2>Consultas</h2><button class="btn btn-pri btn-sm" onclick="newConsModal()">+ Nueva consulta</button></div>
   <div class="search-bar">
-    <select onchange="document.getElementById('pg-cons')._fvet=this.value;renderCons()"><option value="">Todos los vets</option>${S.vets.map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
+    <select onchange="document.getElementById('pg-cons')._fvet=this.value;renderCons()"><option value="">Todos los vets</option>${(S.vets||[]).map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
     <input type="date" value="${fd}" onchange="document.getElementById('pg-cons')._fdate=this.value;renderCons()">
   </div>
+  <div class="row">
+    <div class="kpi"><div class="val">${list.length}</div><div class="lbl">Consultas</div></div>
+    <div class="kpi acc"><div class="val">${fmtARS(list.reduce((s,c)=>s+(parseFloat(c.total)||0),0))}</div><div class="lbl">Facturado</div></div>
+    <div class="kpi warn"><div class="val">${list.length>0?fmtARS(list.reduce((s,c)=>s+(parseFloat(c.total)||0),0)/list.length):'$0'}</div><div class="lbl">Ticket promedio</div></div>
+  </div>
   <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Fecha</th><th>Paciente</th><th>Veterinario</th><th>Motivo</th><th>Dx</th><th>Total</th><th></th></tr></thead><tbody>
-  ${list.map(c=>{const p=petOf(c.petId);return`<tr><td>${fmtDate(c.date)}</td><td>${spIcon(p.sp)} ${p.name}</td><td>${vetOf(c.vetId).name}</td><td>${c.motivo}</td><td>${c.diag}</td><td style="color:var(--acc)">$${c.total.toLocaleString()}</td><td><button class="btn btn-ghost btn-sm" onclick="viewCons('${c.id}')">Ver</button></td></tr>`}).join('')}
+  ${list.length===0?`<tr><td colspan="7" class="empty">Sin consultas registradas</td></tr>`:''}
+  ${list.map(c=>{const p=petOf(c.petId);return`<tr><td>${fmtDate(c.date)}</td><td>${spIcon(p.sp)} ${p.name||'—'}</td><td>${vetOf(c.vetId).name}</td><td>${c.motivo||'—'}</td><td>${c.diag||'—'}</td><td style="color:var(--acc)">${fmtARS(c.total)}</td><td><button class="btn btn-ghost btn-sm" onclick="viewCons('${c.id}')">Ver</button></td></tr>`}).join('')}
   </tbody></table></div>`;
 }
 
@@ -515,8 +537,8 @@ function newConsModal(prefill){
   openModal(`<h2>Nueva Consulta <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <form onsubmit="saveCons(event)">
   <div class="frow">
-    <div><label>Paciente</label><select name="petId">${S.pets.map(pt=>`<option value="${pt.id}" ${p.petId===pt.id?'selected':''}>${spIcon(pt.sp)} ${pt.name}</option>`).join('')}</select></div>
-    <div><label>Veterinario</label><select name="vetId">${S.vets.map(v=>`<option value="${v.id}" ${p.vetId===v.id?'selected':''}>${v.name}</option>`).join('')}</select></div>
+    <div><label>Paciente</label><select name="petId">${(S.pets||[]).map(pt=>`<option value="${pt.id}" ${p.petId===pt.id?'selected':''}>${spIcon(pt.sp)} ${pt.name}</option>`).join('')}</select></div>
+    <div><label>Veterinario</label><select name="vetId">${(S.vets||[]).map(v=>`<option value="${v.id}" ${p.vetId===v.id?'selected':''}>${v.name}</option>`).join('')}</select></div>
   </div>
   <div class="frow"><div><label>Fecha</label><input type="date" name="date" value="${today()}"></div><div><label>Motivo</label><input name="motivo" value="${p.motivo||''}" required></div></div>
   <div class="frow"><div><label>Temp (°C)</label><input name="temp" placeholder="38.5"></div><div><label>FC (bpm)</label><input name="fc" placeholder="80"></div><div><label>Peso (kg)</label><input name="weight" type="number" step=".1" placeholder="0"></div></div>
@@ -532,36 +554,38 @@ function newConsModal(prefill){
 }
 function addSvc(){
   const c=document.getElementById('svc-list');
-  const medOpts=S.meds.map(m=>`<option value="${m.name}" data-price="${m.price}" data-id="${m.id}">${m.name} (stock: ${m.stock})</option>`).join('');
+  if(!c)return;
+  const medOpts=(S.meds||[]).map(m=>`<option value="${m.name}" data-price="${m.price}" data-id="${m.id}">${m.name} (stock: ${m.stock||0})</option>`).join('');
   const row=document.createElement('div');row.className='frow';row.style.marginBottom='6px';
   row.innerHTML=`<div style="display:flex;flex-direction:column;gap:4px;flex:1"><input placeholder="Servicio o descripción" name="svc_name"><select name="svc_med_id" style="font-size:12px;margin-top:2px" onchange="onMedSelect(this)"><option value="">— Vincular medicamento (descuenta stock) —</option>${medOpts}</select></div><input type="number" placeholder="Precio" name="svc_price" oninput="calcTotal()" style="max-width:120px"><button type="button" onclick="this.parentNode.remove();calcTotal()" class="btn btn-err btn-sm" style="max-width:40px">✕</button>`;
   c.appendChild(row);
 }
 function onMedSelect(sel){
+  if(!sel)return;
   const opt=sel.options[sel.selectedIndex];
-  const row=sel.closest('.frow');
-  if(!opt.value) return;
+  const row=sel.closest('.frow');if(!row)return;
+  if(!opt||!opt.value)return;
   const nameInput=row.querySelector('[name=svc_name]');
   const priceInput=row.querySelector('[name=svc_price]');
-  if(nameInput&&!nameInput.value) nameInput.value=opt.value;
+  if(nameInput&&!nameInput.value)nameInput.value=opt.value;
   if(priceInput&&!priceInput.value){priceInput.value=opt.dataset.price||'';calcTotal();}
 }
 function calcTotal(){
   const prices=[...document.querySelectorAll('[name=svc_price]')].map(i=>parseFloat(i.value)||0);
-  document.getElementById('svc-total').textContent=prices.reduce((a,b)=>a+b,0).toLocaleString();
+  const totalEl=document.getElementById('svc-total');
+  if(totalEl)totalEl.textContent=prices.reduce((a,b)=>a+b,0).toLocaleString('es-AR');
 }
 function saveCons(e){
   e.preventDefault();const f=new FormData(e.target);
   const names=[...document.querySelectorAll('[name=svc_name]')].map(i=>i.value).filter(Boolean);
   const prices=[...document.querySelectorAll('[name=svc_price]')].map(i=>parseFloat(i.value)||0);
   const medIds=[...document.querySelectorAll('[name=svc_med_id]')].map(i=>i.value);
-  const services=names.map((n,i)=>({name:n,price:prices[i],medId:medIds[i]||''}));
+  const services=names.map((n,i)=>({name:n,price:prices[i]||0,medId:medIds[i]||''}));
   const total=prices.reduce((a,b)=>a+b,0);
   const pid=f.get('petId');const vid=f.get('vetId');
-  const c={id:'c'+uid(),petId:pid,vetId:vid,date:f.get('date'),motivo:f.get('motivo'),temp:f.get('temp'),fc:f.get('fc'),weight:parseFloat(f.get('weight'))||0,diag:f.get('diag'),trat:f.get('trat'),services,total,notes:''};
+  const c={id:'c'+uid(),petId:pid,vetId:vid,date:f.get('date')||today(),motivo:f.get('motivo'),temp:f.get('temp'),fc:f.get('fc'),weight:parseFloat(f.get('weight'))||0,diag:f.get('diag'),trat:f.get('trat'),services,total,notes:''};
   S.cons.push(c);
   const pt=S.pets.find(p=>p.id===pid);if(pt)pt.lastVisit=c.date;
-  // Decrement medication stock for any service linked to a med
   services.forEach(svc=>{
     if(svc.medId){
       const med=S.meds.find(m=>m.id===svc.medId);
@@ -573,15 +597,17 @@ function saveCons(e){
 }
 function viewCons(cid){
   const c=S.cons.find(x=>x.id===cid);if(!c)return;const p=petOf(c.petId);
-  openModal(`<h2>Consulta — ${p.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  const services=Array.isArray(c.services)?c.services:[];
+  openModal(`<h2>Consulta — ${p.name||'—'} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <div class="frow"><div><label>Fecha</label><div>${fmtDate(c.date)}</div></div><div><label>Vet</label><div>${vetOf(c.vetId).name}</div></div></div>
-  <div class="frow"><div><label>Temp</label><div>${c.temp}°C</div></div><div><label>FC</label><div>${c.fc} bpm</div></div><div><label>Peso</label><div>${c.weight}kg</div></div></div>
-  <div style="margin-bottom:8px"><label>Diagnóstico</label><div style="background:var(--bg);padding:8px;border-radius:6px">${c.diag}</div></div>
+  <div class="frow"><div><label>Temp</label><div>${c.temp||'—'}°C</div></div><div><label>FC</label><div>${c.fc||'—'} bpm</div></div><div><label>Peso</label><div>${c.weight||0}kg</div></div></div>
+  <div style="margin-bottom:8px"><label>Diagnóstico</label><div style="background:var(--bg);padding:8px;border-radius:6px">${c.diag||'—'}</div></div>
   ${c.trat?`<div style="margin-bottom:8px"><label>Tratamiento</label><div style="background:var(--bg);padding:8px;border-radius:6px">${c.trat}</div></div>`:''}
   <h3 style="font-size:13px;margin-bottom:6px">Servicios</h3>
   <table><thead><tr><th>Servicio</th><th>Precio</th></tr></thead><tbody>
-  ${c.services.map(s=>`<tr><td>${s.name}</td><td>$${s.price.toLocaleString()}</td></tr>`).join('')}
-  <tr><td style="font-weight:700">TOTAL</td><td style="color:var(--acc);font-weight:700">$${c.total.toLocaleString()}</td></tr>
+  ${services.map(s=>`<tr><td>${s.name||'—'}</td><td>${fmtARS(s.price)}</td></tr>`).join('')}
+  ${services.length===0?`<tr><td colspan="2" class="empty">Sin servicios</td></tr>`:''}
+  <tr><td style="font-weight:700">TOTAL</td><td style="color:var(--acc);font-weight:700">${fmtARS(c.total)}</td></tr>
   </tbody></table>
   <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="printReceta('${c.id}')">📄 Generar Receta</button><button class="btn btn-ghost" onclick="closeModal()">Cerrar</button></div>`);
 }
@@ -589,54 +615,70 @@ function viewCons(cid){
 // ─── VACUNAS & ALERTAS ────────────────────────────────────────────────────────
 function renderVac(){
   const pg=document.getElementById('pg-vac');
+  if(!pg)return;
   const range=pg._range||7;
   const t=today();
-  const expired=S.vacs.filter(v=>v.next<t).sort((a,b)=>a.next>b.next?1:-1);
-  const upcoming=S.vacs.filter(v=>v.next>=t&&v.next<=addDays(t,range)).sort((a,b)=>a.next>b.next?1:-1);
+  const allVacs=S.vacs||[];
+  const expired=allVacs.filter(v=>v&&v.next&&v.next<t).sort((a,b)=>a.next>b.next?1:-1);
+  const upcoming=allVacs.filter(v=>v&&v.next&&v.next>=t&&v.next<=addDays(t,range)).sort((a,b)=>a.next>b.next?1:-1);
   pg.innerHTML=`<div class="sec-head"><h2>Vacunas & Alertas</h2>
   <div style="display:flex;gap:6px">
     ${[7,15,30].map(n=>`<button class="btn ${range===n?'btn-pri':'btn-ghost'} btn-sm" onclick="document.getElementById('pg-vac')._range=${n};renderVac()">${n} días</button>`).join('')}
   </div></div>
+  <div class="row">
+    <div class="kpi warn"><div class="val">${expired.length}</div><div class="lbl">Vencidas</div></div>
+    <div class="kpi"><div class="val">${upcoming.length}</div><div class="lbl">Próximas ${range}d</div></div>
+    <div class="kpi acc"><div class="val">${allVacs.length}</div><div class="lbl">Total registradas</div></div>
+  </div>
   ${expired.length?`<div class="card"><h3>VENCIDAS (${expired.length})</h3>
   <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Vacuna</th><th>Vencimiento</th><th>Acciones</th></tr></thead><tbody>
-  ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);return`<tr><td>${spIcon(p.sp)} ${p.name}</td><td>${o.name}<br><small>${o.tel}</small></td><td>${v.name}</td><td><span class="badge b-err">${fmtDate(v.next)}</span></td>
-  <td style="display:flex;gap:4px;flex-wrap:wrap"><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}, la vacuna ${v.name} de ${p.name} está vencida. Comuníquese con la clínica.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a><button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button></td></tr>`}).join('')}
+  ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<tr><td>${spIcon(p.sp)} ${p.name||'—'}</td><td>${o.name||'—'}<br><small>${tel}</small></td><td>${v.name||'—'}</td><td><span class="badge b-err">${fmtDate(v.next)}</span></td>
+  <td style="display:flex;gap:4px;flex-wrap:wrap">${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button></td></tr>`}).join('')}
   </tbody></table></div>`:''}
   <div class="card"><h3>PRÓXIMAS ${range} DÍAS (${upcoming.length})</h3>
   ${upcoming.length===0?'<div class="empty">Sin vacunas en este período</div>':''}
-  <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Tel</th><th>Vacuna</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>
-  ${upcoming.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const d=Math.ceil((new Date(v.next)-new Date())/864e5);return`<tr><td>${spIcon(p.sp)} ${p.name}</td><td>${o.name}</td><td>${o.tel}</td><td>${v.name}</td>
-  <td><span class="badge ${d<=3?'b-warn':'b-ok'}">${fmtDate(v.next)} (${d}d)</span></td><td><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button></td>
-  <td style="display:flex;gap:4px;flex-wrap:wrap"><a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}! Le recordamos que ${p.name} tiene su vacuna ${v.name} programada para el ${fmtDate(v.next)}. Confirme su turno.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a><button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
-  </tbody></table></div>`;
+  ${upcoming.length>0?`<table><thead><tr><th>Mascota</th><th>Dueño</th><th>Tel</th><th>Vacuna</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>
+  ${upcoming.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const d=Math.ceil((new Date(v.next)-new Date())/864e5);const tel=o.tel||'';return`<tr><td>${spIcon(p.sp)} ${p.name||'—'}</td><td>${o.name||'—'}</td><td>${tel}</td><td>${v.name||'—'}</td>
+  <td><span class="badge ${d<=3?'b-warn':'b-ok'}">${fmtDate(v.next)} (${d}d)</span></td>
+  <td style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene su vacuna '+v.name+' programada para el '+fmtDate(v.next)+'. Confirme su turno.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
+  </tbody></table>`:''}
+  </div>`;
 }
 
 // ─── TURNOS ───────────────────────────────────────────────────────────────────
 function renderTurn(){
   const pg=document.getElementById('pg-turn');
+  if(!pg)return;
   const fd=pg._fdate||today();const fv=pg._fvet||'';
-  let list=S.appts.filter(a=>a.date===fd);
+  let list=(S.appts||[]).filter(a=>a&&a.date===fd);
   if(fv)list=list.filter(a=>a.vetId===fv);
-  list.sort((a,b)=>a.time>b.time?1:-1);
+  list.sort((a,b)=>(a.time||'')>(b.time||'')?1:-1);
+  const pend=list.filter(a=>a.status==='pendiente').length;
+  const atend=list.filter(a=>a.status==='atendido').length;
   pg.innerHTML=`<div class="sec-head"><h2>Turnos & Agenda</h2><button class="btn btn-pri btn-sm" onclick="newTurnoModal()">+ Nuevo turno</button></div>
   <div class="search-bar">
     <input type="date" value="${fd}" onchange="document.getElementById('pg-turn')._fdate=this.value;renderTurn()">
-    <select onchange="document.getElementById('pg-turn')._fvet=this.value;renderTurn()"><option value="">Todos los vets</option>${S.vets.map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
+    <select onchange="document.getElementById('pg-turn')._fvet=this.value;renderTurn()"><option value="">Todos los vets</option>${(S.vets||[]).map(v=>`<option value="${v.id}" ${fv===v.id?'selected':''}>${v.name}</option>`).join('')}</select>
+  </div>
+  <div class="row">
+    <div class="kpi"><div class="val">${list.length}</div><div class="lbl">Turnos</div></div>
+    <div class="kpi warn"><div class="val">${pend}</div><div class="lbl">Pendientes</div></div>
+    <div class="kpi acc"><div class="val">${atend}</div><div class="lbl">Atendidos</div></div>
   </div>
   <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Hora</th><th>Paciente</th><th>Veterinario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
   ${list.length===0?'<tr><td colspan="6" class="empty">Sin turnos para esta fecha</td></tr>':''}
-  ${list.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);return`<tr>
-    <td style="font-weight:700">${a.time}</td>
-    <td>${spIcon(p.sp)} <b>${p.name}</b><br><small style="color:var(--muted)">${o.name}</small></td>
-    <td>${vetOf(a.vetId).name}</td><td>${a.motivo}</td>
-    <td><span class="badge ${statusColor(a.status)}">${a.status}</span></td>
-    <td>
+  ${list.map(a=>{const p=petOf(a.petId);const o=ownerOf(p);const tel=o.tel||'';return`<tr>
+    <td style="font-weight:700">${a.time||'—'}</td>
+    <td>${spIcon(p.sp)} <b>${p.name||'—'}</b><br><small style="color:var(--muted)">${o.name||'—'}</small></td>
+    <td>${vetOf(a.vetId).name}</td><td>${a.motivo||'—'}</td>
+    <td><span class="badge ${statusColor(a.status)}">${a.status||'pendiente'}</span></td>
+    <td style="display:flex;gap:4px;flex-wrap:wrap">
       <select class="btn btn-ghost btn-sm" style="padding:4px 6px" onchange="changeStatus('${a.id}',this.value)">
         ${['pendiente','confirmado','en sala','atendido','cancelado'].map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}
       </select>
-      <a href="https://wa.me/${o.tel}?text=${encodeURIComponent(`Hola ${o.name}! Le recordamos el turno de ${p.name} el ${fmtDate(a.date)} a las ${a.time}.`)}" target="_blank" class="btn btn-wa btn-sm">WA</a>
-      ${(a.status==='en sala'||a.status==='atendido'||a.date===today())?`<button class="btn btn-acc btn-sm" onclick="turnoToCons('${a.id}')">➕ Crear Consulta</button>`:''}
-    </td></tr>`}).join('')}
+      ${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos el turno de '+p.name+' el '+fmtDate(a.date)+' a las '+a.time+'.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}
+      ${(a.status==='en sala'||a.status==='atendido'||a.date===today())?`<button class="btn btn-acc btn-sm" onclick="turnoToCons('${a.id}')">➕ Consulta</button>`:''}
+    </td></tr>`;}).join('')}
   </tbody></table></div>`;
 }
 function changeStatus(aid,st){const a=S.appts.find(x=>x.id===aid);if(a){a.status=st;save();renderTurn();}}
@@ -646,78 +688,87 @@ function newTurnoModal(){
   openModal(`<h2>Nuevo Turno <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <form onsubmit="saveTurno(event)">
   <div class="frow"><div><label>Fecha</label><input type="date" name="date" value="${today()}"></div><div><label>Hora</label><select name="time">${slots.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
-  <div class="frow"><div><label>Paciente</label><select name="petId">${S.pets.map(p=>`<option value="${p.id}">${spIcon(p.sp)} ${p.name}</option>`).join('')}</select></div><div><label>Veterinario</label><select name="vetId">${S.vets.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
+  <div class="frow"><div><label>Paciente</label><select name="petId">${(S.pets||[]).map(p=>`<option value="${p.id}">${spIcon(p.sp)} ${p.name}</option>`).join('')}</select></div><div><label>Veterinario</label><select name="vetId">${(S.vets||[]).map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
   <div class="frow full"><label>Motivo</label><input name="motivo" required></div>
   <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">Guardar</button></div>
   </form>`);
 }
 function saveTurno(e){
   e.preventDefault();const f=new FormData(e.target);
-  S.appts.push({id:'a'+uid(),petId:f.get('petId'),vetId:f.get('vetId'),date:f.get('date'),time:f.get('time'),motivo:f.get('motivo'),status:'pendiente'});
+  S.appts.push({id:'a'+uid(),petId:f.get('petId'),vetId:f.get('vetId'),date:f.get('date')||today(),time:f.get('time'),motivo:f.get('motivo'),status:'pendiente'});
   save();closeModal();renderTurn();
 }
 
 // ─── FARMACIA & CAJA ──────────────────────────────────────────────────────────
 function renderFarm(){
   const pg=document.getElementById('pg-farm');
+  if(!pg)return;
   const tab=pg._tab||'farm';
-  const t=today();
   pg.innerHTML=`<div class="sec-head"><h2>Farmacia & Caja</h2><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">📊 Reporte Mensual</button></div>
   <div class="tabs"><div class="tab ${tab==='farm'?'act':''}" onclick="setFarmTab('farm')">Farmacia</div><div class="tab ${tab==='caja'?'act':''}" onclick="setFarmTab('caja')">Caja del día</div></div>
   <div id="farm-content"></div>`;
   renderFarmContent(tab);
 }
-function setFarmTab(t){document.getElementById('pg-farm')._tab=t;renderFarmContent(t);}
+function setFarmTab(t){const pg=document.getElementById('pg-farm');if(pg)pg._tab=t;renderFarmContent(t);}
 function renderFarmContent(tab){
   const t=today();
   const c=document.getElementById('farm-content');
+  if(!c)return;
   if(tab==='farm'){
-    const critical=S.meds.filter(m=>m.stock<=m.minStock||m.exp<=addDays(t,30));
-    c.innerHTML=`<div class="sec-head" style="margin-bottom:8px"><span>${S.meds.length} productos</span><button class="btn btn-pri btn-sm" onclick="addMedModal()">+ Medicamento</button></div>
-    ${critical.length?`<div class="card" style="margin-bottom:12px"><h3>Alertas Críticas</h3>${critical.map(m=>`<div class="alert ${m.stock===0?'alert-err':'alert-warn'}">${m.stock===0?'⛔':'⚠️'} <b>${m.name}</b> — Stock: ${m.stock} ${m.unit} · Vence: ${fmtDate(m.exp)}</div>`).join('')}</div>`:''}
-    <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Medicamento</th><th>Stock</th><th>Vencimiento</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>
-    ${S.meds.map(m=>`<tr><td><b>${m.name}</b></td>
-    <td><span class="badge ${m.stock===0?'b-err':m.stock<=m.minStock?'b-warn':'b-ok'}">${m.stock} ${m.unit}</span></td>
+    const allMeds=S.meds||[];
+    const critical=allMeds.filter(m=>m&&(m.stock<=m.minStock||m.exp<=addDays(t,30)));
+    c.innerHTML=`<div class="sec-head" style="margin-bottom:8px"><span>${allMeds.length} productos</span><button class="btn btn-pri btn-sm" onclick="addMedModal()">+ Medicamento</button></div>
+    ${critical.length?`<div class="card" style="margin-bottom:12px"><h3>Alertas Críticas</h3>${critical.map(m=>`<div class="alert ${m.stock===0?'alert-err':'alert-warn'}">${m.stock===0?'⛔':'⚠️'} <b>${m.name||'—'}</b> — Stock: ${m.stock||0} ${m.unit||''} · Vence: ${fmtDate(m.exp)}</div>`).join('')}</div>`:''}
+    <div class="search-bar" style="margin-top:8px"><input id="farm-search" placeholder="Buscar medicamento..." oninput="filterFarmTable(this.value)" style="max-width:280px"></div>
+    <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px" id="farm-table"><thead><tr><th>Medicamento</th><th>Stock</th><th>Vencimiento</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>
+    ${allMeds.map(m=>`<tr data-name="${(m.name||'').toLowerCase()}"><td><b>${m.name||'—'}</b></td>
+    <td><span class="badge ${m.stock===0?'b-err':m.stock<=(m.minStock||0)?'b-warn':'b-ok'}">${m.stock||0} ${m.unit||''}</span></td>
     <td><span class="badge ${m.exp<=t?'b-err':m.exp<=addDays(t,30)?'b-warn':'b-gray'}">${fmtDate(m.exp)}</span></td>
-    <td>$${m.price.toLocaleString()}</td>
+    <td>${fmtARS(m.price)}</td>
     <td style="display:flex;gap:4px">
       <button class="btn btn-ghost btn-sm" onclick="stockEntryModal('${m.id}')">+ Stock</button>
       <button class="btn btn-ghost btn-sm" onclick="editMedModal('${m.id}')">Editar</button>
     </td></tr>`).join('')}
     </tbody></table></div>`;
   } else {
-    const income=S.cash.filter(c=>c.date===t&&c.cat==='income');
-    const expenses=S.cash.filter(c=>c.date===t&&c.cat==='expense');
-    const totalIn=income.reduce((s,c)=>s+c.amount,0);
-    const totalEx=expenses.reduce((s,c)=>s+c.amount,0);
-    const byType={};income.forEach(c=>{byType[c.type]=(byType[c.type]||0)+c.amount;});
-    const byVet={};income.forEach(c=>{if(c.vetId){const v=vetOf(c.vetId).name;byVet[v]=(byVet[v]||0)+c.amount;}});
+    const income=(S.cash||[]).filter(c=>c&&c.date===t&&c.cat==='income');
+    const expenses=(S.cash||[]).filter(c=>c&&c.date===t&&c.cat==='expense');
+    const totalIn=income.reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+    const totalEx=expenses.reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+    const neto=totalIn-totalEx;
+    const byType={};income.forEach(c=>{if(c.type)byType[c.type]=(byType[c.type]||0)+(parseFloat(c.amount)||0);});
+    const byVet={};income.forEach(c=>{if(c.vetId){const vn=vetOf(c.vetId).name;byVet[vn]=(byVet[vn]||0)+(parseFloat(c.amount)||0);}});
     c.innerHTML=`<div class="row">
-    <div class="kpi acc"><div class="val">$${totalIn.toLocaleString()}</div><div class="lbl">Ingresos</div></div>
-    <div class="kpi warn"><div class="val">$${totalEx.toLocaleString()}</div><div class="lbl">Gastos</div></div>
-    <div class="kpi"><div class="val" style="color:${totalIn-totalEx>=0?'var(--acc)':'var(--err)'}">$${(totalIn-totalEx).toLocaleString()}</div><div class="lbl">Neto</div></div>
+    <div class="kpi acc"><div class="val">${fmtARS(totalIn)}</div><div class="lbl">Ingresos</div></div>
+    <div class="kpi warn"><div class="val">${fmtARS(totalEx)}</div><div class="lbl">Gastos</div></div>
+    <div class="kpi"><div class="val" style="color:${neto>=0?'var(--ok)':'var(--err)'}">${fmtARS(neto)}</div><div class="lbl">Neto</div></div>
     </div>
     <div class="row">
       <div class="card" style="flex:1;min-width:200px"><h3>Por tipo</h3>
-        ${Object.entries(byType).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">$${v.toLocaleString()}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+        ${Object.entries(byType).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">${fmtARS(v)}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
       </div>
       <div class="card" style="flex:1;min-width:200px"><h3>Por veterinario</h3>
-        ${Object.entries(byVet).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">$${v.toLocaleString()}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+        ${Object.entries(byVet).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">${fmtARS(v)}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
       </div>
     </div>
-    <div class="sec-head"><h3>Movimientos</h3><button class="btn btn-pri btn-sm" onclick="addCashModal()">+ Movimiento</button></div>
+    <div class="sec-head"><h3>Movimientos del día</h3><button class="btn btn-pri btn-sm" onclick="addCashModal()">+ Movimiento</button></div>
     <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Tipo</th><th>Descripción</th><th>Monto</th><th>Cat.</th></tr></thead><tbody>
-    ${[...income,...expenses].map(c=>`<tr><td>${c.type}</td><td>${c.desc}</td><td class="${c.cat==='income'?'':''}"><span style="color:${c.cat==='income'?'var(--acc)':'var(--err)'}">${c.cat==='income'?'+':'-'}$${c.amount.toLocaleString()}</span></td><td><span class="badge ${c.cat==='income'?'b-ok':'b-err'}">${c.cat}</span></td></tr>`).join('')}
+    ${[...income,...expenses].length===0?`<tr><td colspan="4" class="empty">Sin movimientos</td></tr>`:''}
+    ${[...income,...expenses].map(c=>`<tr><td>${c.type||'—'}</td><td>${c.desc||'—'}</td><td><span style="color:${c.cat==='income'?'var(--ok)':'var(--err)'}">${c.cat==='income'?'+':'-'}${fmtARS(c.amount)}</span></td><td><span class="badge ${c.cat==='income'?'b-ok':'b-err'}">${c.cat==='income'?'Ingreso':'Gasto'}</span></td></tr>`).join('')}
     </tbody></table></div>`;
   }
 }
+function filterFarmTable(q){
+  const rows=document.querySelectorAll('#farm-table tbody tr');
+  rows.forEach(r=>{r.style.display=(r.dataset.name||'').includes((q||'').toLowerCase())?'':'none';});
+}
 function addMedModal(mid){
-  const m=mid?S.meds.find(x=>x.id===mid):{};const editing=!!mid;
+  const m=mid?(S.meds||[]).find(x=>x.id===mid)||{}:{};const editing=!!mid;
   openModal(`<h2>${editing?'Editar':'Nuevo'} Medicamento <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <form onsubmit="saveMed(event,'${mid||''}')">
   <div class="frow full"><label>Nombre</label><input name="name" required value="${m.name||''}"></div>
   <div class="frow"><div><label>Stock</label><input type="number" name="stock" value="${m.stock||0}"></div><div><label>Unidad</label><input name="unit" value="${m.unit||'comp'}"></div></div>
-  <div class="frow"><div><label>Precio</label><input type="number" name="price" value="${m.price||0}"></div><div><label>Stock mínimo</label><input type="number" name="minStock" value="${m.minStock||5}"></div></div>
+  <div class="frow"><div><label>Precio ($)</label><input type="number" name="price" value="${m.price||0}"></div><div><label>Stock mínimo</label><input type="number" name="minStock" value="${m.minStock||5}"></div></div>
   <div class="frow full"><label>Vencimiento</label><input type="date" name="exp" value="${m.exp||addDays(today(),365)}"></div>
   <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">${editing?'Guardar':'Agregar'}</button></div>
   </form>`);
@@ -725,51 +776,55 @@ function addMedModal(mid){
 function editMedModal(mid){addMedModal(mid);}
 function saveMed(e,mid){
   e.preventDefault();const f=new FormData(e.target);
-  const d={name:f.get('name'),stock:parseInt(f.get('stock'))||0,unit:f.get('unit'),price:parseFloat(f.get('price'))||0,minStock:parseInt(f.get('minStock'))||5,exp:f.get('exp')};
-  if(mid){Object.assign(S.meds.find(m=>m.id===mid),d);}else{S.meds.push({id:'m'+uid(),...d});}
+  const d={name:f.get('name'),stock:parseInt(f.get('stock'))||0,unit:f.get('unit')||'comp',price:parseFloat(f.get('price'))||0,minStock:parseInt(f.get('minStock'))||5,exp:f.get('exp')||addDays(today(),365)};
+  if(mid){const idx=S.meds.findIndex(m=>m.id===mid);if(idx>=0)Object.assign(S.meds[idx],d);}
+  else{S.meds.push({id:'m'+uid(),...d});}
   save();closeModal();renderFarm();
 }
 function stockEntryModal(mid){
-  const m=S.meds.find(x=>x.id===mid);
-  openModal(`<h2>Entrada de Stock — ${m.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
-  <p style="color:var(--muted);margin-bottom:12px">Stock actual: <b style="color:var(--txt)">${m.stock} ${m.unit}</b></p>
+  const m=(S.meds||[]).find(x=>x.id===mid);
+  if(!m)return;
+  openModal(`<h2>Entrada de Stock — ${m.name||'—'} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <p style="color:var(--muted);margin-bottom:12px">Stock actual: <b style="color:var(--txt)">${m.stock||0} ${m.unit||''}</b></p>
   <div class="frow full"><label>Cantidad a agregar</label><input type="number" id="stock-add" value="10" min="1"></div>
   <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-pri" onclick="confirmStockEntry('${mid}')">Confirmar</button></div>`);
 }
 function confirmStockEntry(mid){
-  const q=parseInt(document.getElementById('stock-add').value)||0;
+  const addEl=document.getElementById('stock-add');
+  const q=addEl?parseInt(addEl.value)||0:0;
   const m=S.meds.find(x=>x.id===mid);if(m&&q>0){m.stock+=q;save();closeModal();renderFarm();}
 }
 function addCashModal(){
   openModal(`<h2>Nuevo Movimiento <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
   <form onsubmit="saveCash(event)">
-  <div class="frow"><div><label>Categoría</label><select name="cat"><option value="income">Ingreso</option><option value="expense">Gasto</option></select></div><div><label>Tipo</label><select name="type"><option>Consulta</option><option>Vacuna</option><option>Cirugía</option><option>Baño</option><option>Producto</option><option>Gasto</option></select></div></div>
+  <div class="frow"><div><label>Categoría</label><select name="cat"><option value="income">Ingreso</option><option value="expense">Gasto</option></select></div><div><label>Tipo</label><select name="type"><option>Consulta</option><option>Vacuna</option><option>Castración</option><option>Baño</option><option>Desparasitación</option><option>Producto</option><option>Gasto</option></select></div></div>
   <div class="frow full"><label>Descripción</label><input name="desc" required></div>
-  <div class="frow"><div><label>Monto</label><input type="number" name="amount" required></div><div><label>Veterinario</label><select name="vetId"><option value="">N/A</option>${S.vets.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
+  <div class="frow"><div><label>Monto ($)</label><input type="number" name="amount" required min="0"></div><div><label>Veterinario</label><select name="vetId"><option value="">N/A</option>${(S.vets||[]).map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}</select></div></div>
   <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">Guardar</button></div>
   </form>`);
 }
 function saveCash(e){
   e.preventDefault();const f=new FormData(e.target);
-  S.cash.push({id:'ca'+uid(),date:today(),type:f.get('type'),desc:f.get('desc'),amount:parseFloat(f.get('amount'))||0,vetId:f.get('vetId'),cat:f.get('cat')});
+  S.cash.push({id:'ca'+uid(),date:today(),type:f.get('type'),desc:f.get('desc'),amount:parseFloat(f.get('amount'))||0,vetId:f.get('vetId')||'',cat:f.get('cat')});
   save();closeModal();renderFarm();
 }
 
 // ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
 function getNotificaciones(){
-  const today=new Date().toISOString().slice(0,10);
+  const todayStr=today();
   const notifs=[];
-  S.vacs.forEach(v=>{
+  (S.vacs||[]).forEach(v=>{
+    if(!v||!v.next)return;
     const p=petOf(v.petId);
-    if(v.next&&v.next<=today){
-      notifs.push({msg:`💉 Vacuna ${v.name} vencida: ${p.name}`,tipo:'vacuna'});
-    } else if(v.next&&v.next>today&&v.next<=addDays(today,7)){
-      notifs.push({msg:`⚠ Vacuna ${v.name} próxima a vencer: ${p.name}`,tipo:'vacuna'});
+    if(v.next<=todayStr){
+      notifs.push({msg:`💉 Vacuna ${v.name||'—'} vencida: ${p.name||'—'}`,tipo:'vacuna'});
+    } else if(v.next>todayStr&&v.next<=addDays(todayStr,7)){
+      notifs.push({msg:`⚠ Vacuna ${v.name||'—'} próxima: ${p.name||'—'}`,tipo:'vacuna'});
     }
   });
-  const pendToday=S.appts.filter(a=>a.date===today&&a.status==='pendiente');
+  const pendToday=(S.appts||[]).filter(a=>a&&a.date===todayStr&&a.status==='pendiente');
   if(pendToday.length>0){
-    notifs.push({msg:`📅 ${pendToday.length} turnos pendientes hoy`,tipo:'turno'});
+    notifs.push({msg:`📅 ${pendToday.length} turno${pendToday.length!==1?'s':''} pendiente${pendToday.length!==1?'s':''} hoy`,tipo:'turno'});
   }
   return notifs;
 }
@@ -777,7 +832,6 @@ function renderNotifBadge(){
   const notifs=getNotificaciones();
   const vacCount=notifs.filter(n=>n.tipo==='vacuna').length;
   const turnCount=notifs.filter(n=>n.tipo==='turno').length;
-  // Update sidebar nav badges
   ['sn-vac','sn-turn'].forEach(id=>{
     const el=document.getElementById(id);
     if(!el)return;
@@ -792,7 +846,6 @@ function renderNotifBadge(){
     const el=document.getElementById('sn-turn');
     if(el){const b=document.createElement('span');b.className='notif-badge';b.textContent=turnCount;el.appendChild(b);}
   }
-  // Render alertas panel in dashboard
   const panel=document.getElementById('alertas-panel');
   if(!panel)return;
   if(notifs.length===0){panel.innerHTML='';return;}
@@ -803,7 +856,7 @@ function renderNotifBadge(){
 function toast(msg,type='info'){
   let t=document.getElementById('vet-toast');
   if(!t){t=document.createElement('div');t.id='vet-toast';t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E3A5F;border:1px solid var(--brd);border-radius:10px;padding:12px 20px;font-size:13px;z-index:9999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;color:#fff;';document.body.appendChild(t);}
-  t.textContent=msg;
+  t.textContent=msg||'';
   t.style.borderColor=type==='warn'?'rgba(245,158,11,.5)':type==='error'?'rgba(239,68,68,.5)':'rgba(16,185,129,.5)';
   t.style.color=type==='warn'?'#F59E0B':type==='error'?'#EF4444':'#10B981';
   t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
@@ -814,19 +867,17 @@ function toast(msg,type='info'){
 // ─── REPORTE MENSUAL ──────────────────────────────────────────────────────────
 function reporteMensual(){
   if(typeof XLSX==='undefined'){alert('La librería XLSX no está cargada.');return;}
-  const today2=new Date().toISOString().slice(0,10);
-  const mes=prompt('Mes a exportar (YYYY-MM):',today2.slice(0,7));
+  const todayStr=today();
+  const mes=prompt('Mes a exportar (YYYY-MM):',todayStr.slice(0,7));
   if(!mes)return;
-  const cons=S.cons.filter(c=>c.date&&c.date.startsWith(mes));
-  const cash=S.cash.filter(c=>c.date&&c.date.startsWith(mes));
-  // Sheet 1: Consultas
+  const cons=(S.cons||[]).filter(c=>c&&c.date&&c.date.startsWith(mes));
+  const cash=(S.cash||[]).filter(c=>c&&c.date&&c.date.startsWith(mes));
   const consRows=cons.map(c=>{
-    const p=S.pets.find(x=>x.id===c.petId)||{name:'—'};
-    return{Fecha:c.date,Paciente:p.name,Motivo:c.motivo,Total:c.total,Pagado:c.pagado?'Si':'No'};
+    const p=(S.pets||[]).find(x=>x.id===c.petId)||{name:'—'};
+    return{Fecha:fmtDate(c.date),Paciente:p.name,Motivo:c.motivo||'—',Total:parseFloat(c.total)||0};
   });
-  // Sheet 2: Resumen
-  const totalIngresos=cash.filter(c=>c.cat==='income').reduce((s,c)=>s+c.amount,0);
-  const totalGastos=cash.filter(c=>c.cat==='expense').reduce((s,c)=>s+c.amount,0);
+  const totalIngresos=cash.filter(c=>c.cat==='income').reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+  const totalGastos=cash.filter(c=>c.cat==='expense').reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
   const resumenRows=[
     {'Concepto':'Total ingresos','Valor':totalIngresos},
     {'Concepto':'Total gastos','Valor':totalGastos},
@@ -834,14 +885,14 @@ function reporteMensual(){
     {'Concepto':'N° consultas','Valor':cons.length}
   ];
   const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(consRows.length?consRows:[{Fecha:'Sin datos',Paciente:'',Motivo:'',Total:0,Pagado:''}]),'Consultas');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(consRows.length?consRows:[{Fecha:'Sin datos',Paciente:'',Motivo:'',Total:0}]),'Consultas');
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(resumenRows),'Resumen');
   XLSX.writeFile(wb,`reporte-vet-${mes}.xlsx`);
 }
 
 // ─── DELETE VET VALIDATION ───────────────────────────────────────────────────
 function deleteVet(vid){
-  const consCount=S.cons.filter(c=>c.vetId===vid).length;
+  const consCount=(S.cons||[]).filter(c=>c&&c.vetId===vid).length;
   if(consCount>0){
     toast(`No se puede eliminar: tiene ${consCount} consulta${consCount!==1?'s':''} registradas.`,'error');
     return;
@@ -853,21 +904,21 @@ function deleteVet(vid){
 // ─── MEDICAL HISTORY TIMELINE ────────────────────────────────────────────────
 function showHistoriaClinica(pid){
   const p=petOf(pid);const o=ownerOf(p);
-  const cons=S.cons.filter(c=>c.petId===pid).map(c=>({...c,_type:'cons',_date:c.date}));
-  const vacs=S.vacs.filter(v=>v.petId===pid).map(v=>({...v,_type:'vac',_date:v.applied}));
-  const timeline=[...cons,...vacs].filter(x=>x._date).sort((a,b)=>a._date<b._date?1:-1);
-  openModal(`<h2>📋 Historia Clínica — ${spIcon(p.sp)} ${p.name} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
-  <p style="color:var(--muted);font-size:12px;margin-bottom:14px">${o.name} · ${timeline.length} entradas</p>
+  const cons=(S.cons||[]).filter(c=>c&&c.petId===pid).map(c=>({...c,_type:'cons',_date:c.date}));
+  const vacs=(S.vacs||[]).filter(v=>v&&v.petId===pid).map(v=>({...v,_type:'vac',_date:v.applied}));
+  const timeline=[...cons,...vacs].filter(x=>x&&x._date).sort((a,b)=>a._date<b._date?1:-1);
+  openModal(`<h2>📋 Historia Clínica — ${spIcon(p.sp)} ${p.name||'—'} <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:14px">${o.name||'—'} · ${timeline.length} entradas</p>
   ${timeline.length===0?'<div class="empty">Sin historial registrado</div>':''}
   ${timeline.map(entry=>{
     if(entry._type==='cons'){
       return`<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid var(--pri)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <span>🩺 <b>Consulta</b> — ${entry.motivo}</span>
+          <span>🩺 <b>Consulta</b> — ${entry.motivo||'—'}</span>
           <span class="chip">${fmtDate(entry._date)}</span>
         </div>
         <div style="color:var(--muted);font-size:12px">${vetOf(entry.vetId).name}</div>
-        <div style="margin-top:6px"><b>Dx:</b> ${entry.diag}</div>
+        <div style="margin-top:6px"><b>Dx:</b> ${entry.diag||'—'}</div>
         ${entry.trat?`<div><b>Trat:</b> ${entry.trat}</div>`:''}
         <div style="margin-top:4px;display:flex;gap:6px">
           <button class="btn btn-ghost btn-sm" onclick="printReceta('${entry.id}')">📄 Receta</button>
@@ -876,7 +927,7 @@ function showHistoriaClinica(pid){
     } else {
       return`<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid var(--ok)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-          <span>💉 <b>Vacuna</b> — ${entry.name}</span>
+          <span>💉 <b>Vacuna</b> — ${entry.name||'—'}</span>
           <span class="chip">${fmtDate(entry._date)}</span>
         </div>
         <div style="color:var(--muted);font-size:12px">Lab: ${entry.lab||'—'} · Próxima: ${fmtDate(entry.next)}</div>
@@ -895,7 +946,8 @@ function printReceta(cid){
   const p=petOf(c.petId);const o=ownerOf(p);const v=vetOf(c.vetId);
   const lineas=(c.trat||'Sin tratamiento indicado').split('\n').filter(Boolean);
   const win=window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Receta — ${p.name}</title>
+  if(!win)return;
+  win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Receta — ${p.name||'—'}</title>
   <style>
     body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:28px;max-width:700px;margin:0 auto}
     .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1E3A5F;padding-bottom:12px;margin-bottom:16px}
@@ -912,19 +964,19 @@ function printReceta(cid){
   </style></head><body>
   <div class="header">
     <div><div class="logo">🐾 Aura Vet</div><div class="sub">by Yusta Labs</div></div>
-    <div style="text-align:right"><div style="font-weight:700">${v.name}</div><div class="sub">Fecha: ${fmtDate(c.date)}</div></div>
+    <div style="text-align:right"><div style="font-weight:700">${v.name||'—'}</div><div class="sub">Fecha: ${fmtDate(c.date)}</div></div>
   </div>
   <div class="pet-box">
-    <div><div class="lbl">Paciente</div><b>${p.name}</b></div>
-    <div><div class="lbl">Especie / Raza</div>${spIcon(p.sp)} ${p.breed}</div>
-    <div><div class="lbl">Propietario</div>${o.name}</div>
-    <div><div class="lbl">Teléfono</div>${o.tel}</div>
+    <div><div class="lbl">Paciente</div><b>${p.name||'—'}</b></div>
+    <div><div class="lbl">Especie / Raza</div>${spIcon(p.sp)} ${p.breed||'—'}</div>
+    <div><div class="lbl">Propietario</div>${o.name||'—'}</div>
+    <div><div class="lbl">Teléfono</div>${o.tel||'—'}</div>
   </div>
   <h2><span class="rx">Rx</span>Tratamiento Indicado</h2>
   ${lineas.map(l=>`<div class="med-line">${l}</div>`).join('')}
   <h2>Diagnóstico</h2>
-  <p>${c.diag}</p>
-  <div class="sig"><div class="sig-line">${v.name}<br>Veterinario/a</div></div>
+  <p>${c.diag||'—'}</p>
+  <div class="sig"><div class="sig-line">${v.name||'—'}<br>Veterinario/a</div></div>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`);
   win.document.close();
@@ -934,11 +986,11 @@ function printReceta(cid){
 function printCertificado(vid){
   const vac=S.vacs.find(x=>x.id===vid);if(!vac)return;
   const p=petOf(vac.petId);const o=ownerOf(p);
-  // find the vet who did the last consultation for this pet (or first vet)
-  const lastCons=S.cons.filter(c=>c.petId===p.id).sort((a,b)=>a.date<b.date?1:-1)[0];
-  const vet=lastCons?vetOf(lastCons.vetId):(S.vets[0]||{name:'—'});
+  const lastCons=(S.cons||[]).filter(c=>c&&c.petId===p.id).sort((a,b)=>a.date<b.date?1:-1)[0];
+  const vet=lastCons?vetOf(lastCons.vetId):(S.vets&&S.vets[0]?S.vets[0]:{name:'—'});
   const win=window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Certificado Vacunación — ${p.name}</title>
+  if(!win)return;
+  win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Certificado Vacunación — ${p.name||'—'}</title>
   <style>
     body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:32px;max-width:700px;margin:0 auto}
     .cert-border{border:3px double #1E3A5F;border-radius:12px;padding:28px}
@@ -962,21 +1014,21 @@ function printCertificado(vid){
     <p>Se certifica que el siguiente paciente ha recibido la vacuna indicada bajo supervisión veterinaria:</p>
     <h3 style="margin:14px 0 6px;color:#1E3A5F">Datos del Paciente</h3>
     <table>
-      <tr><td>Nombre</td><td><b>${p.name}</b></td></tr>
-      <tr><td>Especie / Raza</td><td>${spIcon(p.sp)} ${p.breed}</td></tr>
+      <tr><td>Nombre</td><td><b>${p.name||'—'}</b></td></tr>
+      <tr><td>Especie / Raza</td><td>${spIcon(p.sp)} ${p.breed||'—'}</td></tr>
       <tr><td>Fecha nac.</td><td>${fmtDate(p.dob)}</td></tr>
       <tr><td>Microchip</td><td>${p.chip||'—'}</td></tr>
-      <tr><td>Propietario</td><td>${o.name}</td></tr>
+      <tr><td>Propietario</td><td>${o.name||'—'}</td></tr>
     </table>
     <h3 style="margin:14px 0 6px;color:#1E3A5F">Datos de la Vacuna</h3>
     <table>
-      <tr><td>Vacuna</td><td><b>${vac.name}</b></td></tr>
+      <tr><td>Vacuna</td><td><b>${vac.name||'—'}</b></td></tr>
       <tr><td>Laboratorio</td><td>${vac.lab||'—'}</td></tr>
       <tr><td>Fecha aplicación</td><td>${fmtDate(vac.applied)}</td></tr>
       <tr><td>Próxima dosis</td><td>${fmtDate(vac.next)}</td></tr>
     </table>
     <div class="sig-row">
-      <div class="sig-box"><div class="sig-line">${vet.name}<br>Veterinario/a responsable</div></div>
+      <div class="sig-box"><div class="sig-line">${vet.name||'—'}<br>Veterinario/a responsable</div></div>
       <div class="sig-box"><div class="sig-line">Firma del propietario</div></div>
     </div>
   </div>
