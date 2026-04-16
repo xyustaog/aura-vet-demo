@@ -146,11 +146,11 @@ function seed(){
     {id:'v2',name:'Dr. Marcos Pérez'}
   ];
   const owners=[
-    {id:'o1',name:'Carlos Rodríguez',tel:'5491123456789',email:'carlos.rodriguez@mail.com'},
-    {id:'o2',name:'María López',tel:'5491187654321',email:'maria.lopez@mail.com'},
-    {id:'o3',name:'Ana Torres',tel:'5491134567890',email:'ana.torres@mail.com'},
-    {id:'o4',name:'Juan Gómez',tel:'5491156789012',email:'juan.gomez@mail.com'},
-    {id:'o5',name:'Luciana Fernández',tel:'5491165432198',email:'luci.fernandez@mail.com'}
+    {id:'o1',name:'Carlos Rodríguez',tel:'11-2345-6789',email:'carlos.rodriguez@mail.com'},
+    {id:'o2',name:'María López',tel:'11-8765-4321',email:'maria.lopez@mail.com'},
+    {id:'o3',name:'Ana Torres',tel:'11-3456-7890',email:'ana.torres@mail.com'},
+    {id:'o4',name:'Juan Gómez',tel:'11-5678-9012',email:'juan.gomez@mail.com'},
+    {id:'o5',name:'Luciana Fernández',tel:'11-6543-2198',email:'luci.fernandez@mail.com'}
   ];
   const t=today();
   const pets=[
@@ -222,6 +222,8 @@ let S=JSON.parse(localStorage.getItem(KEY)||'null')||seed();
 const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 
 const spIcon=s=>({dog:'🐕',cat:'🐈',bird:'🐦',rabbit:'🐇'}[s]||'🐾');
+// Convierte teléfono local (11-2345-6789) a formato wa.me (549XXXXXXXXXX)
+const telWA=tel=>{if(!tel)return'';const digits=tel.replace(/\D/g,'');if(digits.length>=10)return'549'+digits;return digits;};
 const ownerOf=p=>{if(!p||!p.ownId)return{name:'—',tel:'',email:''};return S.owners.find(o=>o.id===p.ownId)||{name:'—',tel:'',email:''};};
 const petOf=id=>{if(!id)return{name:'—',sp:'dog',breed:'—',ownId:''};return S.pets.find(p=>p.id===id)||{name:'—',sp:'dog',breed:'—',ownId:''};};
 const vetOf=id=>{if(!id)return{name:'—'};return S.vets.find(v=>v.id===id)||{name:'—'};};
@@ -234,7 +236,9 @@ const PAGES=[
   {id:'cons',icon:'🩺',label:'Consultas'},
   {id:'vac',icon:'💉',label:'Vacunas'},
   {id:'turn',icon:'📅',label:'Turnos'},
-  {id:'farm',icon:'💊',label:'Farmacia'}
+  {id:'farm',icon:'💊',label:'Farmacia'},
+  {id:'duenos',icon:'👤',label:'Dueños'},
+  {id:'caja',icon:'💰',label:'Caja'}
 ];
 let curPg='dash';
 function buildNav(){
@@ -303,8 +307,8 @@ function renderDash(){
       <div class="card">
         <h3>Alertas Vacunas</h3>
         ${expired.length===0&&vacSoon===0?'<div class="empty" style="padding:12px">Todo al día ✓</div>':''}
-        ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-err">⚠️ <div><b>${p.name}</b> — ${v.name} vencida<br><small>${o.name||'—'} · ${tel}</small></div>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Por favor comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
-        ${(S.vacs||[]).filter(v=>v&&v.next>=t&&v.next<=addDays(t,7)).map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-warn">💉 <div><b>${p.name}</b> — ${v.name}<br><small>${fmtDate(v.next)} · ${o.name||'—'}</small></div>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene la vacuna '+v.name+' el '+fmtDate(v.next)+'.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
+        ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-err">⚠️ <div><b>${p.name}</b> — ${v.name} vencida<br><small>${o.name||'—'} · ${tel}</small></div>${tel?`<a href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Por favor comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
+        ${(S.vacs||[]).filter(v=>v&&v.next>=t&&v.next<=addDays(t,7)).map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<div class="alert alert-warn">💉 <div><b>${p.name}</b> — ${v.name}<br><small>${fmtDate(v.next)} · ${o.name||'—'}</small></div>${tel?`<a href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene la vacuna '+v.name+' el '+fmtDate(v.next)+'.')}" target="_blank" class="btn btn-wa btn-sm" style="margin-left:auto;flex-shrink:0">WA</a>`:''}</div>`}).join('')}
       </div>
       <div class="card">
         <h3>Medicamentos por vencer</h3>
@@ -633,14 +637,14 @@ function renderVac(){
   ${expired.length?`<div class="card"><h3>VENCIDAS (${expired.length})</h3>
   <table><thead><tr><th>Mascota</th><th>Dueño</th><th>Vacuna</th><th>Vencimiento</th><th>Acciones</th></tr></thead><tbody>
   ${expired.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const tel=o.tel||'';return`<tr><td>${spIcon(p.sp)} ${p.name||'—'}</td><td>${o.name||'—'}<br><small>${tel}</small></td><td>${v.name||'—'}</td><td><span class="badge b-err">${fmtDate(v.next)}</span></td>
-  <td style="display:flex;gap:4px;flex-wrap:wrap">${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button></td></tr>`}).join('')}
+  <td style="display:flex;gap:4px;flex-wrap:wrap">${tel?`<a href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent('Hola '+o.name+', la vacuna '+v.name+' de '+p.name+' está vencida. Comuníquese con la clínica.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button></td></tr>`}).join('')}
   </tbody></table></div>`:''}
   <div class="card"><h3>PRÓXIMAS ${range} DÍAS (${upcoming.length})</h3>
   ${upcoming.length===0?'<div class="empty">Sin vacunas en este período</div>':''}
   ${upcoming.length>0?`<table><thead><tr><th>Mascota</th><th>Dueño</th><th>Tel</th><th>Vacuna</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>
   ${upcoming.map(v=>{const p=petOf(v.petId);const o=ownerOf(p);const d=Math.ceil((new Date(v.next)-new Date())/864e5);const tel=o.tel||'';return`<tr><td>${spIcon(p.sp)} ${p.name||'—'}</td><td>${o.name||'—'}</td><td>${tel}</td><td>${v.name||'—'}</td>
   <td><span class="badge ${d<=3?'b-warn':'b-ok'}">${fmtDate(v.next)} (${d}d)</span></td>
-  <td style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button>${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene su vacuna '+v.name+' programada para el '+fmtDate(v.next)+'. Confirme su turno.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
+  <td style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="printCertificado('${v.id}')">📜 Cert.</button>${tel?`<a href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos que '+p.name+' tiene su vacuna '+v.name+' programada para el '+fmtDate(v.next)+'. Confirme su turno.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}<button class="btn btn-acc btn-sm" onclick="applyVac('${v.id}')">Aplicar</button></td></tr>`}).join('')}
   </tbody></table>`:''}
   </div>`;
 }
@@ -676,7 +680,7 @@ function renderTurn(){
       <select class="btn btn-ghost btn-sm" style="padding:4px 6px" onchange="changeStatus('${a.id}',this.value)">
         ${['pendiente','confirmado','en sala','atendido','cancelado'].map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}
       </select>
-      ${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos el turno de '+p.name+' el '+fmtDate(a.date)+' a las '+a.time+'.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}
+      ${tel?`<a href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent('Hola '+o.name+'! Le recordamos el turno de '+p.name+' el '+fmtDate(a.date)+' a las '+a.time+'.')}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}
       ${(a.status==='en sala'||a.status==='atendido'||a.date===today())?`<button class="btn btn-acc btn-sm" onclick="turnoToCons('${a.id}')">➕ Consulta</button>`:''}
     </td></tr>`;}).join('')}
   </tbody></table></div>`;
@@ -832,19 +836,26 @@ function renderNotifBadge(){
   const notifs=getNotificaciones();
   const vacCount=notifs.filter(n=>n.tipo==='vacuna').length;
   const turnCount=notifs.filter(n=>n.tipo==='turno').length;
-  ['sn-vac','sn-turn'].forEach(id=>{
+  // Limpiar badges existentes en sidebar y bottom nav
+  ['sn-vac','sn-turn','bn-vac','bn-turn'].forEach(id=>{
     const el=document.getElementById(id);
     if(!el)return;
     const existing=el.querySelector('.notif-badge');
     if(existing)existing.remove();
   });
+  // Agregar badges de vacunas
   if(vacCount>0){
-    const el=document.getElementById('sn-vac');
-    if(el){const b=document.createElement('span');b.className='notif-badge';b.textContent=vacCount;el.appendChild(b);}
+    ['sn-vac','bn-vac'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){const b=document.createElement('span');b.className='notif-badge';b.textContent=vacCount;el.appendChild(b);}
+    });
   }
+  // Agregar badges de turnos
   if(turnCount>0){
-    const el=document.getElementById('sn-turn');
-    if(el){const b=document.createElement('span');b.className='notif-badge';b.textContent=turnCount;el.appendChild(b);}
+    ['sn-turn','bn-turn'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){const b=document.createElement('span');b.className='notif-badge';b.textContent=turnCount;el.appendChild(b);}
+    });
   }
   const panel=document.getElementById('alertas-panel');
   if(!panel)return;
@@ -1037,8 +1048,114 @@ function printCertificado(vid){
   win.document.close();
 }
 
+// ─── DUEÑOS ───────────────────────────────────────────────────────────────────
+function renderDuenos(){
+  const pg=document.getElementById('pg-duenos');
+  if(!pg)return;
+  const q=((pg._q||'').toLowerCase());
+  const allOwners=S.owners||[];
+  const list=allOwners.filter(o=>{
+    if(!o)return false;
+    return(o.name||'').toLowerCase().includes(q)||(o.tel||'').toLowerCase().includes(q)||(o.email||'').toLowerCase().includes(q);
+  });
+  // KPIs
+  const totalDuenos=allOwners.length;
+  const mascotasPorDueno=allOwners.map(o=>(S.pets||[]).filter(p=>p&&p.ownId===o.id).length);
+  const promMascotas=totalDuenos>0?(mascotasPorDueno.reduce((a,b)=>a+b,0)/totalDuenos).toFixed(1):0;
+  const dueniosConMascotas=allOwners.filter(o=>(S.pets||[]).some(p=>p&&p.ownId===o.id)).length;
+  pg.innerHTML=`
+  <div class="sec-head"><h2>Dueños</h2><button class="btn btn-pri btn-sm" onclick="addDuenoModal()">+ Nuevo dueño</button></div>
+  <div class="row">
+    <div class="kpi"><div class="val">${totalDuenos}</div><div class="lbl">Total dueños</div></div>
+    <div class="kpi acc"><div class="val">${promMascotas}</div><div class="lbl">Mascotas prom. por dueño</div></div>
+    <div class="kpi warn"><div class="val">${dueniosConMascotas}</div><div class="lbl">Con mascotas activas</div></div>
+  </div>
+  <div class="search-bar"><input placeholder="Buscar por nombre, teléfono o email..." value="${pg._q||''}" oninput="document.getElementById('pg-duenos')._q=this.value;renderDuenos()" style="max-width:340px"><span style="color:var(--muted);align-self:center">${list.length} resultado${list.length!==1?'s':''}</span></div>
+  <div class="card" style="padding:0;overflow:hidden">
+  <table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Mascotas</th><th>Acciones</th></tr></thead><tbody>
+  ${list.length===0?`<tr><td colspan="5" class="empty">No se encontraron resultados</td></tr>`:''}
+  ${list.map(o=>{
+    const mascotas=(S.pets||[]).filter(p=>p&&p.ownId===o.id);
+    return`<tr>
+      <td><b>${o.name||'—'}</b></td>
+      <td>${o.tel||'—'}</td>
+      <td><a href="mailto:${o.email||''}" style="color:var(--pri)">${o.email||'—'}</a></td>
+      <td>${mascotas.length>0?mascotas.map(p=>`<span class="chip">${spIcon(p.sp)} ${p.name}</span>`).join(' '):'<span class="badge b-gray">Sin mascotas</span>'}</td>
+      <td style="display:flex;gap:4px">
+        ${o.tel?`<a href="https://wa.me/${telWA(o.tel)}" target="_blank" class="btn btn-wa btn-sm">WA</a>`:''}
+        <button class="btn btn-ghost btn-sm" onclick="editDuenoModal('${o.id}')">Editar</button>
+        <button class="btn btn-err btn-sm" onclick="deleteDueno('${o.id}')">Eliminar</button>
+      </td></tr>`;
+  }).join('')}
+  </tbody></table></div>`;
+}
+
+function addDuenoModal(oid){
+  const o=oid?(S.owners||[]).find(x=>x.id===oid)||{}:{};
+  const editing=!!oid;
+  openModal(`<h2>${editing?'Editar':'Nuevo'} Dueño <button onclick="closeModal()" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button></h2>
+  <form onsubmit="saveDueno(event,'${oid||''}')">
+  <div class="frow full"><label>Nombre completo*</label><input name="name" required value="${o.name||''}"></div>
+  <div class="frow"><div><label>Teléfono</label><input name="tel" placeholder="11-2345-6789" value="${o.tel||''}"></div><div><label>Email</label><input type="email" name="email" value="${o.email||''}"></div></div>
+  <div class="modal-foot"><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn btn-pri">${editing?'Guardar':'Agregar'}</button></div>
+  </form>`);
+}
+function editDuenoModal(oid){addDuenoModal(oid);}
+function saveDueno(e,oid){
+  e.preventDefault();const f=new FormData(e.target);
+  const d={name:f.get('name'),tel:f.get('tel')||'',email:f.get('email')||''};
+  if(oid){const idx=(S.owners||[]).findIndex(o=>o.id===oid);if(idx>=0)Object.assign(S.owners[idx],d);}
+  else{if(!S.owners)S.owners=[];S.owners.push({id:'o'+uid(),...d});}
+  save();closeModal();renderDuenos();
+}
+function deleteDueno(oid){
+  const mascotas=(S.pets||[]).filter(p=>p&&p.ownId===oid);
+  if(mascotas.length>0){
+    toast(`No se puede eliminar: tiene ${mascotas.length} mascota${mascotas.length!==1?'s':''} asociada${mascotas.length!==1?'s':''}.`,'warn');
+    return;
+  }
+  if(!confirm('¿Eliminar este dueño?'))return;
+  S.owners=(S.owners||[]).filter(o=>o.id!==oid);save();renderDuenos();
+}
+
+// ─── CAJA (página dedicada) ────────────────────────────────────────────────────
+function renderCaja(){
+  const pg=document.getElementById('pg-caja');
+  if(!pg)return;
+  // Reutilizamos renderFarm con tab caja, o renderizamos directo
+  const fd=pg._fdate||today();
+  const income=(S.cash||[]).filter(c=>c&&c.date===fd&&c.cat==='income');
+  const expenses=(S.cash||[]).filter(c=>c&&c.date===fd&&c.cat==='expense');
+  const totalIn=income.reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+  const totalEx=expenses.reduce((s,c)=>s+(parseFloat(c.amount)||0),0);
+  const neto=totalIn-totalEx;
+  const byType={};income.forEach(c=>{if(c.type)byType[c.type]=(byType[c.type]||0)+(parseFloat(c.amount)||0);});
+  const byVet={};income.forEach(c=>{if(c.vetId){const vn=vetOf(c.vetId).name;byVet[vn]=(byVet[vn]||0)+(parseFloat(c.amount)||0);}});
+  pg.innerHTML=`
+  <div class="sec-head"><h2>Caja</h2><button class="btn btn-pri btn-sm" onclick="addCashModal()">+ Movimiento</button></div>
+  <div class="search-bar"><input type="date" value="${fd}" onchange="document.getElementById('pg-caja')._fdate=this.value;renderCaja()"></div>
+  <div class="row">
+    <div class="kpi acc"><div class="val">${fmtARS(totalIn)}</div><div class="lbl">Ingresos</div></div>
+    <div class="kpi warn"><div class="val">${fmtARS(totalEx)}</div><div class="lbl">Gastos</div></div>
+    <div class="kpi"><div class="val" style="color:${neto>=0?'var(--ok)':'var(--err)'}">${fmtARS(neto)}</div><div class="lbl">Neto del día</div></div>
+  </div>
+  <div class="row">
+    <div class="card" style="flex:1;min-width:200px"><h3>Por tipo</h3>
+      ${Object.entries(byType).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">${fmtARS(v)}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+    </div>
+    <div class="card" style="flex:1;min-width:200px"><h3>Por veterinario</h3>
+      ${Object.entries(byVet).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">${fmtARS(v)}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
+    </div>
+  </div>
+  <div class="sec-head"><h3>Movimientos del día</h3><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">📊 Reporte Mensual</button></div>
+  <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Tipo</th><th>Descripción</th><th>Monto</th><th>Cat.</th></tr></thead><tbody>
+  ${[...income,...expenses].length===0?`<tr><td colspan="4" class="empty">Sin movimientos</td></tr>`:''}
+  ${[...income,...expenses].map(c=>`<tr><td>${c.type||'—'}</td><td>${c.desc||'—'}</td><td><span style="color:${c.cat==='income'?'var(--ok)':'var(--err)'}">${c.cat==='income'?'+':'-'}${fmtARS(c.amount)}</span></td><td><span class="badge ${c.cat==='income'?'b-ok':'b-err'}">${c.cat==='income'?'Ingreso':'Gasto'}</span></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
-const renders={dash:renderDash,pac:renderPac,cons:renderCons,vac:renderVac,turn:renderTurn,farm:renderFarm};
+const renders={dash:renderDash,pac:renderPac,cons:renderCons,vac:renderVac,turn:renderTurn,farm:renderFarm,duenos:renderDuenos,caja:renderCaja};
 buildNav();nav('dash');
 </script>
 </body>
