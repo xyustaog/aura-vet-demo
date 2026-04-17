@@ -4,28 +4,40 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Aura Vet — Sistema de Gestión para Veterinarias | Yusta Labs</title>
 <meta name="description" content="Aura Vet: sistema de gestión integral para clínicas veterinarias. Administrá pacientes, consultas, vacunas, turnos, farmacia y caja. Demo por Yusta Labs.">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#FFF8F0;--surf:#FFFFFF;--card:#FFFFFF;--sidebar:#1E3A5F;--pri:#3B82F6;--acc:#F97316;--err:#EF4444;--warn:#F59E0B;--ok:#10B981;--txt:#1A2F4A;--muted:#64748B;--brd:#E2EBF5;--card-hover:#F0F7FF}
-body{background:var(--bg);color:var(--txt);font-family:'Nunito',system-ui,sans-serif;font-size:14px;min-height:100vh;display:flex;font-weight:400}
+:root{
+  --bg:#F7F5F2;--surface:#FFFFFF;--surf:#FFFFFF;--card:#FFFFFF;--surface-2:#F0EDE8;
+  --border:#E5DDD6;--brd:#E5DDD6;--border-strong:#C9BDB4;
+  --primary:#3F7A5F;--pri:#3F7A5F;--primary-dark:#2A5440;--primary-light:#EAF2EE;
+  --accent:#D4914A;--acc:#D4914A;
+  --text:#1A1512;--txt:#1A1512;--text-secondary:#6B5E52;--muted:#9E8E82;
+  --danger:#C0392B;--err:#C0392B;--danger-light:#FDECEB;
+  --success:#2D7A44;--ok:#2D7A44;--success-light:#EBF5EE;
+  --warning:#B8751A;--warn:#B8751A;--warning-light:#FEF3E2;
+  --info:#1A5FAD;--info-light:#EBF2FD;
+  --card-hover:#F5F2EE;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.07);--shadow-md:0 4px 12px rgba(0,0,0,0.09);
+}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',system-ui,sans-serif;font-size:14px;min-height:100vh;display:flex;font-weight:400}
 a{color:var(--pri);text-decoration:none}
-#sb{width:220px;background:var(--sidebar);border-right:none;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:.3s;overflow:hidden}
-#sb .logo{display:flex;align-items:center;gap:10px;padding:20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
-#sb .logo .icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-#sb .logo span{font-family:'Nunito',sans-serif;font-weight:800;font-size:17px;color:#fff;letter-spacing:0.02em}
+#sb{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:.3s;overflow:hidden}
+#sb .logo{display:flex;align-items:center;gap:10px;padding:20px 16px;border-bottom:1px solid var(--border)}
+#sb .logo .icon{width:40px;height:40px;border-radius:12px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#sb .logo span{font-family:'Inter',sans-serif;font-weight:800;font-size:17px;color:var(--primary);letter-spacing:0.02em}
 #sb nav{flex:1;padding:10px 10px;overflow-y:auto;min-height:0}
-#sb nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:rgba(255,255,255,0.65);margin-bottom:3px;cursor:pointer;transition:.15s;white-space:nowrap;font-size:13px;font-weight:600;border-left:3px solid transparent}
-#sb nav a:hover{background:rgba(255,255,255,0.08);color:#fff}
-#sb nav a.act{background:rgba(255,255,255,0.12);color:#fff;border-left-color:var(--acc)}
-#sb nav a span{font-size:17px}
+#sb nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;color:var(--muted);margin-bottom:3px;cursor:pointer;transition:.15s;white-space:nowrap;font-size:13px;font-weight:500;border-left:3px solid transparent}
+#sb nav a:hover{background:var(--surface-2);color:var(--txt)}
+#sb nav a.act{background:var(--primary-light);color:var(--primary);border-left-color:var(--primary);font-weight:600}
+#sb nav a svg{flex-shrink:0;opacity:.8}
 #main{margin-left:220px;flex:1;padding:20px;min-height:100vh;background:var(--bg)}
-.topbar{display:none;background:var(--sidebar);border-bottom:none;padding:12px 16px;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+.topbar{display:none;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
 .topbar .logo-m{display:flex;align-items:center;gap:8px}
-.topbar .logo-m .icon{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:16px}
-.topbar .logo-m span{font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;color:#fff}
-#bnav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--brd);z-index:100;padding:4px 0}
+.topbar .logo-m .icon{width:34px;height:34px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;}
+.topbar .logo-m span{font-family:'Inter',sans-serif;font-weight:800;font-size:16px;color:var(--primary)}
+#bnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:100;padding:4px 0}
 #bnav .bn{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;padding:6px 4px;cursor:pointer;color:var(--muted);font-size:10px;font-weight:600;transition:.15s}
 #bnav .bn:hover,#bnav .bn.act{color:var(--pri)}
 #bnav .bn span:first-child{font-size:20px}
@@ -35,50 +47,51 @@ a{color:var(--pri);text-decoration:none}
 }
 .pg{display:none}.pg.show{display:block}
 .row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
-.kpi{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:18px;flex:1;min-width:130px;box-shadow:0 2px 8px rgba(59,130,246,0.07)}
-.kpi .val{font-family:'Nunito',sans-serif;font-size:28px;font-weight:800;color:var(--pri)}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;flex:1;min-width:130px;box-shadow:var(--shadow-sm)}
+.kpi .val{font-size:28px;font-weight:800;color:var(--pri)}
 .kpi .lbl{color:var(--muted);font-size:12px;margin-top:4px;font-weight:600}
 .kpi.warn .val{color:var(--acc)} .kpi.acc .val{color:var(--ok)}
-.card{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(59,130,246,0.05)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
 .card h3{font-size:12px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 table{width:100%;border-collapse:collapse}
-th{text-align:left;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:2px solid var(--brd);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;background:#F8FBFF}
-td{padding:10px 12px;border-bottom:1px solid var(--brd);vertical-align:middle;color:var(--txt)}
+th{text-align:left;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;background:var(--surface-2)}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--txt)}
 tr:hover td{background:var(--card-hover)}
 tr:last-child td{border:0}
 .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.b-ok{background:rgba(16,185,129,0.1);color:var(--ok)}
-.b-warn{background:rgba(249,115,22,0.12);color:var(--acc)}
-.b-err{background:rgba(239,68,68,0.1);color:var(--err)}
-.b-info{background:rgba(59,130,246,0.12);color:var(--pri)}
-.b-gray{background:rgba(100,116,139,0.1);color:var(--muted)}
-.btn{padding:8px 16px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:700;transition:.15s;display:inline-flex;align-items:center;gap:6px;font-family:'Nunito',sans-serif}
-.btn-pri{background:var(--pri);color:#fff} .btn-pri:hover{background:#2563EB}
-.btn-acc{background:var(--acc);color:#fff} .btn-acc:hover{background:#EA6C0A}
-.btn-ghost{background:rgba(59,130,246,0.08);color:var(--pri);border:1px solid rgba(59,130,246,0.2)} .btn-ghost:hover{background:rgba(59,130,246,0.14)}
-.btn-sm{padding:5px 12px;font-size:12px;border-radius:8px}
+.b-ok{background:var(--success-light);color:var(--ok)}
+.b-warn{background:var(--warning-light);color:var(--warn)}
+.b-err{background:var(--danger-light);color:var(--err)}
+.b-info{background:var(--info-light);color:var(--info)}
+.b-gray{background:var(--surface-2);color:var(--muted)}
+.b-acc{background:#FBF0E5;color:var(--acc)}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:6px;font-family:'Inter',sans-serif}
+.btn-pri{background:var(--pri);color:#fff} .btn-pri:hover{background:var(--primary-dark)}
+.btn-acc{background:var(--acc);color:#fff} .btn-acc:hover{opacity:.9}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)} .btn-ghost:hover{color:var(--txt);background:var(--surface-2)}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px}
 .btn-wa{background:#25D366;color:#fff} .btn-wa:hover{opacity:.9}
-.btn-err{background:rgba(239,68,68,0.08);color:var(--err);border:1px solid rgba(239,68,68,0.2)}
+.btn-err{background:var(--danger-light);color:var(--err);border:1px solid rgba(192,57,43,0.2)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .frow.full{grid-template-columns:1fr}
 @media(max-width:500px){.frow{grid-template-columns:1fr}}
 label{display:block;color:var(--muted);font-size:12px;margin-bottom:4px;font-weight:600}
-input,select,textarea{width:100%;background:#fff;border:1.5px solid var(--brd);color:var(--txt);padding:9px 12px;border-radius:10px;font-size:13px;outline:none;transition:.15s;font-family:'Nunito',sans-serif}
-input:focus,select:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
+input,select,textarea{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--txt);padding:9px 12px;border-radius:8px;font-size:13px;outline:none;transition:.15s;font-family:'Inter',sans-serif}
+input:focus,select:focus,textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(63,122,95,0.1)}
 textarea{resize:vertical;min-height:60px}
-.overlay{display:none;position:fixed;inset:0;background:rgba(30,58,95,.4);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(26,21,18,.4);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
-.modal{background:#fff;border:none;border-radius:20px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px;box-shadow:0 20px 60px rgba(30,58,95,0.2)}
-.modal h2{font-size:18px;font-weight:800;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--brd);color:var(--txt)}
-.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)}
+.modal{background:#fff;border:none;border-radius:16px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:24px;box-shadow:var(--shadow-md)}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);color:var(--txt)}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
 .search-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .search-bar input{max-width:260px}
-.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid var(--brd)}
+.tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid var(--border)}
 .tab{padding:8px 16px;cursor:pointer;border-radius:8px 8px 0 0;color:var(--muted);font-size:13px;border-bottom:2px solid transparent;transition:.15s;font-weight:600;background:none}
 .tab.act{color:var(--pri);border-bottom-color:var(--pri)}
-.alert{padding:10px 14px;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
-.alert-warn{background:rgba(249,115,22,0.08);border-left:3px solid var(--acc)}
-.alert-err{background:rgba(239,68,68,0.08);border-left:3px solid var(--err);color:#dc2626}
+.alert{padding:10px 14px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
+.alert-warn{background:var(--warning-light);border-left:3px solid var(--acc)}
+.alert-err{background:var(--danger-light);border-left:3px solid var(--err);color:var(--err)}
 @media print{
   #sb,#bnav,.topbar,.btn,.no-print{display:none!important}
   #main{margin:0;padding:0}
@@ -89,28 +102,42 @@ textarea{resize:vertical;min-height:60px}
 .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .sec-head h2{font-size:18px;font-weight:800;color:var(--txt)}
 .empty{text-align:center;padding:32px;color:var(--muted)}
-.chip{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600;background:rgba(59,130,246,0.1);color:var(--pri)}
-.err-note{color:var(--err);font-size:12px;font-weight:700;background:rgba(239,68,68,0.08);padding:6px 10px;border-radius:8px;margin-bottom:8px}
-hr{border:0;border-top:2px solid var(--brd);margin:12px 0}
+.chip{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600;background:var(--primary-light);color:var(--pri)}
+.err-note{color:var(--err);font-size:12px;font-weight:700;background:var(--danger-light);padding:6px 10px;border-radius:8px;margin-bottom:8px}
+hr{border:0;border-top:1px solid var(--border);margin:12px 0}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(59,130,246,0.25);border-radius:4px}
+::-webkit-scrollbar-thumb{background:rgba(63,122,95,0.25);border-radius:4px}
+/* Agent cards */
+.agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.agent-card{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm)}
+.agent-header{display:flex;align-items:flex-start;gap:10px}
+.agent-icon{width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0}
+.agent-name{font-size:14px;font-weight:700;color:var(--txt)}
+.agent-tag{font-size:11px;color:var(--ok);font-weight:600}
+.agent-desc{font-size:13px;color:var(--text-secondary,#6B5E52);line-height:1.55;margin:0}
+.agent-solves{list-style:none;display:flex;flex-direction:column;gap:5px;flex:1;padding:0;margin:0}
+.agent-solves li{font-size:12px;color:var(--muted);padding-left:14px;position:relative;line-height:1.45}
+.agent-solves li::before{content:'→';position:absolute;left:0;color:var(--primary);font-weight:700}
 </style>
 </head>
 <body>
 
 <!-- Sidebar -->
 <aside id="sb">
-  <div class="logo"><div class="icon">🐾</div><div><span>Aura Vet</span><div style="font-size:10px;color:#6b7280;font-weight:400;margin-top:1px"><a href="https://yustalabs-web.vercel.app" target="_blank" style="color:inherit;text-decoration:none">By Yusta Labs</a></div></div></div>
+  <div class="logo">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5"/><path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.344-2.5"/><path d="M8 14v.5"/><path d="M16 14v.5"/><path d="M11.25 16.25h1.5L12 17l-.75-.75z"/><path d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444c0-1.061-.162-2.2-.493-3.309m-9.243-6.082A8.801 8.801 0 0 1 12 5c.78 0 1.5.108 2.161.306"/></svg></div>
+    <div><span>Aura Vet</span><div style="font-size:10px;color:var(--muted);font-weight:400;margin-top:1px"><a href="https://yustalabs-web.vercel.app" target="_blank" style="color:inherit;text-decoration:none">By Yusta Labs</a></div></div>
+  </div>
   <nav id="snav"></nav>
-  <div style="padding:12px 16px;border-top:1px solid var(--brd);font-size:11px">
+  <div style="padding:12px 16px;border-top:1px solid var(--border);font-size:11px">
     <a href="https://yustalabs-web.vercel.app" target="_blank" style="color:var(--muted);text-decoration:none;transition:color .15s" onmouseover="this.style.color='var(--txt)'" onmouseout="this.style.color='var(--muted)'">Powered by Yusta Labs ↗</a>
   </div>
 </aside>
 
 <!-- Mobile topbar -->
 <div class="topbar">
-  <div class="logo-m"><div class="icon">🐾</div><div><span>Aura Vet</span><div style="font-size:9px;color:#6b7280;font-weight:400"><a href="https://yustalabs-web.vercel.app" target="_blank" style="color:inherit;text-decoration:none">By Yusta Labs</a></div></div></div>
+  <div class="logo-m"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5"/><path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.344-2.5"/><path d="M8 14v.5"/><path d="M16 14v.5"/></svg></div><div><span>Aura Vet</span></div></div>
 </div>
 
 <main id="main">
@@ -122,6 +149,7 @@ hr{border:0;border-top:2px solid var(--brd);margin:12px 0}
   <div id="pg-farm" class="pg"></div>
   <div id="pg-duenos" class="pg"></div>
   <div id="pg-caja" class="pg"></div>
+  <div id="pg-agentes" class="pg"></div>
 </main>
 
 <!-- Mobile bottom nav -->
@@ -230,22 +258,24 @@ const vetOf=id=>{if(!id)return{name:'—'};return S.vets.find(v=>v.id===id)||{na
 const statusColor=s=>({pendiente:'b-warn',confirmado:'b-info','en sala':'b-acc',atendido:'b-ok',cancelado:'b-err'}[s]||'b-gray');
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
+const SVG=(p)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">${p}</svg>`;
 const PAGES=[
-  {id:'dash',icon:'📊',label:'Dashboard'},
-  {id:'pac',icon:'🐾',label:'Pacientes'},
-  {id:'cons',icon:'🩺',label:'Consultas'},
-  {id:'vac',icon:'💉',label:'Vacunas'},
-  {id:'turn',icon:'📅',label:'Turnos'},
-  {id:'farm',icon:'💊',label:'Farmacia'},
-  {id:'duenos',icon:'👤',label:'Dueños'},
-  {id:'caja',icon:'💰',label:'Caja'}
+  {id:'dash',svg:'<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',label:'Dashboard'},
+  {id:'pac',svg:'<path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5"/><path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.344-2.5"/><path d="M8 14v.5"/><path d="M16 14v.5"/>',label:'Pacientes'},
+  {id:'cons',svg:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',label:'Consultas'},
+  {id:'vac',svg:'<path d="M3 3l18 18"/><path d="m20.7 13.7-1.4 1.4-8.5-8.5 1.4-1.4a2 2 0 0 1 2.83 0l5.66 5.66a2 2 0 0 1 0 2.83z"/><path d="m3.3 10.3 1.4-1.4 8.5 8.5-1.4 1.4a2 2 0 0 1-2.83 0L3.3 13.1a2 2 0 0 1 0-2.83z"/><path d="m15 5 2 2"/>',label:'Vacunas'},
+  {id:'turn',svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',label:'Turnos'},
+  {id:'farm',svg:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',label:'Farmacia'},
+  {id:'duenos',svg:'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>',label:'Duenos'},
+  {id:'caja',svg:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',label:'Caja'},
+  {id:'agentes',svg:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/>',label:'Agentes IA'}
 ];
 let curPg='dash';
 function buildNav(){
   const snav=document.getElementById('snav');
   const bnavEl=document.getElementById('bnav');
-  if(snav)snav.innerHTML=PAGES.map(p=>`<a onclick="nav('${p.id}')" id="sn-${p.id}"><span>${p.icon}</span>${p.label}</a>`).join('');
-  if(bnavEl)bnavEl.innerHTML=PAGES.map(p=>`<div class="bn" onclick="nav('${p.id}')" id="bn-${p.id}"><span>${p.icon}</span><span>${p.label}</span></div>`).join('');
+  if(snav)snav.innerHTML=PAGES.map(p=>`<a onclick="nav('${p.id}')" id="sn-${p.id}">${SVG(p.svg)}${p.label}</a>`).join('');
+  if(bnavEl)bnavEl.innerHTML=PAGES.slice(0,5).map(p=>`<div class="bn" onclick="nav('${p.id}')" id="bn-${p.id}">${SVG(p.svg)}<span>${p.label.split(' ')[0]}</span></div>`).join('');
   renderNotifBadge();
 }
 function nav(pg){
@@ -287,8 +317,8 @@ function renderDash(){
   <div class="sec-head"><h2>Dashboard</h2><span class="chip">${fmtDate(t)}</span></div>
   <div id="alertas-panel" style="margin-bottom:16px"></div>
   <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
-    <button onclick="nav('cons')" style="flex:1;min-width:150px;padding:13px 16px;font-size:14px;font-weight:700;background:#0ea5e9;color:#fff;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em">🩺 Nueva Consulta / Atención</button>
-    <button onclick="nav('farm')" style="flex:1;min-width:150px;padding:13px 16px;font-size:14px;font-weight:700;background:#16a34a;color:#fff;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em">💰 Ver Caja del Día</button>
+    <button onclick="nav('cons')" style="flex:1;min-width:150px;padding:13px 16px;font-size:14px;font-weight:700;background:var(--pri);color:#fff;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em">Nueva Consulta / Atencion</button>
+    <button onclick="nav('farm')" style="flex:1;min-width:150px;padding:13px 16px;font-size:14px;font-weight:700;background:var(--ok);color:#fff;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em">Ver Farmacia y Caja</button>
   </div>
   <div class="row">
     <div class="kpi"><div class="val">${todayAppts.length}</div><div class="lbl">Turnos hoy</div></div>
@@ -708,7 +738,7 @@ function renderFarm(){
   const pg=document.getElementById('pg-farm');
   if(!pg)return;
   const tab=pg._tab||'farm';
-  pg.innerHTML=`<div class="sec-head"><h2>Farmacia & Caja</h2><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">📊 Reporte Mensual</button></div>
+  pg.innerHTML=`<div class="sec-head"><h2>Farmacia & Caja</h2><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">Reporte Mensual</button></div>
   <div class="tabs"><div class="tab ${tab==='farm'?'act':''}" onclick="setFarmTab('farm')">Farmacia</div><div class="tab ${tab==='caja'?'act':''}" onclick="setFarmTab('caja')">Caja del día</div></div>
   <div id="farm-content"></div>`;
   renderFarmContent(tab);
@@ -781,6 +811,7 @@ function editMedModal(mid){addMedModal(mid);}
 function saveMed(e,mid){
   e.preventDefault();const f=new FormData(e.target);
   const d={name:f.get('name'),stock:parseInt(f.get('stock'))||0,unit:f.get('unit')||'comp',price:parseFloat(f.get('price'))||0,minStock:parseInt(f.get('minStock'))||5,exp:f.get('exp')||addDays(today(),365)};
+  if(!S.meds) S.meds = [];
   if(mid){const idx=S.meds.findIndex(m=>m.id===mid);if(idx>=0)Object.assign(S.meds[idx],d);}
   else{S.meds.push({id:'m'+uid(),...d});}
   save();closeModal();renderFarm();
@@ -810,7 +841,7 @@ function addCashModal(){
 function saveCash(e){
   e.preventDefault();const f=new FormData(e.target);
   S.cash.push({id:'ca'+uid(),date:today(),type:f.get('type'),desc:f.get('desc'),amount:parseFloat(f.get('amount'))||0,vetId:f.get('vetId')||'',cat:f.get('cat')});
-  save();closeModal();renderFarm();
+  save();closeModal();if(curPg==='caja')renderCaja();else renderFarm();
 }
 
 // ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
@@ -1147,15 +1178,44 @@ function renderCaja(){
       ${Object.entries(byVet).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)"><span>${k}</span><span style="color:var(--acc)">${fmtARS(v)}</span></div>`).join('')||'<div class="empty">Sin datos</div>'}
     </div>
   </div>
-  <div class="sec-head"><h3>Movimientos del día</h3><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">📊 Reporte Mensual</button></div>
+  <div class="sec-head"><h3>Movimientos del día</h3><button class="btn btn-ghost btn-sm" onclick="reporteMensual()">Reporte Mensual</button></div>
   <div class="card" style="padding:0;overflow-x:auto"><table style="min-width:520px"><thead><tr><th>Tipo</th><th>Descripción</th><th>Monto</th><th>Cat.</th></tr></thead><tbody>
   ${[...income,...expenses].length===0?`<tr><td colspan="4" class="empty">Sin movimientos</td></tr>`:''}
   ${[...income,...expenses].map(c=>`<tr><td>${c.type||'—'}</td><td>${c.desc||'—'}</td><td><span style="color:${c.cat==='income'?'var(--ok)':'var(--err)'}">${c.cat==='income'?'+':'-'}${fmtARS(c.amount)}</span></td><td><span class="badge ${c.cat==='income'?'b-ok':'b-err'}">${c.cat==='income'?'Ingreso':'Gasto'}</span></td></tr>`).join('')}
   </tbody></table></div>`;
 }
 
+// ─── AGENTES IA ───────────────────────────────────────────────────────────────
+function renderAgentes(){
+  const el=document.getElementById('pg-agentes');
+  if(!el)return;
+  const agents=[
+    {icon:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',tag:'Agente de atención',name:'La Recepcionista',desc:'Un cliente escribe a las 10pm: "Mi perro se lastimó, ¿tienen turno mañana?" El agente consulta la agenda y reserva al instante, sin que vos lo veas hasta la mañana.',solves:['Turnos que se pierden entre el WhatsApp y el papel','Dueños que abandonan si no hay respuesta inmediata','Historial del paciente sin cargar antes de la consulta']},
+    {icon:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',tag:'Agente de cobros',name:'El Cobrador',desc:'Consultas o tratamientos con saldo pendiente. El agente hace el seguimiento automático, educado, y registra cada promesa de pago.',solves:['Cuentas corrientes de clientes B2B sin cobrar','Tiempo del veterinario perdido en gestión de cobros','Ingresos que se "evaporan" por falta de seguimiento']},
+    {icon:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',tag:'Agente de stock',name:'El Almacenero',desc:'Vacunas, medicamentos, insumos quirúrgicos. El agente monitorea el stock mínimo y te avisa cuando hay que reponer — sin sorpresas.',solves:['Quedarte sin vacuna antirrábica en pleno operativo','Vencimiento de medicamentos no detectado a tiempo','Compras de emergencia a precio de lista']},
+    {icon:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',tag:'Agente de datos',name:'El Analista',desc:'Informe semanal: cuántas consultas atendiste, qué especies, facturación del período y cuáles pacientes tocan revisión pronto.',solves:['No saber qué tratamientos te dejan más plata','Decisiones de precios sin respaldo de datos','Horas perdidas armando planillas a mano']},
+    {icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',tag:'Agente de contenido',name:'El Community',desc:'Posts de concientización, consejos de salud animal, novedades del consultorio. Contenido que educa y fideliza a los dueños de mascotas.',solves:['No tener tiempo para publicar tips de cuidado en redes','Clínica invisible frente a la competencia en Instagram','Dueños que no saben los servicios que ofrecés']},
+    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',tag:'Agente de retención',name:'El Fidelizador',desc:'Firulais tiene la vacuna antirrábica en 2 semanas. El agente avisa al dueño con tiempo, antes de que lo olvide. Sin llamadas, sin papeles.',solves:['Pacientes que no vuelven porque nadie les recuerda la vacuna','30% de pacientes perdidos por falta de seguimiento','Turnos anuales que nunca se reagendan']}
+  ];
+  el.innerHTML=`<div class="sec-head"><h2>Agentes IA</h2></div>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:14px 18px;background:var(--primary-light);border-radius:10px;border-left:4px solid var(--primary)">
+  <div style="font-size:13px;font-weight:600;color:var(--primary)">6 agentes activos</div>
+  <div style="width:1px;height:16px;background:var(--primary);opacity:.3"></div>
+  <div style="font-size:13px;color:var(--text-secondary,#6B5E52)">Automatizando atención, cobros, stock, análisis y fidelización</div>
+</div>
+<div class="agents-grid">${agents.map(a=>`<div class="agent-card">
+  <div class="agent-header">
+    <div class="agent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">${a.icon}</svg></div>
+    <div><div class="agent-tag">${a.tag}</div><div class="agent-name">${a.name}</div></div>
+  </div>
+  <p class="agent-desc">${a.desc}</p>
+  <ul class="agent-solves">${a.solves.map(s=>`<li>${s}</li>`).join('')}</ul>
+  <button class="btn btn-pri" style="margin-top:4px;width:100%">Ver en accion</button>
+</div>`).join('')}</div>`;
+}
+
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
-const renders={dash:renderDash,pac:renderPac,cons:renderCons,vac:renderVac,turn:renderTurn,farm:renderFarm,duenos:renderDuenos,caja:renderCaja};
+const renders={dash:renderDash,pac:renderPac,cons:renderCons,vac:renderVac,turn:renderTurn,farm:renderFarm,duenos:renderDuenos,caja:renderCaja,agentes:renderAgentes};
 buildNav();nav('dash');
 </script>
 </body>
