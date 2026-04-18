@@ -119,6 +119,18 @@ hr{border:0;border-top:1px solid var(--border);margin:12px 0}
 .agent-solves{list-style:none;display:flex;flex-direction:column;gap:5px;flex:1;padding:0;margin:0}
 .agent-solves li{font-size:12px;color:var(--muted);padding-left:14px;position:relative;line-height:1.45}
 .agent-solves li::before{content:'→';position:absolute;left:0;color:var(--primary);font-weight:700}
+.agent-intro{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:10px;padding:16px 20px;margin-bottom:20px}
+.agent-intro-title{font-size:15px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.agent-intro-sub{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.agent-status{margin-left:auto;background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.agent-scenario{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.agent-flow{display:flex;flex-direction:column;gap:6px;margin:8px 0;padding:10px 12px;background:var(--surface-2);border-radius:8px}
+.flow-step{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-secondary)}
+.flow-dot{width:18px;height:18px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-top:1px}
+.flow-dot.detect{background:#ECF3EF;color:#3F7A5F}
+.flow-dot.analyze{background:var(--warning-bg);color:var(--warning)}
+.flow-dot.act{background:var(--success-bg);color:var(--success)}
+@media(max-width:480px){.agents-grid{grid-template-columns:1fr}.agent-header{flex-wrap:wrap;gap:8px}.agent-status{margin-left:0}.agent-card{padding:14px}.agent-flow{padding:8px 10px}.flow-step{font-size:11px}}
 </style>
 </head>
 <body>
@@ -345,6 +357,21 @@ function renderDash(){
         ${expMeds.length===0?'<div class="empty" style="padding:12px">Sin alertas</div>':''}
         ${expMeds.slice(0,5).map(m=>`<div class="alert alert-warn">💊 <b>${m.name}</b><br><small>Vence: ${fmtDate(m.exp)} · Stock: ${m.stock||0}</small></div>`).join('')}
       </div>
+    </div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:12px;padding:20px;margin-top:16px;box-shadow:var(--shadow-sm)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="width:28px;height:28px;background:var(--primary-light);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--primary)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>
+      <span style="font-size:14px;font-weight:700;color:var(--text)">Actividad de Agentes IA</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--text-secondary)">La Recepcionista — turno urgente agendado a las 22hs para Firulais</span><span style="background:var(--success-bg);color:var(--success);font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px">Completado</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--text-secondary)">El Almacenero — vacuna antirrábica con stock crítico</span><span style="background:var(--warning-bg);color:var(--warning);font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px">Acción requerida</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--text-secondary)">El Fidelizador — 4 recordatorios de vacuna enviados por WhatsApp</span><span style="background:var(--success-bg);color:var(--success);font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px">Completado</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--text-secondary)">El Cobrador — cuenta corriente Clínica B2B sin pago hace 45 días</span><span style="background:var(--info-bg);color:var(--info);font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px">En proceso</span></div>
+    </div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+      <button onclick="nav('agentes')" style="background:transparent;border:1px solid var(--border-strong);color:var(--text-secondary);padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg> Ver todos los agentes</button>
     </div>
   </div>`;
   renderNotifBadge();
@@ -1190,28 +1217,31 @@ function renderAgentes(){
   const el=document.getElementById('pg-agentes');
   if(!el)return;
   const agents=[
-    {icon:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',tag:'Agente de atención',name:'La Recepcionista',desc:'Un cliente escribe a las 10pm: "Mi perro se lastimó, ¿tienen turno mañana?" El agente consulta la agenda y reserva al instante, sin que vos lo veas hasta la mañana.',solves:['Turnos que se pierden entre el WhatsApp y el papel','Dueños que abandonan si no hay respuesta inmediata','Historial del paciente sin cargar antes de la consulta']},
-    {icon:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',tag:'Agente de cobros',name:'El Cobrador',desc:'Consultas o tratamientos con saldo pendiente. El agente hace el seguimiento automático, educado, y registra cada promesa de pago.',solves:['Cuentas corrientes de clientes B2B sin cobrar','Tiempo del veterinario perdido en gestión de cobros','Ingresos que se "evaporan" por falta de seguimiento']},
-    {icon:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',tag:'Agente de stock',name:'El Almacenero',desc:'Vacunas, medicamentos, insumos quirúrgicos. El agente monitorea el stock mínimo y te avisa cuando hay que reponer — sin sorpresas.',solves:['Quedarte sin vacuna antirrábica en pleno operativo','Vencimiento de medicamentos no detectado a tiempo','Compras de emergencia a precio de lista']},
-    {icon:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',tag:'Agente de datos',name:'El Analista',desc:'Informe semanal: cuántas consultas atendiste, qué especies, facturación del período y cuáles pacientes tocan revisión pronto.',solves:['No saber qué tratamientos te dejan más plata','Decisiones de precios sin respaldo de datos','Horas perdidas armando planillas a mano']},
-    {icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',tag:'Agente de contenido',name:'El Community',desc:'Posts de concientización, consejos de salud animal, novedades del consultorio. Contenido que educa y fideliza a los dueños de mascotas.',solves:['No tener tiempo para publicar tips de cuidado en redes','Clínica invisible frente a la competencia en Instagram','Dueños que no saben los servicios que ofrecés']},
-    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',tag:'Agente de retención',name:'El Fidelizador',desc:'Firulais tiene la vacuna antirrábica en 2 semanas. El agente avisa al dueño con tiempo, antes de que lo olvide. Sin llamadas, sin papeles.',solves:['Pacientes que no vuelven porque nadie les recuerda la vacuna','30% de pacientes perdidos por falta de seguimiento','Turnos anuales que nunca se reagendan']}
+    {icon:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',tag:'Agente de atención',name:'La Recepcionista',desc:'Son las 10pm. Un dueño escribe: "Mi perro se cortó una pata, ¿tienen turno urgente mañana?" El agente consulta la agenda, verifica disponibilidad y confirma el turno al instante — sin que nadie en la clínica lo vea hasta la mañana.',flow:[{t:'detect',l:'Detecta',v:'Mensaje entrante fuera de horario solicitando turno, consulta de precios o estado de un paciente'},{t:'analyze',l:'Analiza',v:'Consulta la agenda del día, el historial del paciente y el veterinario disponible según especialidad'},{t:'act',l:'Actúa',v:'Confirma el turno, lo carga en Aura Vet y notifica al dueño con dirección y hora exacta'}],solves:['Turnos que se pierden porque nadie contestó el WhatsApp a la noche','Dueños ansiosos que llaman a otra clínica si no hay respuesta en 5 minutos','Historial del paciente sin cargar antes de que el veterinario lo vea']},
+    {icon:'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',tag:'Agente de cobros',name:'El Cobrador',desc:'La guardería canina Huellitas tiene $85.000 de tratamientos sin facturar de 3 semanas. El agente envía el resumen de servicios, registra la respuesta y hace seguimiento sin que el veterinario tenga que hacer de cobrador.',flow:[{t:'detect',l:'Detecta',v:'Consulta o tratamiento con pago pendiente hace más de 5 días o cuenta corriente B2B vencida'},{t:'analyze',l:'Analiza',v:'Suma servicios adeudados, verifica si hubo promesas anteriores e historial de cobros del cliente'},{t:'act',l:'Actúa',v:'Envía resumen de servicios y monto adeudado; registra promesa y escala si no hay respuesta'}],solves:['Cuentas corrientes de perreras y clínicas B2B que nadie persigue','Veterinarios que odian cobrar y lo postergan indefinidamente','Ingresos que se evaporan porque el seguimiento no se hace de forma sistemática']},
+    {icon:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',tag:'Agente de farmacia',name:'El Almacenero',desc:'Quedan 4 dosis de vacuna antirrábica. Esta semana hay 11 pacientes que necesitan la dosis. El agente detecta la brecha y genera la orden al laboratorio antes de que la clínica tenga que cancelar turnos.',flow:[{t:'detect',l:'Detecta',v:'Vacuna, medicamento o insumo quirúrgico baja del mínimo o hay demanda proyectada en turnos'},{t:'analyze',l:'Analiza',v:'Cruza turnos agendados que requieren ese producto contra stock disponible y fecha de vencimiento'},{t:'act',l:'Actúa',v:'Genera orden de compra al proveedor y avisa al encargado con urgencia si hay riesgo de quiebre'}],solves:['Quedarse sin vacuna antirrábica en pleno operativo de castración o campaña','Medicamentos vencidos que se descubren al momento de usarlos','Compras de emergencia al laboratorio a precio sin descuento por volumen']},
+    {icon:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',tag:'Agente de datos',name:'El Analista',desc:'Cada lunes: "Semana pasada: 34 consultas, 8 cirugías, 12 vacunaciones. Consulta más rentable: profilaxis dental. Especie más atendida: caninos 71%. 5 pacientes con revisión pendiente esta semana." Llega solo.',flow:[{t:'detect',l:'Detecta',v:'Cierre de semana o período clínico configurado'},{t:'analyze',l:'Analiza',v:'Procesa consultas, tratamientos, facturación por especie, por tipo de consulta y pacientes pendientes'},{t:'act',l:'Actúa',v:'Envía resumen clínico-financiero al veterinario con KPIs y lista de seguimientos prioritarios'}],solves:['No saber qué tratamientos generan más ingreso neto por hora de trabajo','Pacientes con revisión pendiente que se pierden entre el volumen diario','Decisiones de precios y agenda sin base de datos real de la clínica']},
+    {icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',tag:'Agente de contenido',name:'El Community',desc:'El Día Mundial del Perro es el jueves. El agente prepara el post, sugiere una promo de baño y peluquería, y lo publica en el Instagram de la clínica a las 9am — sin que el veterinario toque el teléfono.',flow:[{t:'detect',l:'Detecta',v:'Fecha relevante, efeméride veterinaria o servicio con baja demanda que necesita visibilidad'},{t:'analyze',l:'Analiza',v:'Genera contenido adaptado al tono de la clínica con dato clínico real o consejo práctico'},{t:'act',l:'Actúa',v:'Publica en Instagram y/o envía tip por WhatsApp a la base de clientes según segmento'}],solves:['Clínica invisible en redes frente a competidores que publican todos los días','No tener tiempo para crear contenido educativo que fideliza dueños','Dueños que no saben la mitad de los servicios que la clínica ofrece']},
+    {icon:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',tag:'Agente de retención',name:'El Fidelizador',desc:'Firulais tiene la vacuna antirrábica vencida hace 11 días. La dueña no lo sabe. El agente le escribe: "Hola Sandra, Firulais tiene la antirrábica vencida. ¿Le agendamos para esta semana?" — justo cuando le es útil, no cuando ya es tarde.',flow:[{t:'detect',l:'Detecta',v:'Vacuna próxima a vencer, revisión anual pendiente o paciente sin visita hace más de 90 días'},{t:'analyze',l:'Analiza',v:'Revisa historial del paciente, tipo de vacuna requerida, y datos de contacto del dueño'},{t:'act',l:'Actúa',v:'Envía recordatorio personalizado por WhatsApp con opción de agendar turno directamente'}],solves:['Pacientes que no vuelven porque nadie les avisó que tocaba la vacuna','30% de la cartera activa que se pierde por falta de seguimiento pasivo','Ingresos recurrentes de vacunaciones y revisiones que nunca se materializan']}
   ];
-  el.innerHTML=`<div class="sec-head"><h2>Agentes IA</h2></div>
-<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:14px 18px;background:var(--primary-light);border-radius:10px;border-left:4px solid var(--primary)">
-  <div style="font-size:13px;font-weight:600;color:var(--primary)">6 agentes activos</div>
-  <div style="width:1px;height:16px;background:var(--primary);opacity:.3"></div>
-  <div style="font-size:13px;color:var(--text-secondary,#6B5E52)">Automatizando atención, cobros, stock, análisis y fidelización</div>
-</div>
-<div class="agents-grid">${agents.map(a=>`<div class="agent-card">
+  const tpl=agents.map(a=>`<div class="agent-card">
   <div class="agent-header">
     <div class="agent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">${a.icon}</svg></div>
-    <div><div class="agent-tag">${a.tag}</div><div class="agent-name">${a.name}</div></div>
+    <div style="flex:1"><div class="agent-tag">${a.tag}</div><div class="agent-name">${a.name}</div></div>
+    <span class="agent-status">Activo</span>
   </div>
   <p class="agent-desc">${a.desc}</p>
+  <div class="agent-scenario">Cómo funciona dentro de Aura Vet</div>
+  <div class="agent-flow">${a.flow.map(f=>`<div class="flow-step"><div class="flow-dot ${f.t}">${f.l.slice(0,3).toUpperCase()}</div><div><strong>${f.l}</strong> — ${f.v}</div></div>`).join('')}</div>
+  <div class="agent-scenario" style="margin-top:6px">Problemas que elimina</div>
   <ul class="agent-solves">${a.solves.map(s=>`<li>${s}</li>`).join('')}</ul>
-  <button class="btn btn-pri" style="margin-top:4px;width:100%">Ver en accion</button>
-</div>`).join('')}</div>`;
+</div>`).join('');
+  el.innerHTML=`<div class="sec-head"><h2>Agentes IA</h2></div>
+<div class="agent-intro">
+  <div class="agent-intro-title">Tus empleados que trabajan 24/7 sin sueldo fijo</div>
+  <div class="agent-intro-sub">Cada agente monitorea la clínica, detecta situaciones clave y actúa solo — atención al dueño, cobros, farmacia, análisis clínico y retención de pacientes, automatizados para tu veterinaria.</div>
+</div>
+<div class="agents-grid">${tpl}</div>`;
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
